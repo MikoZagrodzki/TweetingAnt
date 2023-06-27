@@ -1,0 +1,244 @@
+/* For Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  width: 10px; /* width of the scrollbar */
+}
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* color of the track */
+}
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* color of the scrollbar */
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* color of the scrollbar when hovering */
+}
+select{
+  text-align: center;
+}
+input{
+  text-align: center;
+}
+
+.Card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.Card-automation-container:hover button {
+  display: block;
+}
+.Card-automation-container:hover p {
+  display: none;
+}
+.Card-automation-container button {
+  display: none;
+}
+
+.Card-popup-container {
+  position: relative;
+  background-color: white;
+  min-height: 100vh;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* flex-wrap: wrap; */
+  text-align: center;
+  gap: 10px;
+}
+
+.Card-popup-container-header {
+  height: 10%;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.Card-popup-automation-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.Card-popup-automation-container p {
+  margin: 0px;
+}
+.Card-settings-container {
+  width: 100vw;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.Card-settings-container p {
+  margin: 0px;
+}
+.SettingCard-container {
+  padding: 3px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  width: 300px;
+  gap: 10px;
+}
+@media (max-width: 1000px) {
+  .Card-popup-container{
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .Card-settings-container{
+    /* flex-direction: column; */
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .SettingCard-container{
+    width: 170px;
+    min-height: 150px;
+  }
+}
+
+.Card-settings-container ul {
+  padding: 0px;
+  margin: 0px;
+  max-height: 110px;
+  overflow-y: scroll;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  
+}
+.setting-li-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 20px;
+}
+.setting-li-editing input {
+  width: 30px;
+  text-align: center;
+  border: 1px solid black;
+  /* border-right: none; */
+}
+.setting-li-editing input::-webkit-outer-spin-button,
+.setting-li-editing input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.setting-li-element:hover p {
+  display: none;
+}
+.setting-li-element:hover button {
+  display: block;
+}
+.button-li {
+  display: none;
+  border: 0px;
+  background-color: rgba(255, 255, 255, 0);
+  text-align: center;
+  color: red;
+  font-weight: 700;
+  font-size: larger;
+}
+.setting-edit-input-button {
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  font-size: large;
+}
+.Card-forms-container {
+  display: flex;
+  gap: 10px;
+  width: 100vw;
+  height: 20%;
+  justify-content: center;
+}
+@media (max-width: 1000px) {
+  .Card-forms-container {
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}
+
+.Form-and-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+.List-name-container {
+  /* padding: 0px;
+  margin: 0px; */
+  border: 2px solid;
+  width: 390px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+}
+.List-name-container p {
+  margin: 0px;
+
+}
+.List-name-container ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  max-height: 110px;
+  overflow-y: scroll;
+}
+.List-name-container li{
+  display: flex;
+  height: 25px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.List-name-container li:hover button{
+  display: block;
+}
+.Personality-container{
+  border: 2px solid;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  height: 76px;
+  width: 210px;
+}
+.Personality-container p{
+  margin: 0px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.Personality-container select{
+  width: 95%;
+}
+
+
+@media (max-width: 1000px) {
+  .Form-and-list-container{
+    flex-direction: row;
+  }
+  .Personality-container{
+    width: 360px;
+  }
+  .List-name-container{
+    width: 170px;
+  }
+
+}

@@ -1,0 +1,44 @@
+.Main-container p{
+    margin: 0px;
+    padding: 0px;
+}
+.Main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    /* overflow-y: scroll; */
+    width: 100vw;
+    min-height: 100vh;
+}
+.Main-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.listOfCards-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.listOfCards-container ul{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 0px;
+    padding: 0px;
+}
+.listOfCards-container li{
+    min-width: 150px;
+    list-style: none;
+    padding: 10px;
+    border: 2px black solid;
+    /* border-radius: 5px; */
+}

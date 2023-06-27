@@ -1,0 +1,80 @@
+.FormUserContent-container{
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-height: 300px;
+    flex-wrap: wrap;
+    width: 390px;
+    gap: 10px;
+}
+.FormUserContent-container p{
+    margin: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.FormUserContent-container form{
+    display: flex;
+    /* flex-direction: column; */
+    gap: 10px;
+}
+
+.FormUserContent-elements-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    max-height: 110px;
+    overflow-y: scroll;
+
+}
+.FormUserContent-element{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 5px;
+    min-width: fit-content;
+    height: 28px;
+}
+.FormUserContent-element p{
+    margin: 0px;
+    padding: 0px;
+}
+.FormUserContent-element:hover button{
+    display: block;
+}
+.button-FormUserContent-element{
+    display: none;
+    border: 0px;
+    background-color: rgba(255, 255, 255, 0);
+    text-align: center;
+    color: red;
+    font-weight: 700;
+    font-size: larger;
+}
+.submit-button-none{
+    display: none;
+}
+.submit-button{
+    display: block;
+}
+
+@media (max-width: 1000px) {
+    .FormUserContent-container{
+        width: 190px;
+    }
+    /* .FormUserContent-elements-container{
+        flex-direction: column;
+    } */
+    /* .FormUserContent-container p{
+        padding: 0px;
+    } */
+    .FormUserContent-container form{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+  }
