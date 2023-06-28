@@ -1,16 +1,16 @@
-import {getIntensivityByEmail, getLoginDataFromEmail, getUserContentByEmail,getUserNameUsedForTweetsByEmail,getTimeToTweetsByEmail,getTimeToRetweetsByEmail, getTimeToLikesByEmail, getTimeToCommentsByEmail} from "../SQL";
+import {getUserNameUsedForTweetsAllBatches,getUserNameUsedForTweets,getUserContentAllBatches,getTimeToTweetsAllBatches,getUserContent,getTimeToTweets,getTimeToRetweetsAllBatches,getTimeToRetweets,getTimeToLikesAllBatches,getTimeToLikes,getTimeToComments,getTimeToCommentsAllBatches,getLoginDataAllBatches,getLoginData,getIntensivity,getIntensivityAllBatches,getIntensivityByEmail, getLoginDataFromEmail, getUserContentByEmail,getUserNameUsedForTweetsByEmail,getTimeToTweetsByEmail,getTimeToRetweetsByEmail, getTimeToLikesByEmail, getTimeToCommentsByEmail} from "../SQL";
 import TwitterAccount from "../TwitterAccount";
 
 export const generateTwitterAccounts = async (email:string) => {
   let accountsWithTwitterClass: TwitterAccount[] = [];
-  const loginData = await getLoginDataFromEmail(email);
-  const intensivity = await getIntensivityByEmail(email);
-  const timesToTweet = await getTimeToTweetsByEmail(email);
-  const timesTolike = await getTimeToLikesByEmail(email);
-  const timesToRetweet = await getTimeToRetweetsByEmail(email);
-  const timesToComment = await getTimeToCommentsByEmail(email);
-  const usernameForTweets = await getUserNameUsedForTweetsByEmail(email);
-  const usernameForContent = await getUserContentByEmail(email);
+  const loginData = email === "admin@admin.admin" ? await getLoginData() : email === "batch@batch@batch" ? await getLoginDataAllBatches() : await getLoginDataFromEmail(email);
+  const intensivity = email === "admin@admin.admin" ? await getIntensivity() : email === "batch@batch@batch" ? await getIntensivityAllBatches() : await getIntensivityByEmail(email);
+  const timesToTweet = email === "admin@admin.admin" ? await getTimeToTweets() : email === "batch@batch@batch" ? await getTimeToTweetsAllBatches() : await getTimeToTweetsByEmail(email);
+  const timesTolike = email === "admin@admin.admin" ? await getTimeToLikes() : email === "batch@batch@batch" ? await getTimeToLikesAllBatches() : await getTimeToLikesByEmail(email);
+  const timesToRetweet = email === "admin@admin.admin" ? await getTimeToRetweets() : email === "batch@batch@batch" ? await getTimeToRetweetsAllBatches() : await getTimeToRetweetsByEmail(email);
+  const timesToComment = email === "admin@admin.admin" ? await getTimeToComments() : email === "batch@batch@batch" ? await getTimeToCommentsAllBatches() : await getTimeToCommentsByEmail(email);
+  const usernameForTweets = email === "admin@admin.admin" ? await getUserNameUsedForTweets() : email === "batch@batch@batch" ? await getUserNameUsedForTweetsAllBatches() : await getUserNameUsedForTweetsByEmail(email);
+  const usernameForContent = email === "admin@admin.admin" ? await getUserContent() : email === "batch@batch@batch" ? await getUserContentAllBatches() : await getUserContentByEmail(email);
 
 
   loginData?.forEach((account:any) => {
