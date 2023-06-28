@@ -1,4 +1,4 @@
-import { requestApi } from "../Functionalities";
+import { requestApi } from "../Functionalities"
 
 const getTimeToCommentsByEmail = async (email: string) => {
   const body = {
@@ -6,7 +6,7 @@ const getTimeToCommentsByEmail = async (email: string) => {
   };
   try {
     const response = await requestApi(
-      "http://localhost:3002/twitterClass/getTimeToCommentsByEmail",
+      "https://tweetingantdb.onrender.com/twitterClass/getTimeToCommentsByEmail",
       {
         method: "POST",
         headers: {

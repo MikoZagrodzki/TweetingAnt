@@ -1,4 +1,4 @@
-import { requestApi } from "../Functionalities";
+import { requestApi } from "../Functionalities"
 
 const insertIntensivity = async (email:string, loginNameTwitter: string) => {
   const body = {
@@ -7,7 +7,7 @@ const insertIntensivity = async (email:string, loginNameTwitter: string) => {
   };
   try {
     const response = await requestApi(
-      "http://localhost:3002/twitterClass/insertIntensivity",
+      "https://tweetingantdb.onrender.com/twitterClass/insertIntensivity",
       {
         method: "POST",
         headers: {

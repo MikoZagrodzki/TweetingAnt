@@ -1,4 +1,4 @@
-import {requestApi} from "../Functionalities"
+import { requestApi } from "../Functionalities"
 
 export const deleteTimeToRetweetsSpecific = async (loginNameTwitter: string, hours:number, minutes:number ) => {
     const body = {
@@ -8,7 +8,7 @@ export const deleteTimeToRetweetsSpecific = async (loginNameTwitter: string, hou
        
     }
     try {
-    const response = await requestApi('http://localhost:3002/twitterClass/deleteTimeToRetweetsSpecific', {
+    const response = await requestApi('https://tweetingantdb.onrender.com/twitterClass/deleteTimeToRetweetsSpecific', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

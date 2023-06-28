@@ -9,7 +9,7 @@ export const updateTimeToLikesSpecific = async (loginNameTwitter: string, hours:
       updatedMinutes: updatedMinutes,    
     }
     try {
-    const response = await requestApi('http://localhost:3002/twitterClass/updateTimeToLikesSpecific', {
+    const response = await requestApi('https://tweetingantdb.onrender.com/twitterClass/updateTimeToLikesSpecific', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

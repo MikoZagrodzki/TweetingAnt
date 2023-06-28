@@ -1,4 +1,4 @@
-import {requestApi} from "../Functionalities"
+import { requestApi } from "../Functionalities"
 
 export const insertRetweetsAttack = async (formData: {}[]) => {
     // const body = {
@@ -8,7 +8,7 @@ export const insertRetweetsAttack = async (formData: {}[]) => {
        
     // }
     try {
-    await requestApi('http://localhost:3002/twitterClass/insert_Retweets_Attack', {
+    await requestApi('https://tweetingantdb.onrender.com/twitterClass/insert_Retweets_Attack', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

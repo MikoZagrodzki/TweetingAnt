@@ -1,4 +1,4 @@
-import {requestApi} from "../Functionalities"
+import { requestApi } from "../Functionalities"
 
 export const deleteUserContentSpecific = async (loginNameTwitter: string, userContent:string ) => {
     const body = {
@@ -6,7 +6,7 @@ export const deleteUserContentSpecific = async (loginNameTwitter: string, userCo
         userContent: userContent,
     }
     try {
-    const response = await requestApi('http://localhost:3002/database/delete_User_Content_Specific', {
+    const response = await requestApi('https://tweetingantdb.onrender.com/database/delete_User_Content_Specific', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

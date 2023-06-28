@@ -1,4 +1,4 @@
-import {requestApi} from "../Functionalities"
+import { requestApi } from "../Functionalities"
 
 export const checkUserNameUsedForTweets = async (loginNameTwitter: string, username: string ) => {
     const body = {
@@ -7,7 +7,7 @@ export const checkUserNameUsedForTweets = async (loginNameTwitter: string, usern
        
     }
     try {
-    const response = await requestApi('http://localhost:3002/database/check_User_Name_Used_For_Tweets', {
+    const response = await requestApi('https://tweetingantdb.onrender.com/database/check_User_Name_Used_For_Tweets', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

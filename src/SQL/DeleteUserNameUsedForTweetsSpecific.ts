@@ -1,4 +1,4 @@
-import {requestApi} from "../Functionalities"
+import { requestApi } from "../Functionalities"
 
 export const deleteUserNameUsedForTweetsSpecific = async (loginNameTwitter: string, userNameUsedForTweets:string ) => {
     const body = {
@@ -6,7 +6,7 @@ export const deleteUserNameUsedForTweetsSpecific = async (loginNameTwitter: stri
         userNameUsedForTweets: userNameUsedForTweets,
     }
     try {
-    const response = await requestApi('http://localhost:3002/database/delete_User_Name_Used_For_Tweets_Specific', {
+    const response = await requestApi('https://tweetingantdb.onrender.com/database/delete_User_Name_Used_For_Tweets_Specific', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

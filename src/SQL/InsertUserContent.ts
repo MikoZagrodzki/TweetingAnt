@@ -8,7 +8,7 @@ export const insertUserContent = async (formData: {}[]) => {
        
     // }
     try {
-    await requestApi('http://localhost:3002/database/insert_User_Content', {
+    await requestApi('https://tweetingantdb.onrender.com/database/insert_User_Content', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

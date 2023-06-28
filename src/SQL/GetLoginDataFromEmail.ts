@@ -1,11 +1,11 @@
-import {requestApi} from "../Functionalities"
+import { requestApi } from "../Functionalities"
 
 export const getLoginDataFromEmail = async (email:string) => {
     const body = {
         email: email,
     }
     try {
-        const response = await requestApi('http://localhost:3002/database/login_Data_From_Email', {
+        const response = await requestApi('https://tweetingantdb.onrender.com/database/login_Data_From_Email', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",

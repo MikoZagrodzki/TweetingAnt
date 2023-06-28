@@ -1,5 +1,4 @@
-import {requestApi} from "../Functionalities"
-import insertIntensivity from "./InsertIntensivity"
+import { requestApi } from "../Functionalities"
 
 export const insertLoginData = async (email:string, loginNameTwitter: string, passwordTwitter: string ) => {
     const body = {
@@ -8,7 +7,7 @@ export const insertLoginData = async (email:string, loginNameTwitter: string, pa
         passwordTwitter : passwordTwitter
     }
     try {
-    await requestApi('http://localhost:3002/database/insert_login_Data', {
+    await requestApi('https://tweetingantdb.onrender.com/database/insert_login_Data', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

@@ -6,7 +6,7 @@ export const updateIsAutomated = async (loginNameTwitter:string, isAutomated:boo
         isAutomated : isAutomated,
     }
     try {
-    await requestApi('http://localhost:3002/twitterClass/UpdateIsAutomated', {
+    await requestApi('https://tweetingantdb.onrender.com/twitterClass/UpdateIsAutomated', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

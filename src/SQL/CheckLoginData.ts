@@ -1,4 +1,4 @@
-import {requestApi} from "../Functionalities"
+import { requestApi } from "../Functionalities"
 
 export const checkLoginData = async (loginNameTwitter: string, passwordTwitter: string ) => {
     const body = {
@@ -7,7 +7,7 @@ export const checkLoginData = async (loginNameTwitter: string, passwordTwitter: 
        
     }
     try {
-    const response = await requestApi('http://localhost:3002/database/check_Login_Data', {
+    const response = await requestApi('https://tweetingantdb.onrender.com/database/check_Login_Data', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
