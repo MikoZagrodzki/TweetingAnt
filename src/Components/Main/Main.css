@@ -28,12 +28,15 @@
 .listOfCards-container ul{
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: scroll;
     justify-content: center;
     align-items: center;
     gap: 10px;
     margin: 0px;
     padding: 0px;
+    flex-wrap: wrap;
 }
 .listOfCards-container li{
     min-width: 150px;
