@@ -1,5 +1,5 @@
 import React from "react";
-import "./Card.css";
+// import "./Card.css";
 import { TwitterAccountType } from "../../TypesApi";
 import { useAuth } from "../../AuthContext";
 import { v4 as uuidv4 } from "uuid";
@@ -33,9 +33,10 @@ function Personality(props: Props) {
   }
 
   return (
-    <div className="Personality-container">
-      <p>Your accont personality</p>
+    <div className="Personality-container w-full border-primary border-2 max-w-sm text-center rounded-sm">
+      <p className="text-xs" >Your accont personality</p>
       <select
+        className="text-sm w-full text-center"
         name="personality_setter"
         id=""
         onChange={(e) => personalitySetter(String(e.target.value))}

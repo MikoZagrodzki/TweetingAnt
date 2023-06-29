@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Card.css";
+// import "./Card.css";
 import { v4 as uuidv4 } from "uuid";
 import { TwitterAccountType } from "../../TypesApi";
 

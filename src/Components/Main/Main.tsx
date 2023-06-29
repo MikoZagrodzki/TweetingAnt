@@ -3,7 +3,7 @@ import { useAuth } from "../../AuthContext";
 import { generateTwitterAccounts } from "../../Functionalities";
 import Card from "../Card/Card";
 import PopupAddAccount from "./PopupAddAccount/PopupAddAccount";
-import "./Main.css";
+// import "./Main.css";
 import { useNavigate } from "react-router-dom";
 import { TwitterAccountType } from "../../TypesApi";
 import PopupBurstAttack from "./PopupBurstAttack/PopupBurstAttack";
@@ -48,22 +48,24 @@ function Main() {
   }, [dbTrigger]);
 
   return (
-    <div className="Main-container">
-      <div className="Main-header">
-      <p>{currentUser.email} is logged in.</p>
-      <PopupAddAccount
-        dbTrigger={dbTrigger}
-        setDbTrigger={setDbTrigger}
-      />
-      <PopupBurstAttack twitterAccounts={twitterAccounts} setTwitterAccounts={setTwitterAccounts}/>
-      <button onClick={handleLogout}> Log out </button>
+    <div className="min-h-screen w-screen flex flex-col items-center">
+      <div className="my-10 flex flex-col space-y-5">
+        <h1 className="font-semibold text-center text-md">{currentUser.email} is logged in.</h1>
+        <div className="flex flex-row space-x-3">
+          <PopupAddAccount
+            dbTrigger={dbTrigger}
+            setDbTrigger={setDbTrigger}
+          />
+          <PopupBurstAttack twitterAccounts={twitterAccounts} setTwitterAccounts={setTwitterAccounts}/>
+          <button className="text-xs whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md" onClick={handleLogout}> Log out </button>
+        </div>
       </div>
-      <div className="listOfCards-container">
-        <ul>
+      {/* <div className="listOfCards-container "> */}
+        <ul className="flex flex-col space-y-5 items-center w-11/12 border border-primary pt-5">
           {twitterAccounts.length > 0 &&
             twitterAccounts.map((x) => {
               return (
-                <li key={x.id}>
+                <li key={x.id} className="shadow-md">
                   <Card
                     loginNameTwitter={x.loginNameTwitter}
                     email={x.email}
@@ -82,7 +84,7 @@ function Main() {
               );
             })}
         </ul>
-      </div>
+      {/* </div> */}
     </div>
   );
 }

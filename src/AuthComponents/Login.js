@@ -1,8 +1,8 @@
+
 import React, { useRef, useState } from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
+// import "../styles.css";
 
 export default function Login() {
   const emailRef = useRef();
@@ -27,39 +27,62 @@ export default function Login() {
   }
 
   return (
-      <div className="login-container">
-        <Card id="card">
-          <Card.Body>
-            <h2 className="text-center mb-4"> Log in</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
-              <Form.Group id="email">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" ref={emailRef} required />
-              </Form.Group>
-
-              <Form.Group id="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" ref={passwordRef} required />
-              </Form.Group>
-
-              <Button
-                disabled={loading}
-                id="login-button"
-                className="mt-4 w-100"
-                type="submit"
-              >
-                Log In
-              </Button>
-            </Form>
-            <div className="w-100 text-center mt-3">
-              <Link to="/forgot-password">Forgot password?</Link>
+    <div className="flex flex-col md:flex-row md:space-y-0 md:space-x-5 md:justify-center items-center min-h-screen space-y-5 w-11/12 bg-background">
+      <div className="flex flex-col space-y-5 mt-10 md:mt-0 ">
+        <h1 className="text-5xl font-bold text-center">Tweeting Ant</h1>
+        <p className="text-justify max-w-md">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+      </div>
+      <div>
+        <div className="max-w-sm px-6 py-8 bg-secondary rounded-lg shadow-md">
+          <h2 className="mb-4 text-2xl font-bold text-center">Log in</h2>
+          {error && <div className="text-red-500">{error}</div>}
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                ref={emailRef}
+                required
+                className="w-full px-3 py-2 leading-tight border-gray-300 rounded-md focus:outline-none focus:border-accent"
+              />
             </div>
-          </Card.Body>
-        </Card>
-        <div className="w-100 text-center mt-2 pb-1">
-          Need an account? <Link to="/signup">Sign Up</Link>
+
+            <div className="mb-4">
+              <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                ref={passwordRef}
+                required
+                className="w-full px-3 py-2 leading-tight border-gray-300 rounded-md focus:outline-none focus:border-accent"
+              />
+            </div>
+
+            <button
+              disabled={loading}
+              className="w-full py-2 mt-4 text-white font-semibold bg-primary rounded-md focus:outline-none hover:bg-accent"
+              type="submit"
+            >
+              Log In
+            </button>
+          </form>
+
+          <div className="mt-3 text-center">
+            <Link to="/forgot-password" className="text-accent underline">
+              Forgot password?
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-2 text-center">
+          <p>Need an account? <Link to="/signup" className="text-accent underline">Sign Up</Link></p>
         </div>
       </div>
+    </div>
   );
 }

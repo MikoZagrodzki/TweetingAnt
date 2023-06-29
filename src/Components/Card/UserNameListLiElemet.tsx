@@ -1,6 +1,6 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
-import "./Card.css";
+// import "./Card.css";
 import { TwitterAccountType } from "../../TypesApi";
 
 interface Props {
@@ -48,10 +48,10 @@ function UserNameListLiElemet(props: Props) {
   };
 
   return (
-    <li key={uuidv4()}>
+    <li key={uuidv4()} className="relative group w-fit px-2">
       {username}
       <button
-        className="button-li"
+        className="button-li absolute top-0 right-1/2 hidden group-hover:block"
         onClick={() => {
           deleteUsername(twitterAccount, username);
         }}

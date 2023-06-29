@@ -4,7 +4,7 @@ import {
   checkUserNameUsedForTweets,
   checkUserContent,
 } from "../../SQL";
-import "./FormUserContent.css";
+// import "./FormUserContent.css";
 import { v4 as uuidv4 } from "uuid";
 import { TwitterAccountType } from "../../TypesApi";
 
@@ -110,33 +110,36 @@ function FormUserContent(props: Props) {
   };
 
   return (
-    <div className="FormUserContent-container">
-      <p>Add Twitter Username to {purpose} from</p>
-      <form>
+    <div className="text-xs FormUserContent-container flex flex-col border-2 border-primary max-w-sm">
+      <p className="mx-1">Add Twitter Username to {purpose} from</p>
+      <form className="flex flex-row justify-between mx-1">
         <input
+          className="focus:outline-accent shadow-md"
           type="text"
           placeholder="Twitter Username"
           value={inputValue}
           onChange={(event) => setinputValue(event.target.value)}
         />
-        <button type="button" onClick={() => addNext()}>
+        <button className="bg-secondary px-1 rounded-sm hover:bg-accent hover:text-white shadow-md"  type="button" onClick={() => addNext()}>
           Add next
         </button>
-        <button onClick={(event) => formSubmit(event)}>Submit</button>
+        <button  className="bg-secondary px-1 rounded-sm hover:bg-accent hover:text-white shadow-md" onClick={(event) => formSubmit(event)}>Submit</button>
       </form>
         {errorMessageLoginData && <p>Twitter Username already added.</p>}
-      <div className="FormUserContent-elements-container">
+      <div className="FormUserContent-elements-container flex flex-row flex-wrap mx-1 justify-center h-1 max-h-14 overflow-y-scroll">
         {formData.length > 0 &&
           formData.map((data, index) => {
             return (
-              <div className="FormUserContent-element" key={uuidv4()}>
-                <p>{data.usernameusedfortweets}</p>
-                <button
-                  className="button-FormUserContent-element"
-                  onClick={() => removeFormData(index)}
-                >
-                  X
-                </button>
+              <div className="FormUserContent-element flex flex-row px-1 space-x-1" key={uuidv4()}>
+                <p className="group flex flex-row">
+                  {data.usernameusedfortweets}
+                  <button
+                    className="button-FormUserContent-element hidden group-hover:block"
+                    onClick={() => removeFormData(index)}
+                  >
+                    ❌
+                  </button>
+                </p>
               </div>
             );
           })}

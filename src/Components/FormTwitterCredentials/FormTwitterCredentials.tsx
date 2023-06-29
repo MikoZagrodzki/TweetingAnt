@@ -2,7 +2,7 @@ import { checkLoginData, insertLoginData } from "../../SQL";
 import { useAuth } from "../../AuthContext";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import "./FormTwitterCredentials.css";
+// import "./FormTwitterCredentials.css";
 import insertIntensivity from "../../SQL/InsertIntensivity";
 import generateTwitterClassAndPush from "../../Functionalities/GenerateTwitterClassAndPush";
 
@@ -49,9 +49,9 @@ function FormTwitterCredentials(props: Props) {
   };
 
   return (
-    <div className="FormTwitterCredentials_container">
+    <div className="FormTwitterCredentials_container flex flex-col space-y-2 text-center bg-background p-5 border-2 border-secondary">
       <p>Add Twitter Account</p>
-      <form onSubmit={handleSubmit((data) => formSubmit(data))}>
+      <form onSubmit={handleSubmit((data) => formSubmit(data))} className="flex flex-col space-y-2">
         <input
           type="text"
           placeholder="TwitterUsername"
@@ -67,7 +67,7 @@ function FormTwitterCredentials(props: Props) {
           <p>Twitter Password is required and must be at least 8 characters.</p>
         )}
         {errorMessageLoginData && <p>Twitter Username already added.</p>}
-        <input type="submit" />
+        <input type="submit" className="bg-secondary font-semibold px-2 rounded-sm hover:bg-accent hover:text-white shadow-md"/>
       </form>
     </div>
   );

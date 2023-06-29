@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Card.css";
+// import "./Card.css";
 import { v4 as uuidv4 } from "uuid";
 import SettingCardLiElement from "./SettingCardLiElement";
 import { TwitterAccountType } from "../../TypesApi";
@@ -78,8 +78,9 @@ function SettingCard(props: Props) {
     }
   };
   return (
-    <div className="SettingCard-container">
+    <div className="text-xs SettingCard-container w-6/12 border-2 border-primary max-w-md h-28 rounded-sm">
       <select
+        className="w-full focus:outline-accent"
         name="intensivity_setter"
         id=""
         onChange={(e) => updateIntensivity(Number(e.target.value))}
@@ -90,8 +91,8 @@ function SettingCard(props: Props) {
         <option value={10}>{purpose} intensivity high</option>
         <option value={0}>{purpose} OFF</option>
       </select>
-      <p>I am gonna {props.purpose} at:</p>
-      <ul>
+      <p className="ml-1">{props.purpose}s at:</p>
+      <ul className="overflow-y-scroll">
         {howMany.length > 0 &&
           howMany.map((x) => {
             return (

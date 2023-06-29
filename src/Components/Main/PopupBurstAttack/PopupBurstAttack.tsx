@@ -21,7 +21,7 @@ function PopupLikesAttack(props: Props) {
     <>
       <button
         type="button"
-        className="AddAccount openButton"
+        className="AddAccount openButton text-xs whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md"
         onClick={openTooltip}
       >
         Burst Attack
