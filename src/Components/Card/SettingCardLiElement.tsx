@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import "./Card.css";
+import "./Card.css";
 import { v4 as uuidv4 } from "uuid";
 import { TwitterAccountType } from "../../TypesApi";
 
@@ -122,15 +122,15 @@ function SettingCardLiElement(props:Props) {
   return (
     <li key={uuidv4()}>
     {!isEditing ? (
-      <div className="setting-li-element">
-          <p>{hours}:{minutes}</p>
-        <button className="button-li" onClick={() => {isEditingTrigger(hours, minutes)}}>✍️</button>
-        <button className="button-li" onClick={() => {deleteSpecificTime(hours, minutes)}}>❌</button>
+      <div className="setting-li-element flex flex-row space-x-1 group w-7">
+          <p className="hover:hidden">{hours}:{minutes}</p>
+        <button className="button-li hidden group-hover:block" onClick={() => {isEditingTrigger(hours, minutes)}}>✍️</button>
+        <button className="button-li hidden group-hover:block" onClick={() => {deleteSpecificTime(hours, minutes)}}>❌</button>
       </div>
     ) : (
       <div className="setting-li-editing">
-        <input type="number" name="hours" value={times.hours || ''} defaultValue={hours} onChange={inputValueHours} autoFocus min="0" max="23"></input>
-        <input type="number" name="minutes" value={times.minutes || ''} defaultValue={minutes} onChange={inputValueMinutes} autoFocus min="0" max="59"></input>
+        <input className="w-fit focus:outline-accent" type="number" name="hours" value={times.hours || ''} defaultValue={hours} onChange={inputValueHours} autoFocus min="0" max="23"></input>
+        <input className="w-fit focus:outline-accent" type="number" name="minutes" value={times.minutes || ''} defaultValue={minutes} onChange={inputValueMinutes} autoFocus min="0" max="59"></input>
         <button className="setting-edit-input-button" onClick={()=>{updateSpecificTime(hours, minutes, hoursState, minutesState)}}>✅</button>
       </div>
     )}

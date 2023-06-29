@@ -1,0 +1,5 @@
+.setting-li-editing input::-webkit-outer-spin-button,
+.setting-li-editing input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

@@ -61,11 +61,11 @@ function Main() {
         </div>
       </div>
       {/* <div className="listOfCards-container "> */}
-        <ul className="flex flex-col space-y-5 items-center w-11/12 border border-primary pt-5">
+        <ul className="flex flex-col space-y-5 items-center w-11/12 max-w-6xl border border-primary pt-5 sm:flex-row sm:flex-wrap sm:space-x-0 sm:space-y-0 sm:justify-center">
           {twitterAccounts.length > 0 &&
             twitterAccounts.map((x) => {
               return (
-                <li key={x.id} className="shadow-md">
+                <li key={x.id} className="shadow-md sm:p-1">
                   <Card
                     loginNameTwitter={x.loginNameTwitter}
                     email={x.email}

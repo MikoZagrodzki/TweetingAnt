@@ -110,20 +110,22 @@ function FormUserContent(props: Props) {
   };
 
   return (
-    <div className="text-xs FormUserContent-container flex flex-col border-2 border-primary max-w-sm">
+    <div className="text-xs FormUserContent-container flex flex-col border-2 border-primary w-full sm:max-w-sm">
       <p className="mx-1">Add Twitter Username to {purpose} from</p>
       <form className="flex flex-row justify-between mx-1">
         <input
-          className="focus:outline-accent shadow-md"
+          className="focus:outline-accent shadow-md w-3/4"
           type="text"
           placeholder="Twitter Username"
           value={inputValue}
           onChange={(event) => setinputValue(event.target.value)}
         />
-        <button className="bg-secondary px-1 rounded-sm hover:bg-accent hover:text-white shadow-md"  type="button" onClick={() => addNext()}>
-          Add next
-        </button>
-        <button  className="bg-secondary px-1 rounded-sm hover:bg-accent hover:text-white shadow-md" onClick={(event) => formSubmit(event)}>Submit</button>
+        <div className="flex flex-row space-x-2">
+          <button className="bg-secondary font-semibold px-1 rounded-sm hover:bg-accent hover:text-white shadow-md"  type="button" onClick={() => addNext()}>
+            Add next
+          </button>
+        <button  className="bg-secondary font-semibold px-1 rounded-sm hover:bg-accent hover:text-white shadow-md" onClick={(event) => formSubmit(event)}>Submit</button>
+        </div>
       </form>
         {errorMessageLoginData && <p>Twitter Username already added.</p>}
       <div className="FormUserContent-elements-container flex flex-row flex-wrap mx-1 justify-center h-1 max-h-14 overflow-y-scroll">

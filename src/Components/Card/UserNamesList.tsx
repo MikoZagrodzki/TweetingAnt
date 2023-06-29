@@ -25,7 +25,7 @@ function UserNamesList(props: Props) {
   } = props;
 
   return (
-    <div className="List-name-container border-2 border-primary flex flex-col w-full max-w-sm">
+    <div className="List-name-container border-2 border-primary flex flex-col w-full sm:max-w-sm">
       <p className="text-xs">List of Twitter accounts used for {purpose} from:</p>
       <ul className="text-sm flex flex-row flex-wrap max-h-20 overflow-y-scroll">
         {names.map((name) => (

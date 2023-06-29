@@ -74,20 +74,20 @@ function Card(props: Props) {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex flex-col items-start space-x-5 border-2 border-secondary p-3 w-80 max-w-full">
+      <div className="flex flex-col items-start space-x-5 border-2 border-secondary p-3 w-80 max-w-full sm:w-52">
         <p className="text-sm font-semibold">{twitterAccount}</p>
-        <p className="text-xs">{twitterClassAccount?.personality}</p>
-        <div className="Card-automation-container group py-1 flex">
-          <p className="text-xs transition-opacity duration-300 ease-in-out opacity-100 group-hover:hidden">
+        <p className="text-xs sm:h-7">{twitterClassAccount?.personality}</p>
+        <div className="Card-automation-container flex flex-row w-full space-x-5 group py-1 items-center">
+          <button type="button" onClick={openTooltip} className="text-xs bg-secondary p-1 font-semibold px-2 rounded-sm shadow-md">
+            open
+          </button>
+          <p className="text-xs transition-opacity duration-300 ease-in-out opacity-100 group-hover:hidden ">
             {isAutomated ? "AUTOMATED" : "NOTAUTOMATED"}
           </p>
-          <button className="text-xs Card-automation-button hidden transition-opacity duration-300 ease-in-out group-hover:block  bg-accent px-1 text-white rounded-sm shadow-sm " onClick={autommationSwitch}>
+          <button className="text-xs Card-automation-button h-full hidden transition-opacity duration-300 ease-in-out group-hover:block  bg-accent p-1 px-2 text-white rounded-sm shadow-md" onClick={autommationSwitch}>
             {isAutomated ? "TURN OFF" : "TURN ON"}
           </button>
         </div>
-        <button type="button" onClick={openTooltip} className="text-xs bg-secondary p-1 font-semibold px-2 rounded-sm shadow-md">
-          open
-        </button>
       </div>
       <Popup ref={ref}>
         <div className="Card-popup-container fixed top-0 left-0 right-0 bottom-0 z-50 bg-background w-screen h-screen flex flex-col items-center overflow-y-scroll space-y-2 pb-5">
@@ -133,7 +133,7 @@ function Card(props: Props) {
           </div>
           <div className="Card-forms-container w-11/12 flex flex-col space-y-2 rounded-sm">
             <Personality loginNameTwitter={twitterAccount} twitterAccounts={twitterAccounts} setTwitterAccounts={setTwitterAccounts} personalityList={personalityList}/>
-            <div className="Form-and-list-container flex flex-col space-y-2 rounded-sm">
+            <div className="Form-and-list-container w-full flex flex-col space-y-2 rounded-sm">
               <FormUserContent
                 purpose="rephrase tweets"
                 loginNameTwitter={twitterAccount}
@@ -149,7 +149,7 @@ function Card(props: Props) {
                 setTwitterAccounts={setTwitterAccounts}
               />
             </div>
-            <div className="Form-and-list-container flex flex-col space-y-2 rounded-sm">
+            <div className="Form-and-list-container w-full flex flex-col space-y-2 rounded-sm">
               <FormUserContent
                 purpose="like/comment/retweet"
                 loginNameTwitter={twitterAccount}
