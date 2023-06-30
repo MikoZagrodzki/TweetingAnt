@@ -122,7 +122,7 @@ function SettingCardLiElement(props:Props) {
   return (
     <li key={uuidv4()}>
     {!isEditing ? (
-      <div className="setting-li-element flex flex-row w-8 p-1 sm:mx-2">
+      <div className="setting-li-element flex flex-row w-8 p-1 mx-2 sm:mx-2">
           <p className="cursor-pointer" onClick={() => {isEditingTrigger(hours, minutes)}}>{hours}:{minutes}</p>
       </div>
     ) : (
