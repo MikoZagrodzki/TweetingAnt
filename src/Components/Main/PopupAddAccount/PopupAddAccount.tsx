@@ -19,7 +19,7 @@ function PopupAddAccount(props: Props) {
     <>
       <button
         type="button"
-        className="AddAccount openButton text-xs whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md"
+        className="AddAccount openButton text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md"
         onClick={openTooltip}
       >
         Add Account
@@ -32,7 +32,7 @@ function PopupAddAccount(props: Props) {
         //   </button>
         //   }
       >
-        <div className="w-screen h-screen fixed top-0 left-0 bg-background bg-opacity-90 flex flex-col justify-center items-center space-y-2">
+        <div className="w-screen h-screen fixed top-0 left-0 bg-highlight bg-opacity-95 flex flex-col justify-center items-center space-y-2">
           <FormTwitterCredentials
             setDbTrigger={setDbTrigger}
             dbTrigger={dbTrigger}

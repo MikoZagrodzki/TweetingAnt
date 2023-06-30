@@ -168,20 +168,22 @@ function LikesAttack(props: Props) {
 
 
   return (
-    <div className="LikesAttack_Container">
-      <p>Paste link to tweet and perform a burst attack </p>
-      <form>
+    <div className="LikesAttack_Container text-xs sm:text-sm md:text-base flex  flex-col items-center bg-background border-2 border-primary w-10/12 space-y-2 max-w-md">
+      <p className="py-2">Paste link to tweet and perform a burst attack </p>
+      <form className="flex flex-row w-11/12 justify-center">
         <input
+          className="w-3/4 shadow-md mr-1 rounded-sm"
           type="url"
           placeholder="TWEET URL"
           value={url}
           onChange={(event) => setUrl(event.target.value)}
         />
-        <button onClick={(event) => formSubmit(event)}>Attack!</button>
+        <button className="w-1/4 bg-secondary font-semibold px-2 rounded-sm hover:bg-accent hover:text-white shadow-md" onClick={(event) => formSubmit(event)}>Attack!</button>
       </form>
       <p>You are performing atatck with:</p>
-      <div className="setters_container">
+      <div className="setters_container w-11/12 flex flex-row space-x-2">
         <select
+          className="w-4/12 shadow-md"
           name="amount_setter"
           id=""
           onChange={(e) => amountSetter(Number(e.target.value))}
@@ -194,6 +196,7 @@ function LikesAttack(props: Props) {
           ))}
         </select>
         <select
+          className="w-8/12 shadow-md"
           name="personality_setter"
           id=""
           onChange={(e) => personalitySetter(String(e.target.value))}
@@ -211,26 +214,26 @@ function LikesAttack(props: Props) {
           })}
         </select>
       </div>
-      <div className="select_container">
+      <div className="select_container flex flex-row space-x-2">
         <div className="select_single_container">
           <p>Like</p>
           <label className="switch">
-            <input type="checkbox" onChange={handleLikeChange} checked={likeSwitch} />
-            <span className="slider"></span>
+            <input className="shadow-sm " type="checkbox" onChange={handleLikeChange} checked={likeSwitch} />
+            <span className="slider border border-highlight shadow-lg rounded-sm"></span>
           </label>
         </div>
         <div className="select_single_container">
           <p>Comment</p>
           <label className="switch">
-            <input type="checkbox" onChange={handleCommentChange} checked={commentSwitch} />
-            <span className="slider"></span>
+            <input className="shadow-sm " type="checkbox" onChange={handleCommentChange} checked={commentSwitch} />
+            <span className="slider border border-highlight shadow-lg rounded-sm"></span>
           </label>
         </div>
         <div className="select_single_container">
           <p>Retweet</p>
           <label className="switch">
-            <input type="checkbox" onChange={handleRetweetChange} checked={retweetSwitch} />
-            <span className="slider"></span>
+            <input className="shadow-sm " type="checkbox" onChange={handleRetweetChange} checked={retweetSwitch} />
+            <span className="slider border border-highlight shadow-lg rounded-sm"></span>
           </label>
         </div>
       </div>

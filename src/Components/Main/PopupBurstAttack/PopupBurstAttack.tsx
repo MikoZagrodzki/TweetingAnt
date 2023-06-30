@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import Popup from "reactjs-popup";
 import FormTwitterCredentials from "../../FormTwitterCredentials/FormTwitterCredentials";
-import "../PopupMain.css";
+// import "../PopupMain.css";
 import { TwitterAccountType } from "../../../TypesApi";
 import BurstAttack from "../../burstAttack/burstAttack";
 
@@ -21,7 +21,7 @@ function PopupLikesAttack(props: Props) {
     <>
       <button
         type="button"
-        className="AddAccount openButton text-xs whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md"
+        className="AddAccount openButton text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md"
         onClick={openTooltip}
       >
         Burst Attack
@@ -29,11 +29,11 @@ function PopupLikesAttack(props: Props) {
       <Popup
         ref={ref}
       >
-        <div className="Popup_Background">
+        <div className="Popup_Background fixed top-0 left-0 bg-highlight w-screen h-screen bg-opacity-95 flex flex-col justify-center items-center space-y-2">
           <BurstAttack twitterAccounts={twitterAccounts} setTwitterAccounts={setTwitterAccounts} closeTooltip={closeTooltip}/>
           <button
             type="button"
-            // className="AddAccount closeButton"
+            className="bg-secondary text-sm sm:text-base font-semibold px-2 rounded-sm hover:bg-accent hover:text-white shadow-md"
             onClick={closeTooltip}
           >
             close

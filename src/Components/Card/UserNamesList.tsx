@@ -25,9 +25,9 @@ function UserNamesList(props: Props) {
   } = props;
 
   return (
-    <div className="List-name-container border-2 border-primary flex flex-col w-full sm:max-w-sm">
-      <p className="text-xs">List of Twitter accounts used for {purpose} from:</p>
-      <ul className="text-sm flex flex-row flex-wrap max-h-20 overflow-y-scroll">
+    <div className="List-name-container border-2 border-primary flex flex-col w-full sm:max-w-md ">
+      <p className="text-xs md:text-sm mx-1 whitespace-nowrap">List of accounts used for {purpose} from:</p>
+      <ul className="text-sm md:text-base flex flex-row flex-wrap max-h-20 md:max-h-40 overflow-y-scroll">
         {names.map((name) => (
           <UserNameListLiElemet
             key={uuidv4()}

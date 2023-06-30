@@ -122,15 +122,14 @@ function SettingCardLiElement(props:Props) {
   return (
     <li key={uuidv4()}>
     {!isEditing ? (
-      <div className="setting-li-element flex flex-row space-x-1 group w-7">
-          <p className="hover:hidden">{hours}:{minutes}</p>
-        <button className="button-li hidden group-hover:block" onClick={() => {isEditingTrigger(hours, minutes)}}>✍️</button>
-        <button className="button-li hidden group-hover:block" onClick={() => {deleteSpecificTime(hours, minutes)}}>❌</button>
+      <div className="setting-li-element flex flex-row w-8 p-1 sm:mx-2">
+          <p className="cursor-pointer" onClick={() => {isEditingTrigger(hours, minutes)}}>{hours}:{minutes}</p>
       </div>
     ) : (
-      <div className="setting-li-editing">
-        <input className="w-fit focus:outline-accent" type="number" name="hours" value={times.hours || ''} defaultValue={hours} onChange={inputValueHours} autoFocus min="0" max="23"></input>
-        <input className="w-fit focus:outline-accent" type="number" name="minutes" value={times.minutes || ''} defaultValue={minutes} onChange={inputValueMinutes} autoFocus min="0" max="59"></input>
+      <div className="setting-li-editing flex flex-row p-1 sm:mx-2">
+        <button className="button-li" onClick={() => {deleteSpecificTime(hours, minutes)}}>❌</button>
+        <input className="w-fit focus:outline-none border-dotted text-center border-r border-r-accent border-b border-b-accent border-t border-t-accent" type="number" name="hours" value={times.hours || ''} defaultValue={hours} onChange={inputValueHours} autoFocus min="0" max="23"></input>
+        <input className="w-fit focus:outline-none border-dotted text-center border-b border-b-accent border-t border-t-accent" type="number" name="minutes" value={times.minutes || ''} defaultValue={minutes} onChange={inputValueMinutes} autoFocus min="0" max="59"></input>
         <button className="setting-edit-input-button" onClick={()=>{updateSpecificTime(hours, minutes, hoursState, minutesState)}}>✅</button>
       </div>
     )}

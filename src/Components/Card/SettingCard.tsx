@@ -91,13 +91,14 @@ function SettingCard(props: Props) {
 
   
   return (
-    <div className="text-xs SettingCard-container w-6/12 border-2 border-primary max-w-md h-28 rounded-sm">
+    <div className="text-xs sm:text-sm SettingCard-container w-6/12 border-2 border-primary max-w-md h-28 rounded-sm">
       <select
-        className="w-full focus:outline-accent bg-secondary"
+        className="w-full focus:outline-accent bg-secondary border-b border-b-accent"
         name="intensivity_setter"
         id=""
         onChange={(e) => updateIntensivity(Number(e.target.value))}
         value={selectedIntensivity}
+        autoFocus={false}
       >
         <option value={1}>{purpose} intensivity low</option>
         <option value={5}>{purpose} intensivity medium</option>
@@ -105,7 +106,7 @@ function SettingCard(props: Props) {
         <option value={0}>{purpose} OFF</option>
       </select>
       <p className="ml-1">{props.purpose}s at:</p>
-      <ul className="overflow-y-scroll flex flex-row flex-wrap mx-1 space-x-3">
+      <ul className="text-sm sm:text-base overflow-y-scroll overflow-x-clip flex flex-row flex-wrap h-3/6 mx-1">
         {howMany.length > 0 &&
           howMany.map((x) => {
             return (

@@ -110,25 +110,25 @@ function FormUserContent(props: Props) {
   };
 
   return (
-    <div className="text-xs FormUserContent-container flex flex-col border-2 border-primary w-full sm:max-w-sm">
-      <p className="mx-1">Add Twitter Username to {purpose} from</p>
+    <div className="text-xs sm:text-sm FormUserContent-container flex flex-col border-2 border-primary w-full sm:max-w-md">
+      <p className="m-1 sm:h-8">Add Username to {purpose} from</p>
       <form className="flex flex-row justify-between mx-1">
         <input
-          className="focus:outline-accent shadow-md w-3/4"
+          className="focus:outline-accent shadow-md w-3/4 mr-2 rounded-sm text-center"
           type="text"
           placeholder="Twitter Username"
           value={inputValue}
           onChange={(event) => setinputValue(event.target.value)}
         />
         <div className="flex flex-row space-x-2">
-          <button className="bg-secondary font-semibold px-1 rounded-sm hover:bg-accent hover:text-white shadow-md"  type="button" onClick={() => addNext()}>
+          <button className="bg-secondary font-semibold px-1 rounded-sm hover:bg-accent hover:text-white shadow-md whitespace-nowrap"  type="button" onClick={() => addNext()}>
             Add next
           </button>
-        <button  className="bg-secondary font-semibold px-1 rounded-sm hover:bg-accent hover:text-white shadow-md" onClick={(event) => formSubmit(event)}>Submit</button>
+        <button  className="bg-secondary font-semibold px-1 rounded-sm hover:bg-accent hover:text-white shadow-md whitespace-nowrap" onClick={(event) => formSubmit(event)}>Submit</button>
         </div>
       </form>
         {errorMessageLoginData && <p>Twitter Username already added.</p>}
-      <div className="FormUserContent-elements-container flex flex-row flex-wrap mx-1 justify-center h-1 max-h-14 overflow-y-scroll">
+      <div className="FormUserContent-elements-container py-2 flex flex-row flex-wrap mx-1 justify-center max-h-14 overflow-y-scroll">
         {formData.length > 0 &&
           formData.map((data, index) => {
             return (
@@ -136,7 +136,7 @@ function FormUserContent(props: Props) {
                 <p className="group flex flex-row">
                   {data.usernameusedfortweets}
                   <button
-                    className="button-FormUserContent-element hidden group-hover:block"
+                    className="button-FormUserContent-element hidden group-hover:block pl-1"
                     onClick={() => removeFormData(index)}
                   >
                     ❌

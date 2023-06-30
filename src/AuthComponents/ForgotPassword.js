@@ -26,10 +26,10 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row md:space-y-0 md:space-x-5 md:justify-center items-center min-h-screen space-y-5 w-11/12 bg-background">
-      <div className="flex flex-col space-y-5 mt-10 md:mt-0 ">
-        <h1 className="text-5xl font-bold text-center">Tweeting Ant</h1>
-        <p className="text-justify max-w-md">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+    <div className="flex flex-col md:flex-row md:space-y-0 md:space-x-16 md:justify-center items-center min-h-screen space-y-5 w-11/12 bg-background sm:space-y-10">
+      <div className="flex flex-col space-y-5 mt-10 md:mt-0 sm:space-y-10 sm:mt-16">
+        <h1 className="text-5xl font-bold text-center sm:text-7xl md:whitespace-nowrap">Tweeting Ant</h1>
+        <p className="text-justify text-sm sm:text-base max-w-md">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
       </div>
       <div>
       <div className="max-w-md px-6 py-8 bg-secondary rounded-lg shadow-md">

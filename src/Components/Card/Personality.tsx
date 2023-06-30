@@ -36,7 +36,7 @@ function Personality(props: Props) {
     <div className="Personality-container w-full border-primary border-2 sm:max-w-sm text-center rounded-sm">
       <p className="text-xs" >Your accont personality</p>
       <select
-        className="text-sm w-full text-center"
+        className="text-sm w-full text-center w-full focus:outline-accent bg-secondary border-t border-t-accent"
         name="personality_setter"
         id=""
         onChange={(e) => personalitySetter(String(e.target.value))}
