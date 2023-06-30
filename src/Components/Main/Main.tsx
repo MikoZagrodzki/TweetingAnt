@@ -54,7 +54,7 @@ function Main() {
   );
 
   return (
-    <div id="top" className="min-h-screen w-screen flex flex-col items-center">
+    <div id="top" className="  min-h-screen w-screen flex flex-col items-center">
       <a href="#top" className=" fixed z-20 bottom-10 right-10 font-extrabold text-2xl bg-highlight rounded-lg text-accent p-1 shadow-lg border border-accent hover:text-highlight hover:border-highlight hover:bg-accent">^</a>
       <div className="my-10 flex flex-col space-y-5 items-center">
         <h1 className="font-semibold text-center text-md sm:text-lg md:text-xl">{currentUser.email} is logged in.</h1>

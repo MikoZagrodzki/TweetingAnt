@@ -9,6 +9,8 @@ import UserNamesList from "./UserNamesList";
 import Personality from "./Personality";
 import { TwitterAccountType } from "../../TypesApi";
 import LikesAttack from "../burstAttack/burstAttack";
+import { CSSTransition } from 'react-transition-group';
+
 
 interface Props {
   loginNameTwitter: string;
@@ -63,19 +65,50 @@ function Card(props: Props) {
     }
   };
 
-  // const personality = () => {
-  //   switch (twitterClassAccount?.personality) {
-  //     case "default":
-  //       return "Default";
-  //     default:
-  //       break;
-  //   }
-  // };
+///////ANIMATION
+  const [inView, setInView] = useState(false);
 
+  const handleScroll = () => {
+    const windowHeight = window.innerHeight;
+    const windowTop = window.scrollY;
+    const windowBottom = windowTop + windowHeight;
+
+    const element = document.getElementById(twitterAccount);
+    if (element) {
+      const elementHeight = element.offsetHeight;
+      const elementTop = element.offsetTop;
+      const elementBottom = elementTop + elementHeight;
+
+      if (elementBottom >= windowTop && elementTop <= windowBottom) {
+        setInView(true);
+      } else {
+        setInView(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Trigger initial check on component mount
+    handleScroll();
+  }, []);
+
+  ////////END OF ANIMATION
 
 
   return (
-    <div id={twitterAccount} className="flex flex-col w-full card card.appear">
+    <CSSTransition
+        in={inView}
+        classNames="fade"
+        timeout={500}
+      >
+    <div id={twitterAccount} className="in-view flex flex-col w-full ">
       <div className="flex flex-col items-start space-x-5 border-2 border-secondary p-3 w-80 max-w-full sm:w-52 md:w-60">
         <p className="text-sm sm:text-base font-semibold">{twitterAccount}</p>
         <p className="text-xs sm:text-sm sm:h-10">{twitterClassAccount?.personality}</p>
@@ -183,6 +216,7 @@ function Card(props: Props) {
         </div>
       </Popup>
     </div>
+    </CSSTransition>
   );
 }
 
