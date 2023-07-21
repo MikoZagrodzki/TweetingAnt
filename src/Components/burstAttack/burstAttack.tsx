@@ -67,7 +67,7 @@ function LikesAttack(props: Props) {
     //     .padStart(2, '0')
     // );
     // const randomTime: Time = { hours: hour, minutes: minute };
-    const randomHour = hour;
+    const randomHour = 0;
     return randomHour;
   };
 
