@@ -49,12 +49,12 @@ function FormTwitterCredentials(props: Props) {
   };
 
   return (
-    <div className="FormTwitterCredentials_container flex flex-col space-y-2 text-center bg-background p-5 border-2 border-secondary">
-      <p>Add Twitter Account</p>
-      <form onSubmit={handleSubmit((data) => formSubmit(data))} className="flex flex-col space-y-2">
+    <div className="FormTwitterCredentials_container flex flex-col space-y-2 text-center bg-background p-5 border-2 border-secondary w-11/12 max-w-md">
+      <p className="text-xs sm:text-sm md:text-base">Add Twitter Account</p>
+      <form onSubmit={handleSubmit((data) => formSubmit(data))} className="flex flex-col space-y-2 text-sm sm:text-base">
         <input
           type="text"
-          placeholder="TwitterUsername"
+          placeholder="Twitter Username or Email"
           {...register("TwitterUsername", { required: true })}
         />
         {errors.TwitterUsername && <p>Twitter Username is required.</p>}

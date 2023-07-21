@@ -172,7 +172,7 @@ function LikesAttack(props: Props) {
       <p className="py-2">Paste link to tweet and perform a burst attack </p>
       <form className="flex flex-row w-11/12 justify-center">
         <input
-          className="w-3/4 shadow-md mr-1 rounded-sm"
+          className="w-3/4 shadow-md mr-1 rounded-sm focus:outline-accent"
           type="url"
           placeholder="TWEET URL"
           value={url}
@@ -183,7 +183,7 @@ function LikesAttack(props: Props) {
       <p>You are performing atatck with:</p>
       <div className="setters_container w-11/12 flex flex-row space-x-2">
         <select
-          className="w-4/12 shadow-md"
+          className="w-4/12 shadow-md focus:outline-accent"
           name="amount_setter"
           id=""
           onChange={(e) => amountSetter(Number(e.target.value))}
@@ -196,7 +196,7 @@ function LikesAttack(props: Props) {
           ))}
         </select>
         <select
-          className="w-8/12 shadow-md"
+          className="w-8/12 shadow-md focus:outline-accent"
           name="personality_setter"
           id=""
           onChange={(e) => personalitySetter(String(e.target.value))}
@@ -222,6 +222,13 @@ function LikesAttack(props: Props) {
             <span className="slider border border-highlight shadow-lg rounded-sm"></span>
           </label>
         </div>
+        {currentUser.email==="admin@admin.admin" || currentUser.email.includes("@batch")?(<div className="select_single_container">
+          <p>Rephrase</p>
+          <label className="switch">
+            <input className="shadow-sm " type="checkbox" onChange={handleRetweetChange} checked={retweetSwitch} />
+            <span className="slider border border-highlight shadow-lg rounded-sm"></span>
+          </label>
+        </div>):""}
         <div className="select_single_container">
           <p>Comment</p>
           <label className="switch">
