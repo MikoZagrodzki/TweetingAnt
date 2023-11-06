@@ -7,6 +7,7 @@ import Signup from "./AuthComponents/Signup";
 import ForgotPassword from "./AuthComponents/ForgotPassword";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import Main from "./Components/Main/Main";
+import ContentDashboard from "./Components/ContentDashboard/ContentDashboard";
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/" element={<PrivateRoute><Main /></PrivateRoute>}/>
+            <Route path="/" element={<PrivateRoute><ContentDashboard /></PrivateRoute>}/>
+            {/* <Route path="/" element={<PrivateRoute><Main /></PrivateRoute>}/> */}
           </Routes>
         </AuthProvider>
       </Router>
