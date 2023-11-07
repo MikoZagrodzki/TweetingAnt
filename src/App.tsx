@@ -21,7 +21,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/" element={<PrivateRoute><ContentDashboard /></PrivateRoute>}/>
-            {/* <Route path="/" element={<PrivateRoute><Main /></PrivateRoute>}/> */}
+            <Route path="/main" element={<PrivateRoute><Main /></PrivateRoute>}/>
           </Routes>
         </AuthProvider>
       </Router>

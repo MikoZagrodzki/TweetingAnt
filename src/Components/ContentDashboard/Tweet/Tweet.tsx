@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import updateIsApproved from "../../../Functionalities/updateIsApproved";
 import updateTweetText from "../../../Functionalities/updateTweetText";
+import classnames from 'classnames';
+import TextareaAutosize from 'react-textarea-autosize';
+
+
 
 interface Props {
   imgSource: string | null;
@@ -20,8 +24,11 @@ function Tweet(props: Props) {
   const [isEditing, setIsEditing] = useState(false);
   const [isComparing, setIsComparing] = useState(false);
 
+
+
   const handleEdit = () => {
     setIsEditing(true);
+
   };
 
   const handleSave = () => {
@@ -66,56 +73,65 @@ function Tweet(props: Props) {
         setIsComparing(!isComparing);
       };
 
+
+  const BUTTON_STYLING =classnames('text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
+  const INFO_TEXT = classnames('text-xs md:text-sm')
+  const TWEET_TEXT = classnames('text-xs sm:text-sm')
+  const BORDER_STYLING = classnames('border border-2 border-secondary')
   return (
     <div
-      className="flex flex-col items-center w-3/4 text-xs gap-1"
+      className={`flex flex-col items-center gap-1 w-11/12 pb-5 max-w-sm p-2 sm:p-3 ${BORDER_STYLING}`}
       style={tweetStyle}
     >
-         <a>{isComparing ? 'Comparing' : (buttonText === 'Original Text' ? 'Rephrase text by ChatGPT' : 'Original Text')}</a>
+         <a className={`${INFO_TEXT} font-bold`}>{isComparing ? 'Comparing' : (buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>
          {isComparing ? (
         <div className="flex gap-3">
           <div>
-            <h2>Original Text</h2>
-            <p>{originalTweetText}</p>
+            <h2 className={INFO_TEXT}>Original Text</h2>
+            <p className={TWEET_TEXT}>{originalTweetText}</p>
           </div>
           <div>
-            <h2>ChatGpt Text</h2>
-            <p>{tweetText}</p>
+            <h2 className={INFO_TEXT}>ChatGpt Text</h2>
+            <p className={TWEET_TEXT}>{tweetText}</p>
           </div>
         </div>
       ) : isEditing ? (
-        <textarea
+        <TextareaAutosize
           value={displayedText || ''}
           onChange={handleChange}
-          rows={10}
-          cols={50}
+          minRows={2}
+          className={`${TWEET_TEXT} w-full m-1 resize-none text-center ${BORDER_STYLING} focus:outline-primary`}
         />
       ) : (
-        <h1>{displayedText}</h1>
+        <h1 className={`${TWEET_TEXT} w-full`}>{displayedText}</h1>
       )}
        {imgSource && (
         <img
           src={imgSource}
-          style={{ maxWidth: "512px", maxHeight: "512px" }}
+          // style={{ maxWidth: "512px", maxHeight: "512px" }}
+          className="w-full"
         />
       )}
       {videoSource && (
-        <video style={{ maxWidth: "512px", maxHeight: "512px" }} controls>
+        <video 
+        // style={{ maxWidth: "512px", maxHeight: "512px" }} 
+        className="w-full"
+        controls>
           <source src={videoSource} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       )}
 
-      <div id="tweetButtonContainer" className="flex flex-row gap-3">
-        <button onClick={handleApprove}>Approve</button>
+      <div id="tweetButtonContainer" className="flex flex-row gap-1 flex-wrap justify-center">
+        <button className={BUTTON_STYLING} onClick={handleApprove}>Approve</button>
         {isEditing ? (
-          <button onClick={handleSave}>Save</button>
+          <button className={BUTTON_STYLING} onClick={handleSave}>Save</button>
         ) : (
-          <button onClick={handleEdit}>Edit</button>
+          <button className={BUTTON_STYLING} onClick={handleEdit}>Edit</button>
         )}
-        <button onClick={handleDecline}>Decline</button>
-        <button onClick={toggleText}>{buttonText}</button>
-        <button onClick={handleCompare}>Compare</button>
+        <button className={BUTTON_STYLING} onClick={handleDecline}>Decline</button>
+        <button className={BUTTON_STYLING} onClick={toggleText}>{buttonText}</button>
+        <button className={BUTTON_STYLING} onClick={handleCompare}>Compare</button>
       </div>
     </div>
   );
