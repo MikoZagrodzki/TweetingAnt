@@ -7,6 +7,9 @@ module.exports = {
         base: 'bg-secondary font-semibold px-2 rounded-sm shadow-md',
         hover: 'hover:bg-accent hover:text-white',
       },
+      minWidth:{
+        '1/3':'33.333333%',
+      },
       colors: {
         primary: "#A3967C", // Used for primary elements and call-to-action
         background: "#FFFCF5", // Used as a background color for sections or containers

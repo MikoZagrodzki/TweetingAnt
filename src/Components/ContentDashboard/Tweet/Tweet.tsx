@@ -5,6 +5,17 @@ import classnames from 'classnames';
 import TextareaAutosize from 'react-textarea-autosize';
 
 
+interface TweetSql {
+  tweettext: string
+  tweetpictureurl: string | null;
+  tweeturl: string;
+  tweettextchatgpt: string
+  tweetvideourl: string | null;
+  isapproved: string;
+  personality: string | null;
+  tweettype: string | null;
+}
+
 
 interface Props {
   imgSource: string | null;
@@ -12,12 +23,15 @@ interface Props {
   tweetText: string;
   videoSource?: string | null;
   isApproved: string;
-  originalTweetText: string
+  originalTweetText: string;
+
+  filteredTweets:TweetSql[];
+  setFilteredTweets: React.Dispatch<React.SetStateAction<[] | TweetSql[]>>;
 
 }
 
 function Tweet(props: Props) {
-  const { imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText } = props;
+  const { imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText, filteredTweets, setFilteredTweets} = props;
   const [approvalStatus, setApprovalStatus] = useState<string>("");
   const [displayedText, setDisplayedText] = useState<string>(tweetText);
   const [buttonText, setButtonText] = useState<string>('Original Text');
@@ -25,72 +39,80 @@ function Tweet(props: Props) {
   const [isComparing, setIsComparing] = useState(false);
 
 
-
+  
   const handleEdit = () => {
     setIsEditing(true);
-
+    
   };
-
+  
   const handleSave = () => {
     setIsEditing(false);
   };
-
+  
   const handleChange = (event:any) => {
     setDisplayedText(event.target.value);
   };
-
+  
   const handleApprove = async () => {
+    const tweetPositionInArray = filteredTweets.find(
+      (account) => account.tweeturl === tweetUrl
+    );
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "approved");
       await updateTweetText(tweetUrl, displayedText);
       setApprovalStatus("approved");
+      if(tweetPositionInArray){
+        tweetPositionInArray.isapproved="approved";
+        setFilteredTweets([...filteredTweets])
+      }
     }
   };
 
   const handleDecline = async () => {
+    const tweetPositionInArray = filteredTweets.find(
+      (account) => account.tweeturl === tweetUrl
+    );
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "declined");
       setApprovalStatus("declined");
+      if(tweetPositionInArray){
+        tweetPositionInArray.isapproved="declined";
+        setFilteredTweets([...filteredTweets])
+      }
     }
   };
-  const tweetStyle =
-    approvalStatus === "approved"
-      ? { backgroundColor: "#e8fff4" }
-      : approvalStatus === "declined"
-      ? { backgroundColor: "#ffe8e8" }
-      : {};
 
-      const toggleText = () => {
-        if (displayedText === tweetText) {
-          setDisplayedText(originalTweetText);
-          setButtonText('ChatGPT Text');
-        } else {
-          setDisplayedText(tweetText);
-          setButtonText('Original Text');
-        }
-      };
-      const handleCompare = () => {
-        setIsComparing(!isComparing);
-      };
+  const toggleText = () => {
+    if (displayedText === tweetText) {
+      setDisplayedText(originalTweetText);
+      setButtonText('ChatGPT Text');
+    } else {
+      setDisplayedText(tweetText);
+      setButtonText('Original Text');
+    }
+  }; 
+  const handleCompare = () => {
+    setIsComparing(!isComparing);
+  };
 
 
   const BUTTON_STYLING =classnames('text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
-  const INFO_TEXT = classnames('text-xs md:text-sm')
+  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap')
   const TWEET_TEXT = classnames('text-xs sm:text-sm')
   const BORDER_STYLING = classnames('border border-2 border-secondary')
+  const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl')
   return (
     <div
-      className={`flex flex-col items-center gap-1 w-11/12 pb-5 max-w-sm p-2 sm:p-3 ${BORDER_STYLING}`}
-      style={tweetStyle}
+      className={`flex flex-col items-center gap-1 w-11/12 pb-5 max-w-md p-2 sm:p-3 ${BORDER_STYLING} ${SHADOW_STYLING}`}
     >
          <a className={`${INFO_TEXT} font-bold`}>{isComparing ? 'Comparing' : (buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>
          {isComparing ? (
-        <div className="flex gap-3">
-          <div>
+        <div className="flex flex-row gap-3 w-full">
+          <div className="flex flex-col gap-1 min-w-1/3">
             <h2 className={INFO_TEXT}>Original Text</h2>
             <p className={TWEET_TEXT}>{originalTweetText}</p>
           </div>
-          <div>
+          <div className="flex flex-col gap-1 min-w-1/3">
             <h2 className={INFO_TEXT}>ChatGpt Text</h2>
             <p className={TWEET_TEXT}>{tweetText}</p>
           </div>
@@ -108,13 +130,11 @@ function Tweet(props: Props) {
        {imgSource && (
         <img
           src={imgSource}
-          // style={{ maxWidth: "512px", maxHeight: "512px" }}
           className="w-full"
         />
       )}
       {videoSource && (
         <video 
-        // style={{ maxWidth: "512px", maxHeight: "512px" }} 
         className="w-full"
         controls>
           <source src={videoSource} type="video/mp4" />
@@ -122,7 +142,7 @@ function Tweet(props: Props) {
         </video>
       )}
 
-      <div id="tweetButtonContainer" className="flex flex-row gap-1 flex-wrap justify-center">
+      <div id="tweetButtonContainer" className="flex flex-row gap-1 flex-wrap justify-center mt-2">
         <button className={BUTTON_STYLING} onClick={handleApprove}>Approve</button>
         {isEditing ? (
           <button className={BUTTON_STYLING} onClick={handleSave}>Save</button>

@@ -21,6 +21,7 @@ function ContentDashboard() {
   const [personality, setPersonality] = useState<string>("");
   const [tweetType, setTweetType] = useState<string>("");
 
+
   const getTweets = async () => {
     const tweetsData = await getAllScrapedTweets();
     setTweets(tweetsData);
@@ -45,6 +46,7 @@ function ContentDashboard() {
 
   const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
   const UL_STYLING   = classnames("flex flex-col items-center gap-3")
+  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap')
 
   return (
     <div className="min-h-screen w-screen mt-10 mb-10 flex flex-col items-center gap-y-10">
@@ -62,38 +64,60 @@ function ContentDashboard() {
           </option>
           ))}
       </select>
-
-        <select
-          value={tweetType || ""}
-          onChange={(e) => setTweetType(e.target.value)}
-          className={BUTTON_STYLING}
-        >
-          <option value="">Select Tweet Type</option>
-          {uniqueTweetTypes.map((uniqueTypes) => (
-            <option key={uniqueTypes} value={uniqueTypes || ""}>
-              {uniqueTypes}
-            </option>
-          ))}
-        </select>
-
-        <button className={BUTTON_STYLING} onClick={handleApply}>Apply</button>
+      <select
+        value={tweetType || ""}
+        onChange={(e) => setTweetType(e.target.value)}
+        className={BUTTON_STYLING}
+      >
+        <option value="">Select Tweet Type</option>
+        {uniqueTweetTypes.map((uniqueTypes) => (
+          <option key={uniqueTypes} value={uniqueTypes || ""}>
+            {uniqueTypes}
+          </option>
+        ))}
+      </select>
+      <button className={BUTTON_STYLING} onClick={handleApply}>Apply</button>
       </div>
+          <div className="flex flex-col md:flex-row">
+            {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
+              <ul id="pewndingTweets" className={UL_STYLING}>
+                <h2 className={INFO_TEXT}>Pending Tweets</h2>
+                {filteredTweets.filter(tweet => tweet.isapproved === 'pending').map((tweet) => (
+                    <Tweet
+                        imgSource={tweet.tweetpictureurl}
+                        originalTweetText = {tweet.tweettext}
+                        tweetText={tweet.tweettextchatgpt}
+                        tweetUrl={tweet.tweeturl}
+                        videoSource={tweet.tweetvideourl}
+                        isApproved={tweet.isapproved}
+                        
+                        filteredTweets={filteredTweets}
+                        setFilteredTweets={setFilteredTweets}
 
-      <ul id="tweetToRephrase" className={UL_STYLING}>
-      {filteredTweets.filter(tweet => tweet.isapproved === 'pending').map((tweet) => (
-    <Tweet
-        imgSource={tweet.tweetpictureurl}
-        originalTweetText = {tweet.tweettext}
-        tweetText={tweet.tweettextchatgpt}
-        tweetUrl={tweet.tweeturl}
-        videoSource={tweet.tweetvideourl}
-        isApproved={tweet.isapproved}
-    />
-))}
-      </ul>
-      <ul className="">
-        <div id="tweetRephrased" className={UL_STYLING}></div>
-      </ul>
+                    />
+                ))}
+              </ul>
+            )}
+            {filteredTweets.some((tweet) => tweet.isapproved === 'approved') && (
+              <ul id="approvedTweets" className={UL_STYLING}>
+              <h2 className={INFO_TEXT}>Approved Tweets</h2>
+                {filteredTweets.filter(tweet => tweet.isapproved === 'approved').map((tweet) => (
+                    <Tweet
+                        imgSource={tweet.tweetpictureurl}
+                        originalTweetText = {tweet.tweettext}
+                        tweetText={tweet.tweettextchatgpt}
+                        tweetUrl={tweet.tweeturl}
+                        videoSource={tweet.tweetvideourl}
+                        isApproved={tweet.isapproved}
+
+                        filteredTweets={filteredTweets}
+                        setFilteredTweets={setFilteredTweets}
+
+                    />
+                ))}
+              </ul>
+            )}
+          </div>
     </div>
   );
 }
