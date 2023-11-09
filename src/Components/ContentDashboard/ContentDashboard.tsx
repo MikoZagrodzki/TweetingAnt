@@ -108,7 +108,7 @@ function ContentDashboard() {
         ))}
       </select>
       <button className={BUTTON_STYLING} onClick={handleApply}>Apply</button>
-      <a href="#approvedTweets" className={`sm:hidden ${BUTTON_STYLING}`}>Approved Tweets</a>
+      <a href="#approvedTweets" className={`md:hidden ${BUTTON_STYLING}`}>Approved Tweets</a>
       {filtersApplied && (
         <button className={BUTTON_STYLING} onClick={handleShowAll}>
           Show All
@@ -143,7 +143,7 @@ function ContentDashboard() {
               </ul>
             )}
             {filteredTweets.some((tweet) => tweet.isapproved === 'approved') && (
-              <ul id="approvedTweets" className={`mt-8 ${UL_STYLING}`}>
+              <ul id="approvedTweets" className={`mt-8 md:mt-0 ${UL_STYLING}`}>
               <h2 className={INFO_TEXT}>Approved Tweets</h2>
               {filteredTweets.filter(tweet => tweet.isapproved === 'approved').map((tweet) => {
                   const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
