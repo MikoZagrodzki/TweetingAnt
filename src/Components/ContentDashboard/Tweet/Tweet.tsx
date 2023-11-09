@@ -172,8 +172,8 @@ function Tweet(props: Props) {
           <button className={BUTTON_STYLING} onClick={handleEdit}>Edit</button>
         )}
         <button className={BUTTON_STYLING} onClick={handleDecline}>Decline</button>
-        <button className={BUTTON_STYLING} onClick={toggleText}>{buttonText}</button>
-        <button className={BUTTON_STYLING} onClick={handleCompare}>Compare</button>
+        {!isComparing&&(<button className={BUTTON_STYLING} onClick={toggleText}>{buttonText}</button>)}
+        <button className={BUTTON_STYLING} onClick={handleCompare}>{isComparing?'Stop Comparing':'Compare'}</button>
       </div>
     </div>
   );
