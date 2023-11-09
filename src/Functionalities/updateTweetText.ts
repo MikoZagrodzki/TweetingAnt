@@ -1,12 +1,13 @@
 
 import requestApi from "./RequestApi";
 
-export const updateTweetText = async (tweetUrl: string, tweetText : string 
+export const updateTweetText = async (tweetUrl: string, updatedText : string , sqlId:number
 ) => {
 
     const body = {
         tweeturl: tweetUrl,
-        tweettext : tweetText 
+        updatedText : updatedText,
+        sqlId: sqlId
     }
 
   try {

@@ -1,12 +1,13 @@
 
 import requestApi from "./RequestApi";
 
-export const updateIsApproved = async (tweetUrl: string, isApproved: string 
+export const updateIsApproved = async (tweetUrl: string, isApproved: string , sqlId:number
 ) => {
 
     const body = {
         tweeturl: tweetUrl,
-        isApproved: isApproved
+        isApproved: isApproved,
+        sqlId: sqlId
     }
 
   try {

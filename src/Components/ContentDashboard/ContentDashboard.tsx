@@ -5,7 +5,8 @@ import classnames from 'classnames';
 
 
 interface Tweet {
-  tweettext: string
+  id: number;
+  tweettext: string;
   tweetpictureurl: string | null;
   tweeturl: string;
   tweettextchatgpt: string
@@ -18,8 +19,11 @@ interface Tweet {
 function ContentDashboard() {
   const [tweets, setTweets] = useState<Tweet[] | []>([]);
   const [filteredTweets, setFilteredTweets] = useState<Tweet[] | []>([]);
+  const [filtersApplied, setFiltersApplied] = useState<boolean>(false);
   const [personality, setPersonality] = useState<string>("");
   const [tweetType, setTweetType] = useState<string>("");
+
+  const[toggleUseEffectForTweets, setToggleUseEffectForTweets] = useState<boolean>(false);
 
 
   const getTweets = async () => {
@@ -29,16 +33,42 @@ function ContentDashboard() {
   };
 
   const handleApply = () => {
-    const result = tweets.filter(
-      (tweet) =>
-        tweet.personality === personality && tweet.tweettype === tweetType
-    );
+    let result;
+  
+    if (personality !== "" && tweetType !== "") {
+      result = tweets.filter(
+        (tweet) =>
+          tweet.personality === personality && tweet.tweettype === tweetType
+      );
+      setFiltersApplied(true);
+    } else if (personality !== "") {
+      result = tweets.filter((tweet) => tweet.personality === personality);
+      setFiltersApplied(true);
+    } else if (tweetType !== "") {
+      result = tweets.filter((tweet) => tweet.tweettype === tweetType);
+      setFiltersApplied(true);
+    } else {
+      result = tweets;
+      setPersonality("");
+      setTweetType("");
+      setFiltersApplied(false);
+    }
+  
     setFilteredTweets(result);
   };
+  
+
+  const handleShowAll = () => {
+    setFiltersApplied(false);
+    setFilteredTweets(tweets);
+    setPersonality("");
+    setTweetType("");
+  }
 
   useEffect(() => {
+    setTweets([])
     getTweets();
-  }, []);
+  }, [toggleUseEffectForTweets]);
 
   const uniquePersonalities = Array.from(new Set(tweets.map(tweet => tweet.personality)));
   const uniqueTweetTypes = Array.from(new Set(tweets.map(tweet => tweet.tweettype)));
@@ -77,46 +107,66 @@ function ContentDashboard() {
         ))}
       </select>
       <button className={BUTTON_STYLING} onClick={handleApply}>Apply</button>
+      {filtersApplied && (
+        <button className={BUTTON_STYLING} onClick={handleShowAll}>
+          Show All
+        </button>
+      )}
       </div>
-          <div className="flex flex-col md:flex-row">
+          <div id="tweetLists" className="flex flex-col md:flex-row">
             {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
-              <ul id="pewndingTweets" className={UL_STYLING}>
+              <ul id="pendingTweets" className={UL_STYLING}>
                 <h2 className={INFO_TEXT}>Pending Tweets</h2>
-                {filteredTweets.filter(tweet => tweet.isapproved === 'pending').map((tweet) => (
+                {filteredTweets.filter(tweet => tweet.isapproved === 'pending').map((tweet) => {
+                  const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
+                  return(
                     <Tweet
+                        sqlId={tweet.id}
                         imgSource={tweet.tweetpictureurl}
                         originalTweetText = {tweet.tweettext}
                         tweetText={tweet.tweettextchatgpt}
                         tweetUrl={tweet.tweeturl}
                         videoSource={tweet.tweetvideourl}
                         isApproved={tweet.isapproved}
-                        
-                        filteredTweets={filteredTweets}
-                        setFilteredTweets={setFilteredTweets}
+                        index={index}
+                        tweetsDataState={tweets}
+                        setTweetsDataState={setTweets}
 
-                    />
-                ))}
+                        toggleUseEffectForTweets={toggleUseEffectForTweets}
+                        setToggleUseEffectForTweets={setToggleUseEffectForTweets}
+
+
+                    />)
+              })}
               </ul>
             )}
             {filteredTweets.some((tweet) => tweet.isapproved === 'approved') && (
               <ul id="approvedTweets" className={UL_STYLING}>
               <h2 className={INFO_TEXT}>Approved Tweets</h2>
-                {filteredTweets.filter(tweet => tweet.isapproved === 'approved').map((tweet) => (
+              {filteredTweets.filter(tweet => tweet.isapproved === 'approved').map((tweet) => {
+                  const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
+                  return(
                     <Tweet
+                        sqlId={tweet.id}
                         imgSource={tweet.tweetpictureurl}
                         originalTweetText = {tweet.tweettext}
                         tweetText={tweet.tweettextchatgpt}
                         tweetUrl={tweet.tweeturl}
                         videoSource={tweet.tweetvideourl}
                         isApproved={tweet.isapproved}
+                        index={index}
+                        tweetsDataState={tweets}
+                        setTweetsDataState={setTweets}
 
-                        filteredTweets={filteredTweets}
-                        setFilteredTweets={setFilteredTweets}
+                        toggleUseEffectForTweets={toggleUseEffectForTweets}
+                        setToggleUseEffectForTweets={setToggleUseEffectForTweets}
 
-                    />
-                ))}
+                    />)
+              })}
               </ul>
             )}
+
+            
           </div>
     </div>
   );

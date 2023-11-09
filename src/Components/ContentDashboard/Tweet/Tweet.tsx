@@ -6,10 +6,11 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 
 interface TweetSql {
-  tweettext: string
+  id: number;
+  tweettext: string;
   tweetpictureurl: string | null;
   tweeturl: string;
-  tweettextchatgpt: string
+  tweettextchatgpt: string;
   tweetvideourl: string | null;
   isapproved: string;
   personality: string | null;
@@ -18,6 +19,7 @@ interface TweetSql {
 
 
 interface Props {
+  sqlId:number;
   imgSource: string | null;
   tweetUrl: string | null;
   tweetText: string;
@@ -25,13 +27,16 @@ interface Props {
   isApproved: string;
   originalTweetText: string;
 
-  filteredTweets:TweetSql[];
-  setFilteredTweets: React.Dispatch<React.SetStateAction<[] | TweetSql[]>>;
+  index:number;
+  tweetsDataState:TweetSql[];
+  setTweetsDataState: React.Dispatch<React.SetStateAction<[] | TweetSql[]>>;
 
+  toggleUseEffectForTweets:boolean;
+  setToggleUseEffectForTweets:React.Dispatch<React.SetStateAction<|boolean>>;
 }
 
 function Tweet(props: Props) {
-  const { imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText, filteredTweets, setFilteredTweets} = props;
+  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets} = props;
   const [approvalStatus, setApprovalStatus] = useState<string>("");
   const [displayedText, setDisplayedText] = useState<string>(tweetText);
   const [buttonText, setButtonText] = useState<string>('Original Text');
@@ -54,34 +59,22 @@ function Tweet(props: Props) {
   };
   
   const handleApprove = async () => {
-    const tweetPositionInArray = filteredTweets.find(
-      (account) => account.tweeturl === tweetUrl
-    );
     if (tweetUrl) {
-      await updateIsApproved(tweetUrl, "approved");
-      await updateTweetText(tweetUrl, displayedText);
+      await updateIsApproved(tweetUrl, "approved", sqlId);
+      await updateTweetText(tweetUrl, displayedText, sqlId);
       setApprovalStatus("approved");
-      if(tweetPositionInArray){
-        tweetPositionInArray.isapproved="approved";
-        setFilteredTweets([...filteredTweets])
-      }
+      setToggleUseEffectForTweets(!toggleUseEffectForTweets)
     }
   };
 
   const handleDecline = async () => {
-    const tweetPositionInArray = filteredTweets.find(
-      (account) => account.tweeturl === tweetUrl
-    );
     if (tweetUrl) {
-      await updateIsApproved(tweetUrl, "declined");
+      await updateIsApproved(tweetUrl, "declined", sqlId);
       setApprovalStatus("declined");
-      if(tweetPositionInArray){
-        tweetPositionInArray.isapproved="declined";
-        setFilteredTweets([...filteredTweets])
-      }
+      setToggleUseEffectForTweets(!toggleUseEffectForTweets)
     }
   };
-
+  
   const toggleText = () => {
     if (displayedText === tweetText) {
       setDisplayedText(originalTweetText);
@@ -103,6 +96,7 @@ function Tweet(props: Props) {
   const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl')
   return (
     <div
+      id={`Tweet ${index+1}`}
       className={`flex flex-col items-center gap-1 w-11/12 pb-5 max-w-md p-2 sm:p-3 ${BORDER_STYLING} ${SHADOW_STYLING}`}
     >
          <a className={`${INFO_TEXT} font-bold`}>{isComparing ? 'Comparing' : (buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>
@@ -143,7 +137,7 @@ function Tweet(props: Props) {
       )}
 
       <div id="tweetButtonContainer" className="flex flex-row gap-1 flex-wrap justify-center mt-2">
-        <button className={BUTTON_STYLING} onClick={handleApprove}>Approve</button>
+        {isApproved==='pending'&&(<button className={BUTTON_STYLING} onClick={handleApprove}>Approve</button>)}
         {isEditing ? (
           <button className={BUTTON_STYLING} onClick={handleSave}>Save</button>
         ) : (
