@@ -79,7 +79,8 @@ function ContentDashboard() {
   const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap')
 
   return (
-    <div className="min-h-screen w-screen mt-10 mb-10 flex flex-col items-center gap-y-10">
+    <div id='top' className="min-h-screen w-screen mt-10 mb-10 flex flex-col items-center gap-y-10">
+      <a href="#top" className=" fixed z-20 bottom-10 right-10 font-extrabold text-2xl bg-highlight rounded-lg text-accent p-1 shadow-lg border border-accent hover:text-highlight hover:border-highlight hover:bg-accent">^</a>
       <h1 className="">Content Dashboard</h1>
       <div id="selection_bar" className="flex flex-row gap-1 justify-center flex-wrap">
         <select
@@ -89,7 +90,7 @@ function ContentDashboard() {
         >
           <option value="">Select Personality</option>
           {uniquePersonalities.map(personalityValue => (
-          <option key={personalityValue} value={personalityValue || ''}>
+            <option key={personalityValue} value={personalityValue || ''}>
               {personalityValue}
           </option>
           ))}
@@ -107,6 +108,7 @@ function ContentDashboard() {
         ))}
       </select>
       <button className={BUTTON_STYLING} onClick={handleApply}>Apply</button>
+      <a href="#approvedTweets" className={`sm:hidden ${BUTTON_STYLING}`}>Approved Tweets</a>
       {filtersApplied && (
         <button className={BUTTON_STYLING} onClick={handleShowAll}>
           Show All
@@ -141,7 +143,7 @@ function ContentDashboard() {
               </ul>
             )}
             {filteredTweets.some((tweet) => tweet.isapproved === 'approved') && (
-              <ul id="approvedTweets" className={UL_STYLING}>
+              <ul id="approvedTweets" className={`mt-8 ${UL_STYLING}`}>
               <h2 className={INFO_TEXT}>Approved Tweets</h2>
               {filteredTweets.filter(tweet => tweet.isapproved === 'approved').map((tweet) => {
                   const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
