@@ -53,8 +53,11 @@ function Tweet(props: Props) {
     
   };
   
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsEditing(false);
+    if(tweetUrl){
+      await updateTweetText(tweetUrl, displayedText, sqlId);
+    }
   };
   
   const handleChange = (event:any) => {
@@ -104,10 +107,10 @@ function Tweet(props: Props) {
     >
          <a className={`${INFO_TEXT} font-bold`}>{isComparing ? 'Comparing' : (buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>
          {isComparing ? (
-        <div className="flex flex-row gap-3 w-full justify-between">
-          <div className="flex flex-col gap-1 min-w-1/3">
+        <div className={`flex flex-row gap-3 w-full justify-between `}>
+          <div className={`flex flex-col gap-1 min-w-1/3 ${isEditing?``:""}`}>
             <h2 className={INFO_TEXT}>Original Text</h2>
-            <p className={`${TWEET_TEXT} ${isTextareaFocused?` border-2 border-primary rounded-sm h-full`:''}`}>{originalTweetText}</p>
+            <p className={`${TWEET_TEXT}  ${isEditing?`h-full px-1 ${BORDER_STYLING} opacity-80`:``}`}>{originalTweetText}</p>
           </div>
           {isEditing ? (
               <div className="flex flex-col gap-1 min-w-1/2">
