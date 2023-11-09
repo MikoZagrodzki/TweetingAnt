@@ -8,9 +8,13 @@ import ForgotPassword from "./AuthComponents/ForgotPassword";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import Main from "./Components/Main/Main";
 import ContentDashboard from "./Components/ContentDashboard/ContentDashboard";
+import { useAuth } from "./AuthContext";
+
 
 
 function App() {
+  const { currentUser, logOut }: any = useAuth();
+
 
   return (
     <div className="w-screen min-h-screen bg-background flex flex-col items-center">

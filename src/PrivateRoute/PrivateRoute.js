@@ -6,3 +6,4 @@ export default function PrivateRoute({ children }) {
 
   return currentUser ? children : <Navigate to="/login" />;
 }
+

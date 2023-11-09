@@ -43,6 +43,9 @@ function Tweet(props: Props) {
   const [isEditing, setIsEditing] = useState(false);
   const [isComparing, setIsComparing] = useState(false);
 
+  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
+
+
 
   
   const handleEdit = () => {
@@ -101,15 +104,29 @@ function Tweet(props: Props) {
     >
          <a className={`${INFO_TEXT} font-bold`}>{isComparing ? 'Comparing' : (buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>
          {isComparing ? (
-        <div className="flex flex-row gap-3 w-full">
+        <div className="flex flex-row gap-3 w-full justify-between">
           <div className="flex flex-col gap-1 min-w-1/3">
             <h2 className={INFO_TEXT}>Original Text</h2>
-            <p className={TWEET_TEXT}>{originalTweetText}</p>
+            <p className={`${TWEET_TEXT} ${isTextareaFocused?` border-2 border-primary rounded-sm h-full`:''}`}>{originalTweetText}</p>
           </div>
-          <div className="flex flex-col gap-1 min-w-1/3">
-            <h2 className={INFO_TEXT}>ChatGpt Text</h2>
-            <p className={TWEET_TEXT}>{tweetText}</p>
-          </div>
+          {isEditing ? (
+              <div className="flex flex-col gap-1 min-w-1/2">
+                <h2 className={INFO_TEXT}>ChatGpt Text</h2>
+                <TextareaAutosize
+                  value={displayedText || ''}
+                  onChange={handleChange}
+                  minRows={2}
+                  onFocus={() => setIsTextareaFocused(true)}
+                  onBlur={() => setIsTextareaFocused(false)}
+                  className={`${TWEET_TEXT} w-full resize-none text-center px-1 ${BORDER_STYLING} focus:outline-primary`}
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col gap-1 min-w-1/3">
+                <h2 className={INFO_TEXT}>ChatGpt Text</h2>
+                <p className={`${TWEET_TEXT}`}>{tweetText}</p>
+              </div>
+          )}
         </div>
       ) : isEditing ? (
         <TextareaAutosize
