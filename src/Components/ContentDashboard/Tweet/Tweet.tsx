@@ -125,10 +125,14 @@ function Tweet(props: Props) {
                 />
               </div>
             ) : (
-              <div className="flex flex-col gap-1 min-w-1/3">
-                <h2 className={INFO_TEXT}>ChatGpt Text</h2>
-                <p className={`${TWEET_TEXT}`}>{tweetText}</p>
+              <div className="flex flex-col gap-1 min-w-1/3 group relative">
+                <h2 className={`${INFO_TEXT}`}>ChatGpt Text</h2>
+                <p className={`${TWEET_TEXT} transition-opacity opacity-100 group-hover:opacity-70`}>{tweetText}</p>
+                <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-75">
+                  <button className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-highlight hover:border-highlight hover:bg-accent hover:shadow-2xl`}>Re-Rephrase</button>
+                </div>
               </div>
+
           )}
         </div>
       ) : isEditing ? (
@@ -139,7 +143,11 @@ function Tweet(props: Props) {
           className={`${TWEET_TEXT} w-full m-1 resize-none text-center ${BORDER_STYLING} focus:outline-primary`}
         />
       ) : (
-        <h1 className={`${TWEET_TEXT} w-full`}>{displayedText}</h1>
+        <h1 className={`${TWEET_TEXT} w-full group relative`}>{displayedText}
+          <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-75">
+          <button className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-highlight hover:border-highlight hover:bg-accent hover:shadow-2xl`}>Re-Rephrase</button>
+        </div></h1>
+        
       )}
        {imgSource && (
         <img
