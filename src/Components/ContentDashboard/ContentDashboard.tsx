@@ -123,21 +123,20 @@ function ContentDashboard() {
                   const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(
                     <Tweet
-                        sqlId={tweet.id}
-                        imgSource={tweet.tweetpictureurl}
-                        originalTweetText = {tweet.tweettext}
-                        tweetText={tweet.tweettextchatgpt}
-                        tweetUrl={tweet.tweeturl}
-                        videoSource={tweet.tweetvideourl}
-                        isApproved={tweet.isapproved}
-                        index={index}
-                        tweetsDataState={tweets}
-                        setTweetsDataState={setTweets}
+                      sqlId={tweet.id}
+                      imgSource={tweet.tweetpictureurl}
+                      originalTweetText = {tweet.tweettext}
+                      tweetText={tweet.tweettextchatgpt}
+                      personality={tweet.personality}
+                      tweetUrl={tweet.tweeturl}
+                      videoSource={tweet.tweetvideourl}
+                      isApproved={tweet.isapproved}
+                      index={index}
+                      tweetsDataState={tweets}
+                      setTweetsDataState={setTweets}
 
-                        toggleUseEffectForTweets={toggleUseEffectForTweets}
-                        setToggleUseEffectForTweets={setToggleUseEffectForTweets}
-
-
+                      toggleUseEffectForTweets={toggleUseEffectForTweets}
+                      setToggleUseEffectForTweets={setToggleUseEffectForTweets}
                     />)
               })}
               </ul>
@@ -153,6 +152,7 @@ function ContentDashboard() {
                         imgSource={tweet.tweetpictureurl}
                         originalTweetText = {tweet.tweettext}
                         tweetText={tweet.tweettextchatgpt}
+                        personality={tweet.personality}
                         tweetUrl={tweet.tweeturl}
                         videoSource={tweet.tweetvideourl}
                         isApproved={tweet.isapproved}

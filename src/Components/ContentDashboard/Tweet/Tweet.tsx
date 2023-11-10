@@ -1,8 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import updateIsApproved from "../../../Functionalities/updateIsApproved";
 import updateTweetText from "../../../Functionalities/updateTweetText";
 import classnames from 'classnames';
 import TextareaAutosize from 'react-textarea-autosize';
+import getChatGpt from "../../../Functionalities/GetChatGpt";
+import declineTweetPicture from "../../../Functionalities/DeclineTweetPicture";
+import declineTweetVideo from "../../../Functionalities/DeclineTweetVideo";
 
 
 interface TweetSql {
@@ -26,6 +29,7 @@ interface Props {
   videoSource?: string | null;
   isApproved: string;
   originalTweetText: string;
+  personality:string|null;
 
   index:number;
   tweetsDataState:TweetSql[];
@@ -36,12 +40,15 @@ interface Props {
 }
 
 function Tweet(props: Props) {
-  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets} = props;
+  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets} = props;
   const [approvalStatus, setApprovalStatus] = useState<string>("");
   const [displayedText, setDisplayedText] = useState<string>(tweetText);
   const [buttonText, setButtonText] = useState<string>('Original Text');
   const [isEditing, setIsEditing] = useState(false);
   const [isComparing, setIsComparing] = useState(false);
+
+  const [videoSourceState, setVideoSourceState] = useState<string|null|undefined>(videoSource);
+  const [imageSourceState, setImageSourceState] = useState<string|null|undefined>(imgSource);
 
   const [isTextareaFocused, setIsTextareaFocused] = useState(false);
 
@@ -76,8 +83,8 @@ function Tweet(props: Props) {
   const handleDecline = async () => {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "declined", sqlId);
-      setApprovalStatus("declined");
       setToggleUseEffectForTweets(!toggleUseEffectForTweets)
+      setApprovalStatus("declined");
     }
   };
   
@@ -95,11 +102,44 @@ function Tweet(props: Props) {
   };
 
 
+  const declineImage = async  () => {
+    await declineTweetPicture(tweetUrl,sqlId);
+    setImageSourceState(null)
+
+  }
+
+  const declineVideo = async  () => {
+    await declineTweetVideo(tweetUrl,sqlId);
+    setVideoSourceState(null);
+
+  }
+
+  const handleRephrase = async  () => {
+    let gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT: ${tweetText}`);
+    if (gptResponse && gptResponse.startsWith('"')) {
+      gptResponse = gptResponse.substring(1);
+    }
+    if (gptResponse === displayedText || gptResponse === tweetText){
+      let gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT ONCE MORE: ${tweetText}`);
+    }
+
+    if(gptResponse && tweetUrl){
+      setDisplayedText(gptResponse)
+      await updateTweetText(tweetUrl, String(gptResponse), sqlId);
+      // await handleSave()
+    }
+
+    
+  }
+
+
   const BUTTON_STYLING =classnames('text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
   const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap')
   const TWEET_TEXT = classnames('text-xs sm:text-sm')
   const BORDER_STYLING = classnames('border border-2 border-secondary')
   const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl')
+  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl')
+  
   return (
     <div
       id={`Tweet ${index+1}`}
@@ -125,12 +165,17 @@ function Tweet(props: Props) {
                 />
               </div>
             ) : (
-              <div className="flex flex-col gap-1 min-w-1/3 group relative">
+              <div className="flex flex-col gap-1 min-w-1/3 ">
                 <h2 className={`${INFO_TEXT}`}>ChatGpt Text</h2>
-                <p className={`${TWEET_TEXT} transition-opacity opacity-100 group-hover:opacity-70`}>{tweetText}</p>
-                <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-75">
-                  <button className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-highlight hover:border-highlight hover:bg-accent hover:shadow-2xl`}>Re-Rephrase</button>
-                </div>
+                <p className={`${TWEET_TEXT} group relative transition-opacity opacity-100 group-hover:opacity-70`} style={{ position: 'relative', zIndex: 1 }}>
+                  {tweetText}
+                  <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-75 whitespace-nowrap" style={{ zIndex: 2, pointerEvents: 'none' }}>
+                    <button onClick={handleRephrase} className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl`} style={{ pointerEvents: 'auto' }}>
+                      Re-Rephrase
+                    </button>
+                  </div>
+                </p>
+
               </div>
 
           )}
@@ -143,25 +188,50 @@ function Tweet(props: Props) {
           className={`${TWEET_TEXT} w-full m-1 resize-none text-center ${BORDER_STYLING} focus:outline-primary`}
         />
       ) : (
-        <h1 className={`${TWEET_TEXT} w-full group relative`}>{displayedText}
-          <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-75">
-          <button className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-highlight hover:border-highlight hover:bg-accent hover:shadow-2xl`}>Re-Rephrase</button>
-        </div></h1>
+        <h1 className={`${TWEET_TEXT} w-full group relative`} style={{ position: 'relative', zIndex: 1 }}>
+          {displayedText}
+          <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-75 whitespace-nowrap" style={{ zIndex: 2, pointerEvents: 'none' }}>
+            <button onClick={handleRephrase} className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 ${BUTTON_SPECIAL}`} style={{ pointerEvents: 'auto' }}>
+              Re-Rephrase
+            </button>
+          </div>
+        </h1>
+
         
       )}
-       {imgSource && (
-        <img
-          src={imgSource}
-          className="w-full"
-        />
+       {imageSourceState && (
+        <div className="w-full group relative flex flex-col items-center">
+          <img
+            src={imageSourceState}
+            className="w-full group-hover:opacity-75"
+          />
+          <button 
+             onClick={declineImage}
+             className={`${BUTTON_SPECIAL} whitespace-nowrap pointer-events-auto hidden group-hover:block absolute top-1/2`}
+           >
+             Decline {videoSource ? 'Video' : 'Image'}
+           </button>
+        </div>
       )}
-      {videoSource && (
-        <video 
-        className="w-full"
-        controls>
-          <source src={videoSource} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+      {videoSourceState && (
+       <div className="group relative w-full">
+         <video 
+           className="w-full transition-opacity duration-300 group-hover:opacity-75"
+           controls
+           style={{ zIndex: 1 }}
+         >
+           <source src={videoSourceState} type="video/mp4" />
+           Your browser does not support the video tag.
+         </video>
+         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+           <button 
+             onClick={declineVideo}
+             className={`${BUTTON_SPECIAL} whitespace-nowrap pointer-events-auto hidden group-hover:block `}
+           >
+             Decline {videoSourceState ? 'Video' : 'Image'}
+           </button>
+         </div>
+       </div>
       )}
 
       <div id="tweetButtonContainer" className="flex flex-row gap-1 flex-wrap justify-center mt-2">
@@ -178,5 +248,7 @@ function Tweet(props: Props) {
     </div>
   );
 }
+
+
 
 export default Tweet;
