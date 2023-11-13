@@ -43,6 +43,10 @@ function Tweet(props: Props) {
   let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets} = props;
   const [approvalStatus, setApprovalStatus] = useState<string>("");
   const [displayedText, setDisplayedText] = useState<string>(tweetText);
+
+  const [stateOriginalText, setStateOriginalText] = useState<string>(originalTweetText);
+  const [stateGptText, setStateGptText] = useState<string>(tweetText)
+
   const [buttonText, setButtonText] = useState<string>('Original Text');
   const [isEditing, setIsEditing] = useState(false);
   const [isComparing, setIsComparing] = useState(false);
@@ -93,10 +97,11 @@ function Tweet(props: Props) {
       setDisplayedText(originalTweetText);
       setButtonText('ChatGPT Text');
     } else {
-      setDisplayedText(tweetText);
+      setDisplayedText(stateGptText);
       setButtonText('Original Text');
     }
   }; 
+  
   const handleCompare = () => {
     setIsComparing(!isComparing);
   };
@@ -124,10 +129,13 @@ function Tweet(props: Props) {
     }
 
     if(gptResponse && tweetUrl){
+      setStateGptText(gptResponse)
       setDisplayedText(gptResponse)
       await updateTweetText(tweetUrl, String(gptResponse), sqlId);
       // await handleSave()
     }
+
+    
 
     
   }
@@ -168,7 +176,7 @@ function Tweet(props: Props) {
               <div className="flex flex-col gap-1 min-w-1/3 ">
                 <h2 className={`${INFO_TEXT}`}>ChatGpt Text</h2>
                 <p className={`${TWEET_TEXT} group relative transition-opacity opacity-100 group-hover:opacity-70`} style={{ position: 'relative', zIndex: 1 }}>
-                  {tweetText}
+                  {stateGptText}
                   <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-75 whitespace-nowrap" style={{ zIndex: 2, pointerEvents: 'none' }}>
                     <button onClick={handleRephrase} className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl`} style={{ pointerEvents: 'auto' }}>
                       Re-Rephrase

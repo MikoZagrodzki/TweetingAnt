@@ -108,7 +108,9 @@ function ContentDashboard() {
         ))}
       </select>
       <button className={BUTTON_STYLING} onClick={handleApply}>Apply</button>
-      <a href="#approvedTweets" className={`md:hidden ${BUTTON_STYLING}`}>Approved Tweets</a>
+      {filteredTweets.some((tweet) => tweet.isapproved === 'approved') &&
+        <a href="#approvedTweets" className={`md:hidden ${BUTTON_STYLING}`}>Approved Tweets</a> 
+      }
       {filtersApplied && (
         <button className={BUTTON_STYLING} onClick={handleShowAll}>
           Show All
