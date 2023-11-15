@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { TwitterAccountType } from "../../TypesApi";
 import PopupBurstAttack from "./PopupBurstAttack/PopupBurstAttack";
 import { getPersonalityList } from "../../SQL";
+import classnames from 'classnames';
 
 interface Props {
 }
@@ -53,6 +54,14 @@ function Main() {
       account.loginNameTwitter.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const BUTTON_STYLING =classnames('text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md');
+  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
+  const TWEET_TEXT = classnames('text-xs sm:text-sm');
+  const BORDER_STYLING = classnames('border border-2 border-secondary');
+  const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
+  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
+  
+
   return (
     <div id="top" className="  min-h-screen w-screen flex flex-col items-center">
       {/* <a href="#top" className=" fixed z-20 bottom-10 right-10 font-extrabold text-2xl bg-highlight rounded-lg text-accent p-1 shadow-lg border border-accent hover:text-highlight hover:border-highlight hover:bg-accent">^</a> */}
@@ -64,7 +73,8 @@ function Main() {
             setDbTrigger={setDbTrigger}
           />
           <PopupBurstAttack twitterAccounts={twitterAccounts} setTwitterAccounts={setTwitterAccounts}/>
-          <button className="text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md" onClick={handleLogout}> Log out </button>
+          <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/', { replace: true })}}>Content</button>
+          <button className={`${BUTTON_STYLING}`} onClick={handleLogout}> Log out </button>
         </div>
       </div>
       <div className="flex flex-row p-2 text-xs sm:text-sm md:text-base">

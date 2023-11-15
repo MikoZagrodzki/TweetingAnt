@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Tweet from "./Tweet/Tweet";
 import getAllScrapedTweets from "../../Functionalities/GetAllScrapedTweets";
 import classnames from 'classnames';
+import { useAuth } from "../../AuthContext";
+import { useNavigate } from "react-router-dom";
 
 
 interface Tweet {
@@ -17,6 +19,8 @@ interface Tweet {
 }
 
 function ContentDashboard() {
+  const { currentUser }: any = useAuth();
+
   const [tweets, setTweets] = useState<Tweet[] | []>([]);
   const [filteredTweets, setFilteredTweets] = useState<Tweet[] | []>([]);
   const [filtersApplied, setFiltersApplied] = useState<boolean>(false);
@@ -25,6 +29,7 @@ function ContentDashboard() {
 
   const[toggleUseEffectForTweets, setToggleUseEffectForTweets] = useState<boolean>(false);
 
+  const navigate = useNavigate();
 
   const getTweets = async () => {
     const tweetsData = await getAllScrapedTweets();
@@ -66,7 +71,8 @@ function ContentDashboard() {
   }
 
   useEffect(() => {
-    setTweets([])
+    setTweets([]);
+    setFilteredTweets([]);
     getTweets();
   }, [toggleUseEffectForTweets]);
 
@@ -82,6 +88,16 @@ function ContentDashboard() {
     <div id='top' className="min-h-screen w-screen mt-10 mb-10 flex flex-col items-center gap-y-10">
       <a href="#top" className=" fixed z-20 bottom-10 right-10 font-extrabold text-2xl bg-highlight rounded-lg text-accent p-1 shadow-lg border border-accent hover:text-highlight hover:border-highlight hover:bg-accent">^</a>
       <h1 className="">Content Dashboard</h1>
+      {tweets.length >0 && 
+        <div className={`${INFO_TEXT} flex flex-col md:flex-row items-center gap-3 `}>
+          {tweets.filter(tweet => tweet.isapproved === 'pending')&&
+            <p>Tweets awaiting approval: {tweets.filter(tweet => tweet.isapproved === 'pending').length}</p>
+          }
+          {tweets.filter(tweet => tweet.isapproved === 'approved')&&
+            <p>Approved Tweets: {tweets.filter(tweet => tweet.isapproved === 'approved').length}</p>
+          }
+        </div>
+      }
       <div id="selection_bar" className="flex flex-row gap-1 justify-center flex-wrap">
         <select
           value={personality || ""}
@@ -116,6 +132,9 @@ function ContentDashboard() {
           Show All
         </button>
       )}
+      {currentUser.email!=="maciek@maciek.maciek"&&
+        <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/main', { replace: true })}}>Main</button>
+      }
       </div>
           <div id="tweetLists" className="flex flex-col md:flex-row">
             {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
