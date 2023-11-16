@@ -6,6 +6,8 @@ import TextareaAutosize from 'react-textarea-autosize';
 import getChatGpt from "../../../Functionalities/GetChatGpt";
 import declineTweetPicture from "../../../Functionalities/DeclineTweetPicture";
 import declineTweetVideo from "../../../Functionalities/DeclineTweetVideo";
+import { CSSTransition } from 'react-transition-group';
+
 
 
 interface TweetSql {
@@ -124,8 +126,6 @@ function Tweet(props: Props) {
     if(buttonText==='Original Text'){
       setButtonText('ChatGPT Text');
     }
-
-
   }; 
   
   const handleCompare = () => {
@@ -158,6 +158,41 @@ function Tweet(props: Props) {
     setHideButton("")  
   }
 
+///////ANIMATION
+  const [inView, setInView] = useState(false);
+
+  const handleScroll = () => {
+    const windowHeight = window.innerHeight;
+    const windowTop = window.scrollY;
+    const windowBottom = windowTop + windowHeight;
+
+    const element = document.getElementById(`${isApproved==="pending"? "Pending": "Approved"} Tweet ${index + 1}`);
+    if (element) {
+      const elementHeight = element.offsetHeight;
+      const elementTop = element.offsetTop;
+      const elementBottom = elementTop + elementHeight;
+
+      if (elementBottom >= windowTop && elementTop <= windowBottom) {
+        setInView(true);
+      } else {
+        setInView(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Trigger initial check on component mount
+    handleScroll();
+  }, []);
+////////END OF ANIMATION
+
   const BUTTON_STYLING =classnames('text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md');
   const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
   const TWEET_TEXT = classnames('text-xs sm:text-sm');
@@ -166,6 +201,11 @@ function Tweet(props: Props) {
   const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
   
   return (
+    <CSSTransition
+      in={inView}
+      classNames="fade"
+      timeout={500}
+    >
     <div
     key={sqlId}
       id={`${isApproved==="pending"? "Pending": "Approved"} Tweet ${index + 1}`}
@@ -288,6 +328,7 @@ function Tweet(props: Props) {
         {stateGptText !== stateOriginalText && <button className={`${BUTTON_STYLING} ${hideButton}`} onClick={handleCompare}>{isComparing?'Stop Comparing':'Compare'}</button>
 }      </div>
     </div>
+    </CSSTransition>
   );
 }
 

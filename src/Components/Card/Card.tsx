@@ -98,8 +98,7 @@ function Card(props: Props) {
     // Trigger initial check on component mount
     handleScroll();
   }, []);
-
-  ////////END OF ANIMATION
+////////END OF ANIMATION
 
 
   return (
