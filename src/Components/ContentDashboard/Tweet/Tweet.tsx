@@ -30,39 +30,34 @@ interface Props {
   isApproved: string;
   originalTweetText: string;
   personality:string|null;
-
   index:number;
   tweetsDataState:TweetSql[];
   setTweetsDataState: React.Dispatch<React.SetStateAction<[] | TweetSql[]>>;
-
   toggleUseEffectForTweets:boolean;
   setToggleUseEffectForTweets:React.Dispatch<React.SetStateAction<|boolean>>;
 }
 
 function Tweet(props: Props) {
   let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets} = props;
-  const [approvalStatus, setApprovalStatus] = useState<string>("");
-
   const [stateOriginalText, setStateOriginalText] = useState<string>(originalTweetText);
   const [stateGptText, setStateGptText] = useState<string>(tweetText)
-
   const [buttonText, setButtonText] = useState<string>('Original Text');
   const [isEditing, setIsEditing] = useState(false);
   const [isComparing, setIsComparing] = useState(false);
-
   const [videoSourceState, setVideoSourceState] = useState<string|null|undefined>(videoSource);
   const [imageSourceState, setImageSourceState] = useState<string|null|undefined>(imgSource);
-
-  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
-
   const [hideButton, setHideButton] = useState("");
+  const [stateGptValueBeforeEdit, setStateGptValueBeforeEdit] = useState<string>("");
 
-  
+
+  const handleCancelButton = () => {
+    setIsEditing(false);
+    setStateGptText(stateGptValueBeforeEdit);
+  }
+
   const handleEdit = () => {
     setIsEditing(true);
-    // if(buttonText==="ChatGPT Text"){
-    //   setStateGptText(originalTweetText)
-    // }
+    setStateGptValueBeforeEdit(stateGptText)
   };
   
   const handleSave = async () => {
@@ -88,20 +83,6 @@ function Tweet(props: Props) {
     }
   };
   
-  // const handleTextAreaChange = (event:any) => {
-  //   if(buttonText=== "ChatGPT Text"){
-  //     if(stateOriginalText===originalTweetText){
-  //       setStateOriginalText(event.target.value);
-  //     }else{
-  //       setStateOriginalText(event.target.value);
-  //       setStateGptText(event.target.value);
-  //     }
-  //   }else{
-  //     setStateGptText(event.target.value);
-
-  //   }
-  // };
-
   const handleTextAreaChange = (event: any) => {
     if (buttonText === "ChatGPT Text") {
       if (stateOriginalText === originalTweetText && event.target.value !== originalTweetText) {
@@ -121,12 +102,10 @@ function Tweet(props: Props) {
     }
   };
   
-
   const handleApprove = async () => {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "approved", sqlId);
       await updateTweetText(tweetUrl, stateGptText, sqlId);
-      setApprovalStatus("approved");
       setToggleUseEffectForTweets(!toggleUseEffectForTweets);
     }
   };
@@ -135,7 +114,6 @@ function Tweet(props: Props) {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "declined", sqlId);
       setToggleUseEffectForTweets(!toggleUseEffectForTweets);
-      setApprovalStatus("declined");
     }
   };
   
@@ -174,6 +152,7 @@ function Tweet(props: Props) {
     }
     if(gptResponse && tweetUrl){
       setStateGptText(gptResponse);
+      setButtonText('Original Text');
       await updateTweetText(tweetUrl, String(gptResponse), sqlId);
     }
     setHideButton("")  
@@ -212,8 +191,6 @@ function Tweet(props: Props) {
                   value={stateGptText}
                   onChange={handleTextAreaChange}
                   minRows={2}
-                  onFocus={() => setIsTextareaFocused(true)}
-                  onBlur={() => setIsTextareaFocused(false)}
                   className={`${TWEET_TEXT} w-full resize-none text-center px-1 ${BORDER_STYLING} focus:outline-primary`}
                 />
               </div>
@@ -238,7 +215,7 @@ function Tweet(props: Props) {
         // EDITION IN NORMAL MODE
       ) : isEditing ? (
         <TextareaAutosize
-          // value={stateGptText}
+          // IT CHANGES ITS VALUE BASED ON WHICH TEXT YOU ARE DISPLAYING - EITHER ORIGINAL/GPT
           value={(buttonText === 'ChatGPT Text' && stateOriginalText === originalTweetText) ? stateOriginalText : stateGptText}
           onChange={handleTextAreaChange}
           minRows={2}
@@ -300,6 +277,7 @@ function Tweet(props: Props) {
       {/* BUTTONS SECTION */}
       <div id="tweetButtonContainer" className="flex flex-row gap-1 flex-wrap justify-center mt-2">
         {isApproved==='pending'&&!isEditing&&(<button className={BUTTON_STYLING} onClick={handleApprove}>Approve</button>)}
+        {isEditing && <button onClick={handleCancelButton} className={`${BUTTON_STYLING}`}>Cancel</button>}
         {isEditing ? (
           <button className={BUTTON_STYLING} onClick={handleSave}>Save</button>
         ) : (
