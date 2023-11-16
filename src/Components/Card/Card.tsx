@@ -67,6 +67,8 @@ function Card(props: Props) {
 
 ///////ANIMATION
   const [inView, setInView] = useState(false);
+  const offset = -100;
+
 
   const handleScroll = () => {
     const windowHeight = window.innerHeight;
@@ -79,7 +81,7 @@ function Card(props: Props) {
       const elementTop = element.offsetTop;
       const elementBottom = elementTop + elementHeight;
 
-      if (elementBottom >= windowTop && elementTop <= windowBottom) {
+      if (elementBottom >= windowTop + offset && elementTop <= windowBottom - offset) {
         setInView(true);
       } else {
         setInView(false);
