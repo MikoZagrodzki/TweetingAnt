@@ -109,7 +109,7 @@ function Card(props: Props) {
         timeout={500}
       >
     <div id={twitterAccount} className="in-view flex flex-col w-full ">
-      <div className="flex flex-col items-start space-x-5 border-2 border-secondary p-3 w-80 max-w-full sm:w-52 md:w-60">
+      <div className="flex flex-col items-start space-x-5 border-2 border-secondary p-3 w-72 max-w-full sm:w-52 md:w-60">
         <p className="text-sm sm:text-base font-semibold">{twitterAccount}</p>
         <p className="text-xs sm:text-sm sm:h-10">{twitterClassAccount?.personality}</p>
         <div className="Card-automation-container flex flex-row w-full space-x-5 py-1 items-center">

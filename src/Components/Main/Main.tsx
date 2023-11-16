@@ -9,6 +9,8 @@ import { TwitterAccountType } from "../../TypesApi";
 import PopupBurstAttack from "./PopupBurstAttack/PopupBurstAttack";
 import { getPersonalityList } from "../../SQL";
 import classnames from 'classnames';
+import { v4 as uuidv4 } from "uuid";
+
 
 interface Props {
 }
@@ -20,6 +22,12 @@ function Main() {
   const [dbTrigger, setDbTrigger] = useState<boolean>(false);
   const [personalityList, setPersonalityList] = useState<string[] | []>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchPersonality, setSearchPersonality] = useState<string>("");
+  const [searchEmail, setSearchEmail] = useState<string>("");
+
+  const [isAdvancedSearchVisible, setIsAdvancedSearchVisible] = useState<boolean>(false);
+
+  const [filteredTwitterAccounts, setFilteredTwitterAccounts]=useState<TwitterAccountType[] | []>(twitterAccounts)
   
   const navigate = useNavigate();
 
@@ -37,6 +45,7 @@ function Main() {
     try {
       const responseWithClasses = await generateTwitterAccounts(currentUser.email);
       setTwitterAccounts(responseWithClasses);
+      setFilteredTwitterAccounts(responseWithClasses)
       const personality = await getPersonalityList();
       setPersonalityList(personality);
 
@@ -49,10 +58,47 @@ function Main() {
     getLoginDataFromEmailFromSql();
   }, [dbTrigger]);
 
-  const filteredTwitterAccounts = twitterAccounts.filter(
-    (account) =>
-      account.loginNameTwitter.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  let emailsNoDuplicates = twitterAccounts.map((account)=> { return account.email}).sort();
+  let personalitiesNoDuplicates = twitterAccounts.map((account)=> { return account.personality}).sort();
+
+  let emailsWhenPersonalitySelected = twitterAccounts.filter((x)=>x.personality === searchPersonality).map((account)=> { return account.email}).sort();
+  let personalityWhenEmailSelected = twitterAccounts.filter((x)=>x.email === searchEmail).map((account)=> { return account.personality}).sort();
+
+  
+  const handleEmailSearch = (emailToSearch: string) => {
+    setSearchEmail(emailToSearch);
+    if (emailToSearch !== "") {
+      setFilteredTwitterAccounts(
+        twitterAccounts.filter((account) =>
+          account.email.toLowerCase().includes(emailToSearch.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredTwitterAccounts(twitterAccounts);
+    }
+  }
+
+  const handlePersonalitySearch = (personalityToSearch: string) => {
+    setSearchPersonality(personalityToSearch);
+    if (personalityToSearch !== "") {
+      setFilteredTwitterAccounts(
+        twitterAccounts.filter((account) =>
+          account.personality.toLowerCase().includes(personalityToSearch.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredTwitterAccounts(twitterAccounts);
+    }
+  }
+  
+  const handleSearchByName = (name:string) => {
+    setSearchTerm(name);
+    setFilteredTwitterAccounts(twitterAccounts.filter(
+      (account) =>
+        account.loginNameTwitter.toLowerCase().includes(name.toLowerCase())
+    ))
+  }
+  
 
   const BUTTON_STYLING =classnames('text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md');
   const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
@@ -62,12 +108,13 @@ function Main() {
   const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
   
 
+
   return (
     <div id="top" className="  min-h-screen w-screen flex flex-col items-center">
       <a href="#top" className=" fixed z-20 bottom-10 right-10 font-extrabold text-2xl bg-highlight rounded-lg text-accent p-1 shadow-lg border border-accent hover:text-highlight hover:border-highlight hover:bg-accent">^</a>
       <div className="my-10 flex flex-col space-y-5 items-center">
         <h1 className="font-semibold text-center text-md sm:text-lg md:text-xl">{currentUser.email} is logged in.</h1>
-        <div className="flex flex-row space-x-3">
+        <div className="flex flex-row space-x-1 sm:space-x-2 md:space-x-3">
           <PopupAddAccount
             dbTrigger={dbTrigger}
             setDbTrigger={setDbTrigger}
@@ -76,16 +123,49 @@ function Main() {
           <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/', { replace: true })}}>Content</button>
           <button className={`${BUTTON_STYLING}`} onClick={handleLogout}> Log out </button>
         </div>
+        {filteredTwitterAccounts.length >0 && <p className={`${INFO_TEXT}`}>{filteredTwitterAccounts.length} Accounts</p>}
       </div>
-      <div className="flex flex-row p-2 text-xs sm:text-sm md:text-base">
-        <input
-          className="shadow-md rounded-sm text-center border border-primary focus:outline-accent"
-          type="text"
-          placeholder="Search by username 🔎"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(String(e.target.value))}
-        />
-        
+      <div className="flex flex-row p-2 text-xs sm:text-sm md:text-base w-full justify-center ">
+        {isAdvancedSearchVisible?
+          <div className={`flex flex-col gap-2 md:flex-row w-full items-center md:justify-center `}>
+            <select value={searchPersonality} onChange={(e) => handlePersonalitySearch(String(e.target.value))} className={`${BUTTON_STYLING} w-4/6  md:w-1/3`}>
+              <option key={uuidv4()} value={""}>All Personalities</option>
+              {searchEmail === ""
+                ? Array.from(new Set(personalitiesNoDuplicates)).map( (personality) => (
+                    <option key={uuidv4()} value={personality}>{personality}</option> 
+                  ))
+                :
+                Array.from(new Set(personalityWhenEmailSelected)).map( (personality) => (
+                  <option key={uuidv4()} value={personality}>{personality}</option> 
+                ))
+              }
+            </select>
+            <select value={searchEmail} onChange={(e) => handleEmailSearch(String(e.target.value))} className={`${BUTTON_STYLING} w-4/6 md:w-1/3`}>
+              <option key={uuidv4()} value="">All Emails</option>
+              {searchPersonality === ""
+                ? Array.from(new Set(emailsNoDuplicates)).map((email) => (
+                    <option key={uuidv4()} value={email}>{email}</option>
+                  ))
+                : 
+                Array.from(new Set(emailsWhenPersonalitySelected)).map((email) => (
+                  <option key={uuidv4()} value={email}>{email}</option>
+                ))
+              }
+            </select>
+            <button onClick={()=>{setIsAdvancedSearchVisible(false)}} className={`${BUTTON_STYLING} max-w-fit`}>Search by name</button>
+          </div>
+          :
+          <div className={`flex flex-row gap-2 `}>
+            <input
+              className="shadow-md rounded-sm text-center border border-primary focus:outline-accent px-1"
+              type="text"
+              placeholder="Search by username 🔎"
+              value={searchTerm}
+              onChange={(e) => handleSearchByName(String(e.target.value))}
+            />
+            <button onClick={()=>{setIsAdvancedSearchVisible(true)}} className={`${BUTTON_STYLING}`}>Advanced Search</button>
+          </div>
+        }
       </div>
       <ul className="pb-10 flex flex-col space-y-5 items-center w-11/12 max-w-6xl border border-primary pt-5 sm:flex-row sm:flex-wrap sm:space-x-0 sm:space-y-0 sm:justify-center">
         {filteredTwitterAccounts.length > 0 ? (
