@@ -147,11 +147,16 @@ function Tweet(props: Props) {
 
   const handleRephrase = async  () => {
     let gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT: ${stateOriginalText === stateGptText ? stateOriginalText : stateGptText}`);
+
+    if (gptResponse === stateGptText || gptResponse === tweetText){
+      gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT ONCE MORE: ${gptResponse}`);
+    }
+    
     if (gptResponse && gptResponse.startsWith('"')) {
       gptResponse = gptResponse.substring(1);
     }
-    if (gptResponse === stateGptText || gptResponse === tweetText){
-      let gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT ONCE MORE: ${stateOriginalText === stateGptText ? stateOriginalText : stateGptText}`);
+    if (gptResponse && gptResponse.endsWith('"')) {
+      gptResponse = gptResponse.slice(0, -1);
     }
     if(gptResponse && tweetUrl){
       setStateGptText(gptResponse);
@@ -161,7 +166,7 @@ function Tweet(props: Props) {
     setHideButton("")  
   }
 
-///////ANIMATION
+/////// ANIMATION ///////////////////////////////////////////////////////////////
   const [inView, setInView] = useState(false);
   const offset = -100;
 
@@ -195,7 +200,7 @@ function Tweet(props: Props) {
     // Trigger initial check on component mount
     handleScroll();
   }, []);
-////////END OF ANIMATION
+//////// END OF ANIMATION ////////////////////////////////////////////////////////
 
   const BUTTON_STYLING =classnames('text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md');
   const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
