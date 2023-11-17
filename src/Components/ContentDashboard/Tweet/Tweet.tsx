@@ -88,7 +88,7 @@ function Tweet(props: Props) {
   const handleTextAreaChange = (event: any) => {
     if (buttonText === "ChatGPT Text") {
       if (stateOriginalText === originalTweetText && event.target.value !== originalTweetText) {
-        setStateOriginalText(event.target.value);
+        setStateOriginalText(originalTweetText); // Set stateOriginalText to originalTweetText
         setStateGptText(event.target.value); // Set GPT text to user modifications
         setButtonText("Original Text"); // Set the button text to "Original Text" once the user starts modifying
       } else {
@@ -96,6 +96,7 @@ function Tweet(props: Props) {
         if (!hasOriginalText) {
           setStateGptText(originalTweetText + event.target.value); // Combine original text and user modifications
         } else {
+          // setStateOriginalText(originalTweetText);
           setStateGptText(event.target.value);
         }
       }
@@ -103,6 +104,8 @@ function Tweet(props: Props) {
       setStateGptText(event.target.value);
     }
   };
+  
+
   
   const handleApprove = async () => {
     if (tweetUrl) {
