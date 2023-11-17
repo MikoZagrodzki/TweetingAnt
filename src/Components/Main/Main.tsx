@@ -64,30 +64,37 @@ function Main() {
   let emailsWhenPersonalitySelected = twitterAccounts.filter((x)=>x.personality === searchPersonality).map((account)=> { return account.email}).sort();
   let personalityWhenEmailSelected = twitterAccounts.filter((x)=>x.email === searchEmail).map((account)=> { return account.personality}).sort();
 
-  
   const handleEmailSearch = (emailToSearch: string) => {
     setSearchEmail(emailToSearch);
     if (emailToSearch !== "") {
-      setFilteredTwitterAccounts(
-        twitterAccounts.filter((account) =>
-          account.email.toLowerCase().includes(emailToSearch.toLowerCase())
-        )
-      );
+      const filtered = twitterAccounts.filter((account) =>
+        account.email.toLowerCase().includes(emailToSearch.toLowerCase()) &&
+        (!searchPersonality || account.personality.toLowerCase()=== searchPersonality.toLocaleLowerCase())
+      )
+      setFilteredTwitterAccounts(filtered.length>0?filtered:[])
     } else {
-      setFilteredTwitterAccounts(twitterAccounts);
+      //THIS ALLOWS YOU TO GO BACK TO ALL EMAILS/PERSONALITIES
+      const personalityFiltered = twitterAccounts.filter((account) =>
+      !searchPersonality || account.personality?.toLowerCase() === searchPersonality.toLowerCase()
+      );
+      setFilteredTwitterAccounts(personalityFiltered.length > 0 ? personalityFiltered : []);
     }
   }
 
   const handlePersonalitySearch = (personalityToSearch: string) => {
     setSearchPersonality(personalityToSearch);
     if (personalityToSearch !== "") {
-      setFilteredTwitterAccounts(
-        twitterAccounts.filter((account) =>
-          account.personality.toLowerCase().includes(personalityToSearch.toLowerCase())
-        )
-      );
+      const filtered = twitterAccounts.filter((account) =>
+      account.personality.toLowerCase().includes(personalityToSearch.toLowerCase()) &&
+      (!searchEmail|| account.email.toLowerCase()===searchEmail.toLowerCase())
+      )
+      setFilteredTwitterAccounts(filtered.length>0?filtered:[])
     } else {
-      setFilteredTwitterAccounts(twitterAccounts);
+      //THIS ALLOWS YOU TO GO BACK TO ALL EMAILS/PERSONALITIES
+      const emailFiltered = twitterAccounts.filter((account) =>
+      !searchEmail || account.email?.toLowerCase() === searchEmail.toLowerCase()
+      );
+      setFilteredTwitterAccounts(emailFiltered.length > 0 ? emailFiltered : []);
     }
   }
   
@@ -98,8 +105,13 @@ function Main() {
         account.loginNameTwitter.toLowerCase().includes(name.toLowerCase())
     ))
   }
-  
 
+  const handleShowAll = () => {
+    setFilteredTwitterAccounts(twitterAccounts);
+    setSearchPersonality("");
+    setSearchEmail("");
+  }  
+  
   const BUTTON_STYLING =classnames('text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md');
   const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
   const TWEET_TEXT = classnames('text-xs sm:text-sm');
@@ -127,7 +139,7 @@ function Main() {
       </div>
       <div className="flex flex-row p-2 text-xs sm:text-sm md:text-base w-full justify-center ">
         {isAdvancedSearchVisible?
-          <div className={`flex flex-col gap-2 md:flex-row w-full items-center md:justify-center `}>
+          <div className={`flex flex-col gap-2 md:flex-row w-full max-w-6xl items-center md:justify-center `}>
             <select value={searchPersonality} onChange={(e) => handlePersonalitySearch(String(e.target.value))} className={`${BUTTON_STYLING} w-4/6  md:w-1/3`}>
               <option key={uuidv4()} value={""}>All Personalities</option>
               {searchEmail === ""
@@ -152,7 +164,12 @@ function Main() {
                 ))
               }
             </select>
-            <button onClick={()=>{setIsAdvancedSearchVisible(false)}} className={`${BUTTON_STYLING} max-w-fit`}>Search by name</button>
+            <div className="max-w-fit flex flex-row items-center space-x-1 sm:space-x-2 md:space-x-3">
+              <button onClick={()=>{setIsAdvancedSearchVisible(false)}} className={`${BUTTON_STYLING} max-w-fit`}>Search by name</button>
+              {(searchPersonality !== "" || searchEmail !== "") && 
+                (<button className={BUTTON_STYLING} onClick={handleShowAll}>Show All</button>
+              )}
+            </div>
           </div>
           :
           <div className={`flex flex-row gap-2 `}>
