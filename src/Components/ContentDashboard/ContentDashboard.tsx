@@ -34,9 +34,9 @@ function ContentDashboard() {
 
   const [tweets, setTweets] = useState<Tweet[] | []>([]);
   const [filteredTweets, setFilteredTweets] = useState<Tweet[] | []>([]);
-  const [searchPersonality, setSearchPersonality] = useState<string>("")
-  const [searchTweetType, setSearchTweetType] = useState<string>("")
-
+  const [searchPersonality, setSearchPersonality] = useState<string>("");
+  const [searchTweetType, setSearchTweetType] = useState<string>("");
+  const [sortValue, setSortValue] = useState<string>("");
 
   const[toggleUseEffectForTweets, setToggleUseEffectForTweets] = useState<boolean>(false);
 
@@ -88,6 +88,9 @@ function ContentDashboard() {
   
       setFilteredTweets(tweetTypeFiltered.length > 0 ? tweetTypeFiltered : []);
     }
+    if(sortValue!==""){
+      setSortValue("");
+    }
   };
   
   const handleTweetTypeSearch = (tweetTypeToSearch: string) => {
@@ -109,12 +112,58 @@ function ContentDashboard() {
   
       setFilteredTweets(personalityFiltered.length > 0 ? personalityFiltered : []);
     }
+    if(sortValue!==""){
+      setSortValue("");
+    }
+  };
+
+  const handleSortBy = (sortBy: string)=>{
+    setSortValue(sortBy);
+    const sortedTweets = [...filteredTweets];
+    switch (sortBy) {
+      case "Most Replaied":
+        sortedTweets.sort((a, b) => (b.replies || 0) - (a.replies || 0));
+        break;
+      case "Least Replaied":
+        sortedTweets.sort((a, b) => (a.replies || 0) - (b.replies || 0));
+        break;
+      case "Most Viewed":
+        sortedTweets.sort((a, b) => (b.views || 0) - (a.views || 0));
+        break;
+      case "Least Viewed":
+        sortedTweets.sort((a, b) => (a.views || 0) - (b.views || 0));
+        break;
+      case "Most Bookmarked":
+        sortedTweets.sort((a, b) => (b.bookmarks || 0) - (a.bookmarks || 0));
+        break;
+      case "Least Bookmarked":
+        sortedTweets.sort((a, b) => (a.bookmarks || 0) - (b.bookmarks || 0));
+        break;
+      case "Most Reposted":
+        sortedTweets.sort((a, b) => (b.reposts || 0) - (a.reposts || 0));
+        break;
+      case "Least Reposted":
+        sortedTweets.sort((a, b) => (a.reposts || 0) - (b.reposts || 0));
+        break;
+      case "Most Liked":
+        sortedTweets.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        break;
+      case "Least Liked":
+        sortedTweets.sort((a, b) => (a.likes || 0) - (b.likes || 0));
+        break;
+      default:
+        // Default case: no sorting
+        break;
+    }
+
+    setFilteredTweets(sortedTweets);
   };
   
   const handleShowAll = () => {
     setFilteredTweets(tweets);
     setSearchPersonality("");
     setSearchTweetType("");
+    setSortValue("");
   }  
 
   useEffect(() => {
@@ -182,6 +231,23 @@ function ContentDashboard() {
             </option>
           ))
         }
+      </select>
+      <select 
+        className={`${BUTTON_STYLING}`}
+        value={sortValue}
+        onChange={(e) => handleSortBy(String(e.target.value))}
+      >
+        <option key='' value=''>Sort by</option>
+        <option key='Most Replaied' value='Most Replaied'>Most Replaied</option>
+        <option key='Least Replaied' value='Least Replaied'>Least Replaied</option>
+        <option key='Most Viewed' value='Most Viewed'>Most Viewed</option>
+        <option key='Least Viewed' value='Least Viewed'>Least Viewed</option>      
+        <option key='Most Bookmarked' value='Most Bookmarked'>Most Bookmarked</option>
+        <option key='Least Bookmarked' value='Least Bookmarked'>Least Bookmarked</option>      
+        <option key='Most Reposted' value='Most Reposted'>Most Reposted</option>
+        <option key='Least Reposted' value='Least Reposted'>Least Reposted</option>      
+        <option key='Most Liked' value='Most Liked'>Most Liked</option>
+        <option key='Least Liked' value='Least Liked'>Least Liked</option>
       </select>
       {filteredTweets.some((tweet) => tweet.isapproved === 'approved') &&
         <a href="#approvedTweets" className={`md:hidden ${BUTTON_STYLING}`}>Approved Tweets</a> 
