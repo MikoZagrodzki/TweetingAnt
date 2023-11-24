@@ -18,6 +18,15 @@ interface Tweet {
   isapproved: string;
   personality: string | null;
   tweettype: string | null;
+
+  time: string | null;
+  userminiimageurl: string | null;
+  twitterusername: string | null;
+  replies: number | null;
+  reposts: number | null;
+  likes: number | null;
+  bookmarks: number | null;
+  views: number | null;
 }
 
 function ContentDashboard() {
@@ -212,6 +221,9 @@ function ContentDashboard() {
 
                       toggleUseEffectForTweets={toggleUseEffectForTweets}
                       setToggleUseEffectForTweets={setToggleUseEffectForTweets}
+
+                      userminiimageurl={tweet.userminiimageurl}
+                      twitterusername={tweet.twitterusername}
                     />)
               })}
               </ul>
@@ -238,6 +250,8 @@ function ContentDashboard() {
                         toggleUseEffectForTweets={toggleUseEffectForTweets}
                         setToggleUseEffectForTweets={setToggleUseEffectForTweets}
 
+                        userminiimageurl={tweet.userminiimageurl}
+                        twitterusername={tweet.twitterusername}
                     />)
               })}
               </ul>
