@@ -198,7 +198,7 @@ function Tweet(props: Props) {
     if (number < 1000) {
       return String(number);
     }
-    
+
     const suffixes = ["", "k", "m", "b", "t"];
     const suffixNum = Math.floor(("" + number).length / 3);
     let shortValue: number = parseFloat(
@@ -380,7 +380,7 @@ function Tweet(props: Props) {
         )}
         {/* STATS SECTION */}
         {(replies || reposts || likes || bookmarks || views) && 
-          <div className="flex flex-row w-full justify-between">
+          <div id='tweetStatsSection' className="flex flex-row w-full justify-between">
             {replies !== null && replies > 0 && 
             <div className={`flex flex-row ${INFO_TEXT} text-accent gap-1`}>
               <RepliesIcon alt="Replies Icon" className={`h-4 md:h-5`} style={{ fill: '#6C82A3' }}/>

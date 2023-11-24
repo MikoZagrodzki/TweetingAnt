@@ -111,9 +111,6 @@ function ContentDashboard() {
     }
   };
   
- 
-  
-
   const handleShowAll = () => {
     setFilteredTweets(tweets);
     setSearchPersonality("");
@@ -125,7 +122,6 @@ function ContentDashboard() {
     setFilteredTweets([]);
     getTweets();
   }, [toggleUseEffectForTweets]);  
-
 
 
   const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
@@ -207,6 +203,7 @@ function ContentDashboard() {
                   const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(
                     <Tweet
+                      key={tweet.id}
                       sqlId={tweet.id}
                       imgSource={tweet.tweetpictureurl}
                       originalTweetText = {tweet.tweettext}
@@ -240,6 +237,7 @@ function ContentDashboard() {
                   const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(
                     <Tweet
+                        key={tweet.id}
                         sqlId={tweet.id}
                         imgSource={tweet.tweetpictureurl}
                         originalTweetText = {tweet.tweettext}
