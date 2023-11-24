@@ -8,6 +8,16 @@ import declineTweetPicture from "../../../Functionalities/DeclineTweetPicture";
 import declineTweetVideo from "../../../Functionalities/DeclineTweetVideo";
 import { CSSTransition } from 'react-transition-group';
 
+//@ts-ignore
+import { ReactComponent as RepliesIcon } from '../Tweet/repliesIcon.svg';
+//@ts-ignore
+import { ReactComponent as LikesIcon } from '../Tweet/likeIcon.svg';
+//@ts-ignore
+import { ReactComponent as RepostsIcon } from '../Tweet/repostIcon.svg';
+//@ts-ignore
+import { ReactComponent as ViewsIcon } from '../Tweet/viewsIcon.svg';
+//@ts-ignore
+import { ReactComponent as BookmarsIcon } from '../Tweet/bookmarkIcon.svg';
 
 
 interface TweetSql {
@@ -46,12 +56,18 @@ interface Props {
   setTweetsDataState: React.Dispatch<React.SetStateAction<[] | TweetSql[]>>;
   toggleUseEffectForTweets:boolean;
   setToggleUseEffectForTweets:React.Dispatch<React.SetStateAction<|boolean>>;
+
   userminiimageurl: string | null;
   twitterusername: string | null;
+  replies: number | null;
+  reposts: number | null;
+  likes: number | null;
+  bookmarks: number | null;
+  views: number | null;
 }
 
 function Tweet(props: Props) {
-  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets, userminiimageurl, twitterusername} = props;
+  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets, userminiimageurl, twitterusername, replies, reposts, likes, bookmarks, views } = props;
   const [stateOriginalText, setStateOriginalText] = useState<string>(originalTweetText);
   const [stateGptText, setStateGptText] = useState<string>(tweetText)
   const [buttonText, setButtonText] = useState<string>('Original Text');
@@ -176,6 +192,28 @@ function Tweet(props: Props) {
     }
     setHideButton("")  
   }
+
+/////// FORMATING NUMBERS ///////////////////////////////////////////////////////////////
+  function formatNumber(number: number): string {
+    if (number < 1000) {
+      return String(number);
+    }
+    
+    const suffixes = ["", "k", "m", "b", "t"];
+    const suffixNum = Math.floor(("" + number).length / 3);
+    let shortValue: number = parseFloat(
+      (suffixNum !== 0 ? number / Math.pow(1000, suffixNum) : number).toPrecision(2)
+    );
+    
+    if (shortValue % 1 !== 0) {
+      shortValue = parseFloat(shortValue.toFixed(1)); // Convert to number
+    }
+  
+    return String(shortValue) + suffixes[suffixNum];
+  }
+/////// END OF FORMATING NUMBERS ///////////////////////////////////////////////////////////////
+
+
 
 /////// ANIMATION ///////////////////////////////////////////////////////////////
   const [inView, setInView] = useState(false);
@@ -340,6 +378,41 @@ function Tweet(props: Props) {
           </div>
         </div>
         )}
+        {/* STATS SECTION */}
+        {(replies || reposts || likes || bookmarks || views) && 
+          <div className="flex flex-row w-full justify-between">
+            {replies !== null && replies > 0 && 
+            <div className={`flex flex-row ${INFO_TEXT} text-accent gap-1`}>
+              <RepliesIcon alt="Replies Icon" className={`h-4 md:h-5`} style={{ fill: '#6C82A3' }}/>
+              <p>{formatNumber(replies)}</p>
+            </div>
+            }
+            {reposts !== null && reposts > 0 && 
+            <div className={`flex flex-row ${INFO_TEXT} text-accent gap-1`}>
+              <RepostsIcon alt="Replies Icon" className={`h-4 md:h-5`} style={{ fill: '#6C82A3' }}/>
+              <p>{formatNumber(reposts)}</p>
+            </div>
+            }
+            {likes !== null && likes > 0 && 
+            <div className={`flex flex-row ${INFO_TEXT} text-accent gap-1`}>
+              <LikesIcon alt="Replies Icon" className={`h-4 md:h-5`} style={{ fill: '#6C82A3' }}/>
+              <p>{formatNumber(likes)}</p>
+            </div>
+            }
+            {bookmarks !== null && bookmarks > 0 && 
+            <div className={`flex flex-row ${INFO_TEXT} text-accent gap-1`}>
+              <BookmarsIcon alt="Replies Icon" className={`h-4 md:h-5`} style={{ fill: '#6C82A3' }}/>
+              <p>{formatNumber(bookmarks)}</p>
+            </div>
+            }
+            {views !== null && views > 0 && 
+            <div className={`flex flex-row ${INFO_TEXT} text-accent gap-1`}>
+              <ViewsIcon alt="Replies Icon" className={`h-4 md:h-5`} style={{ fill: '#6C82A3' }}/>
+              <p>{formatNumber(views)}</p>
+            </div>
+            }
+          </div>
+        }
         {/* BUTTONS SECTION */}
         <div id="tweetButtonContainer" className="flex flex-row gap-1 flex-wrap justify-center mt-2">
           {isApproved==='pending'&&!isEditing&&(<button className={BUTTON_STYLING} onClick={handleApprove}>Approve</button>)}

@@ -224,6 +224,11 @@ function ContentDashboard() {
 
                       userminiimageurl={tweet.userminiimageurl}
                       twitterusername={tweet.twitterusername}
+                      replies={tweet.replies}
+                      reposts={tweet.reposts}
+                      likes={tweet.likes}
+                      bookmarks={tweet.bookmarks}
+                      views={tweet.views}
                     />)
               })}
               </ul>
@@ -252,6 +257,11 @@ function ContentDashboard() {
 
                         userminiimageurl={tweet.userminiimageurl}
                         twitterusername={tweet.twitterusername}
+                        replies={tweet.replies}
+                        reposts={tweet.reposts}
+                        likes={tweet.likes}
+                        bookmarks={tweet.bookmarks}
+                        views={tweet.views}
                     />)
               })}
               </ul>
