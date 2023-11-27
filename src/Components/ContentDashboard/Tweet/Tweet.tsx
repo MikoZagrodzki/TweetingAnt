@@ -265,7 +265,7 @@ function Tweet(props: Props) {
       timeout={500}
     >
     {/* TWEET CONTAINER */}
-    <div className={`flex flex-row gap-1 w-11/12 pb-5 max-w-md p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
+    <div id={`${sqlId} Tweet`} className={`flex flex-row gap-1 w-11/12 pb-5 max-w-md p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
       {userminiimageurl && <img src={userminiimageurl} className="max-h-5 sm:max-h-6 md:max-h-9 rounded-full"/>}
       {/* TWEET CONTENT CONTAINER */}
       <div

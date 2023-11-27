@@ -42,13 +42,37 @@ function ContentDashboard() {
 
   const navigate = useNavigate();
 
+  // const getTweets = async () => {
+  //   const tweetsData = await getAllScrapedTweets();
+  //   setTweets(tweetsData);
+  //   setFilteredTweets(tweetsData);
+  // };
+
   const getTweets = async () => {
     const tweetsData = await getAllScrapedTweets();
     setTweets(tweetsData);
-    setFilteredTweets(tweetsData);
+    applyFilters(); // Apply filters after fetching new tweets
+  };
+  
+  const applyFilters = () => {
+    // Set the filtered tweets
+    setFilteredTweets(tweets);
+
+    if (searchPersonality !== "") {
+      handlePersonalitySearch(searchPersonality);
+    }
+
+    if (searchTweetType !== "") {
+      handleTweetTypeSearch(searchTweetType);
+    }
   };
 
+  // Add a useEffect to reapply filters when tweets or filter values change
+  useEffect(() => {
+    applyFilters();
+  }, [tweets, searchPersonality, searchTweetType, sortValue]);
 
+/////////////////THESE ARE FOR DROPDOWN FIELDS //////////////////////////////////
   let personalitiesNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.personality))).sort();
   let tweetTypesNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.tweettype))).sort();
 
@@ -67,6 +91,7 @@ function ContentDashboard() {
       .filter((tweetType) => tweetType !== null)
       .sort()
   ));
+/////////////////////////////////////////////////////////////////////////////////////
 
 
   const handlePersonalitySearch = (personalityToSearch: string) => {
