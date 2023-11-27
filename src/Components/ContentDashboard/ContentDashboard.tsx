@@ -317,6 +317,8 @@ function ContentDashboard() {
                       likes={tweet.likes}
                       bookmarks={tweet.bookmarks}
                       views={tweet.views}
+
+                      tweetType={tweet.tweettype}
                     />)
               })}
               </ul>
@@ -351,6 +353,8 @@ function ContentDashboard() {
                         likes={tweet.likes}
                         bookmarks={tweet.bookmarks}
                         views={tweet.views}
+
+                        tweetType={tweet.tweettype}
                     />)
               })}
               </ul>

@@ -64,10 +64,12 @@ interface Props {
   likes: number | null;
   bookmarks: number | null;
   views: number | null;
+
+  tweetType: string | null;
 }
 
 function Tweet(props: Props) {
-  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets, userminiimageurl, twitterusername, replies, reposts, likes, bookmarks, views } = props;
+  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets, userminiimageurl, twitterusername, replies, reposts, likes, bookmarks, views, tweetType } = props;
   const [stateOriginalText, setStateOriginalText] = useState<string>(originalTweetText);
   const [stateGptText, setStateGptText] = useState<string>(tweetText)
   const [buttonText, setButtonText] = useState<string>('Original Text');
@@ -265,7 +267,7 @@ function Tweet(props: Props) {
       timeout={500}
     >
     {/* TWEET CONTAINER */}
-    <div id={`${sqlId} Tweet`} className={`flex flex-row gap-1 w-11/12 pb-5 max-w-md p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
+    <div id={`${sqlId} Tweet`} className={`flex flex-row gap-1 w-11/12 pb-5 max-w-lg p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
       {userminiimageurl && <img src={userminiimageurl} className="max-h-5 sm:max-h-6 md:max-h-9 rounded-full"/>}
       {/* TWEET CONTENT CONTAINER */}
       <div
@@ -275,9 +277,11 @@ function Tweet(props: Props) {
         className={`flex flex-col items-center gap-1 w-11/12 pb-5 max-w-md`}
       >
         {/* HEADER OF EACH TWEET */}
-          {twitterusername && <a className={`w-full text-left mt-1 ${INFO_TEXT}`} href={`https://twitter.com/${twitterusername}`} target="_blank" >{twitterusername}</a>}
-          <a className={`${INFO_TEXT} font-bold`}>{isComparing ? 'Comparing' : (stateOriginalText===stateGptText? "Original Text" : buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>
-          {/* COMPARISON MODE ON */}
+          <div className={`w-full flex flex-row ${INFO_TEXT} mt-1`}>
+            {twitterusername && <a className={`w-full text-left ${INFO_TEXT}`} href={`https://twitter.com/${twitterusername}`} target="_blank" >{twitterusername}</a>}
+            {tweetType && <p className={`scale-90`}>{tweetType}</p>}
+          </div>
+          {tweetType !=='retweet' && <a className={`${INFO_TEXT} font-bold scale-90`}>{isComparing ? 'Comparing' : (stateOriginalText===stateGptText? "Original Text" : buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>}          {/* COMPARISON MODE ON */}
           {isComparing ? (
               // PART WITH ORIGINAL TEXT
               <div className={`flex flex-row gap-3 w-full justify-between `}>
@@ -323,13 +327,13 @@ function Tweet(props: Props) {
             value={(buttonText === 'ChatGPT Text' && stateOriginalText === originalTweetText) ? stateOriginalText : stateGptText}
             onChange={handleTextAreaChange}
             minRows={2}
-            className={`${TWEET_TEXT} w-full m-1 resize-none text-center ${BORDER_STYLING} focus:outline-primary`}
+            className={`${TWEET_TEXT} w-full m-1 resize-none text-center ${BORDER_STYLING} focus:outline-primary `}
           />
         ) : (
           // TWEET TEXT BEING DISPLAY - NORMAL MODE - EDITION OFF - COMPARISON OFF
           <h1 className={`${TWEET_TEXT} w-full group relative`} style={{ position: 'relative', zIndex: 1 }}>
             {/* TEXT ITSELF */}
-            {(buttonText==='Original Text' && stateGptText !== originalTweetText) ? stateGptText : originalTweetText}
+            {tweetType==='retweet'?originalTweetText:(buttonText==='Original Text' && stateGptText !== originalTweetText) ? stateGptText : originalTweetText}
             {/* DIV FOR REPHRASE BUTTON */}
             {(buttonText === 'Original Text' || originalTweetText === stateGptText || hideButton==="hidden") && 
               <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-75 whitespace-nowrap" style={{ zIndex: 2, pointerEvents: 'none' }}>
@@ -416,15 +420,16 @@ function Tweet(props: Props) {
         {/* BUTTONS SECTION */}
         <div id="tweetButtonContainer" className="flex flex-row gap-1 flex-wrap justify-center mt-2">
           {isApproved==='pending'&&!isEditing&&(<button className={BUTTON_STYLING} onClick={handleApprove}>Approve</button>)}
-          {isEditing && <button onClick={handleCancelButton} className={`${BUTTON_STYLING}`}>Cancel</button>}
-          {isEditing ? (
+          {tweetType !=="retweet"&& isEditing && <button onClick={handleCancelButton} className={`${BUTTON_STYLING}`}>Cancel</button>}
+          {tweetType !=="retweet" && isEditing ? (
             <button className={BUTTON_STYLING} onClick={handleSave}>Save</button>
           ) : (
+            tweetType !=="retweet"&&
             <button className={BUTTON_STYLING} onClick={handleEdit}>Edit</button>
           )}
           <button className={BUTTON_STYLING} onClick={handleDecline}>Decline</button>
-          {!isComparing && ((stateGptText !== stateOriginalText) || (isEditing && stateGptText !== stateOriginalText) || (isEditing && stateGptText !== originalTweetText)) && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)}
-          {stateGptText !== stateOriginalText && <button className={`${BUTTON_STYLING} ${hideButton}`} onClick={handleCompare}>{isComparing?'Stop Comparing':'Compare'}</button>}      
+          {tweetType !=="retweet" && !isComparing && ((stateGptText !== stateOriginalText) || (isEditing && stateGptText !== stateOriginalText) || (isEditing && stateGptText !== originalTweetText)) && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)}
+          {tweetType !=="retweet" && stateGptText !== stateOriginalText && <button className={`${BUTTON_STYLING} ${hideButton}`} onClick={handleCompare}>{isComparing?'Stop Comparing':'Compare'}</button>}      
         </div>
       </div>
     </div>
