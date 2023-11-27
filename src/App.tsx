@@ -25,9 +25,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/analytics" element={<TweetAnalitycs />} />
             <Route path="/" element={<PrivateRoute><ContentDashboard /></PrivateRoute>}/>
             <Route path="/main" element={<PrivateRoute><Main /></PrivateRoute>}/>
-            <Route path="/analytics" element={<TweetAnalitycs />} />
           </Routes>
         </AuthProvider>
       </Router>
