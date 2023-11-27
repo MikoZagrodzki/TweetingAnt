@@ -100,7 +100,7 @@ function ContentDashboard() {
     if (personalityToSearch !== "") {
       const filtered = tweets.filter((tweet) =>
         tweet.personality &&
-        tweet.personality.toLowerCase().includes(personalityToSearch.toLowerCase()) &&
+        tweet.personality.toLowerCase()===personalityToSearch.toLowerCase() &&
         (!searchTweetType || tweet.tweettype?.toLowerCase() === searchTweetType.toLowerCase())
       );
   
@@ -124,7 +124,7 @@ function ContentDashboard() {
     if (tweetTypeToSearch !== "") {
       const filtered = tweets.filter((tweet) =>
         tweet.tweettype &&
-        tweet.tweettype.toLowerCase().includes(tweetTypeToSearch.toLowerCase()) &&
+        tweet.tweettype.toLowerCase()===tweetTypeToSearch.toLowerCase() &&
         (!searchPersonality || tweet.personality?.toLowerCase() === searchPersonality.toLowerCase())
       );
   
@@ -286,7 +286,7 @@ function ContentDashboard() {
         <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/main', { replace: true })}}>Main</button>
       }
       </div>
-          <div id="tweetLists" className="flex flex-col md:flex-row">
+          <div id="tweetLists" className="flex flex-col md:flex-row ">
             {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
               <ul id="pendingTweets" className={UL_STYLING}>
                 <h2 className={INFO_TEXT}>Pending Tweets</h2>
