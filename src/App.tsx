@@ -18,7 +18,7 @@ function App() {
 
 
   return (
-    <div className="w-screen min-h-screen bg-background flex flex-col items-center">
+    <div className="w-screen min-h-screen bg-background flex flex-col items-center text-white">
       <Router basename="/">
         <AuthProvider>
           <Routes>

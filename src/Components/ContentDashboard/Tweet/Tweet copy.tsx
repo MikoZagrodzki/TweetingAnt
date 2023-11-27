@@ -253,10 +253,10 @@ function Tweet(props: Props) {
   }, []);
 //////// END OF ANIMATION ////////////////////////////////////////////////////////
 
-const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
-const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
+  const BUTTON_STYLING =classnames('text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md');
+  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
   const TWEET_TEXT = classnames('text-xs sm:text-sm');
-  const BORDER_STYLING = classnames('border border-1 border-white border-opacity-30');
+  const BORDER_STYLING = classnames('border border-2 border-secondary');
   const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
   const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
   
@@ -267,7 +267,7 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
       timeout={500}
     >
     {/* TWEET CONTAINER */}
-    <div id={`${sqlId} Tweet`} className={`flex flex-row gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
+    <div id={`${sqlId} Tweet`} className={`flex flex-row gap-1 w-11/12 pb-5 max-w-lg p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
       {userminiimageurl && <img src={userminiimageurl} className="max-h-5 sm:max-h-6 md:max-h-9 rounded-full"/>}
       {/* TWEET CONTENT CONTAINER */}
       <div
@@ -279,36 +279,35 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
         {/* HEADER OF EACH TWEET */}
           <div className={`w-full flex flex-row ${INFO_TEXT} mt-1`}>
             {twitterusername && <a className={`w-full text-left ${INFO_TEXT}`} href={`https://twitter.com/${twitterusername}`} target="_blank" >{twitterusername}</a>}
-            {tweetType && <p className={`scale-90 text-gray-600`}>{tweetType}</p>}
+            {tweetType && <p className={`scale-90`}>{tweetType}</p>}
           </div>
-          {/* {tweetType !=='retweet' && <a className={`${INFO_TEXT} font-bold scale-90`}>{isComparing ? 'Comparing' : (stateOriginalText===stateGptText? "Original Text" : buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>}          COMPARISON MODE ON */}
-          {/* // PART WITH ORIGINAL TEXT */}
-          <div className={`flex flex-col gap-3 w-full justify-between `}>
-            {(stateGptText !== originalTweetText || isEditing) &&
-            <div className={`flex flex-col gap-1 min-w-1/3 ${isEditing?``:""}`}>
-              <h2 className={`${INFO_TEXT} font-semibold scale-y-75 text-gray-600`}>Original Text</h2>
-              <p className={`${TWEET_TEXT}  ${isEditing?`h-full px-1 border border-1 border-secondary border-opacity-50 rounded-md opacity-80 whitespace-normal`:``}`}>
-                {originalTweetText}
-              </p>
-            </div>
-            }
+          {tweetType !=='retweet' && <a className={`${INFO_TEXT} font-bold scale-90`}>{isComparing ? 'Comparing' : (stateOriginalText===stateGptText? "Original Text" : buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>}          {/* COMPARISON MODE ON */}
+          {/* COMPARING MODE */}
+          {isComparing ? (
+              // PART WITH ORIGINAL TEXT
+              <div className={`flex flex-row gap-3 w-full justify-between `}>
+                <div className={`flex flex-col gap-1 min-w-1/3 ${isEditing?``:""}`}>
+                  <h2 className={INFO_TEXT}>Original Text</h2>
+                  <p className={`${TWEET_TEXT}  ${isEditing?`h-full px-1 ${BORDER_STYLING} opacity-80`:``}`}>
+                    {originalTweetText}
+                  </p>
+                </div>
             {/* EDITION MODE IN COMPARISON MODE */}
             {isEditing ? (
                 <div className="flex flex-col gap-1 min-w-1/2">
-                  <h2 className={`${INFO_TEXT} font-semibold scale-y-75`}>{stateGptText===originalTweetText?'Original Text':'ChatGpt Text'}</h2>
+                  <h2 className={INFO_TEXT}>ChatGpt Text</h2>
                   <TextareaAutosize
-                    // IT CHANGES ITS VALUE BASED ON WHICH TEXT YOU ARE DISPLAYING - EITHER ORIGINAL/GPT
-                    value={(buttonText === 'ChatGPT Text' && stateOriginalText === originalTweetText) ? stateOriginalText : stateGptText}
+                    value={stateGptText}
                     onChange={handleTextAreaChange}
                     minRows={2}
-                    className={`${TWEET_TEXT} rounded-md w-full m-1 resize-none text-center border border-1 border-secondary  focus:outline-secondary  bg-white bg-opacity-80 text-black whitespace-normal`}
+                    className={`${TWEET_TEXT} w-full resize-none text-center px-1 ${BORDER_STYLING} focus:outline-primary`}
                   />
                 </div>
-              ) : ( tweetType !=='retweet' &&
+              ) : (
               // DISPLAY TEXT IN COMPARISON MODE - EDITION OFF
                 <div className="flex flex-col gap-1 min-w-1/3 ">
-                  <h2 className={`${INFO_TEXT}  font-semibold scale-y-75 text-gray-600`}>{!isEditing&& stateGptText===originalTweetText?'Original Text':'ChatGpt Text'}</h2>
-                  <p className={`${TWEET_TEXT} group relative transition-opacity opacity-100 group-hover:opacity-70 whitespace-normal`} style={{ position: 'relative', zIndex: 1 }}>
+                  <h2 className={`${INFO_TEXT}`}>ChatGpt Text</h2>
+                  <p className={`${TWEET_TEXT} group relative transition-opacity opacity-100 group-hover:opacity-70`} style={{ position: 'relative', zIndex: 1 }}>
                     {/* TEXT ITSELF */}
                     {stateOriginalText === stateGptText ? stateOriginalText : stateGptText}
                     {/* DIV FOR REPHRASE BUTTON */}
@@ -319,8 +318,35 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
                     </div>
                   </p>
                 </div>
+
             )}
           </div>
+        // EDITION IN NORMAL MODE
+        ) : isEditing ? (
+          <TextareaAutosize
+            // IT CHANGES ITS VALUE BASED ON WHICH TEXT YOU ARE DISPLAYING - EITHER ORIGINAL/GPT
+            value={(buttonText === 'ChatGPT Text' && stateOriginalText === originalTweetText) ? stateOriginalText : stateGptText}
+            onChange={handleTextAreaChange}
+            minRows={2}
+            className={`${TWEET_TEXT} w-full m-1 resize-none text-center ${BORDER_STYLING} focus:outline-primary `}
+          />
+        ) : (
+        // TWEET TEXT BEING DISPLAY - NORMAL MODE - EDITION OFF - COMPARISON OFF
+          <h1 className={`${TWEET_TEXT} w-full group relative`} style={{ position: 'relative', zIndex: 1 }}>
+            {/* TEXT ITSELF */}
+            {tweetType==='retweet'?originalTweetText:(buttonText==='Original Text' && stateGptText !== originalTweetText) ? stateGptText : originalTweetText}
+            {/* DIV FOR REPHRASE BUTTON */}
+            {(buttonText === 'Original Text' || originalTweetText === stateGptText || hideButton==="hidden") && 
+              <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-75 whitespace-nowrap" style={{ zIndex: 2, pointerEvents: 'none' }}>
+                <button onClick={handleRephrase} className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 ${BUTTON_SPECIAL}`} style={{ pointerEvents: 'auto' }}>
+                  Re-Rephrase
+                </button>
+              </div>
+            }
+          </h1>
+
+          
+        )}
         {/* IMAGE SECTION */}
         {imageSourceState && (
           <div className="w-full group relative flex flex-col items-center">
@@ -403,9 +429,8 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
             <button className={BUTTON_STYLING} onClick={handleEdit}>Edit</button>
           )}
           <button className={BUTTON_STYLING} onClick={handleDecline}>Decline</button>
-          {/* {tweetType !=="retweet" && !isComparing && ((stateGptText !== stateOriginalText) || (isEditing && stateGptText !== stateOriginalText) || (isEditing && stateGptText !== originalTweetText)) && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)} */}
-          {isEditing && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)}
-          {/* {tweetType !=="retweet" && stateGptText !== stateOriginalText && <button className={`${BUTTON_STYLING} ${hideButton}`} onClick={handleCompare}>{isComparing?'Stop Comparing':'Compare'}</button>}       */}
+          {tweetType !=="retweet" && !isComparing && ((stateGptText !== stateOriginalText) || (isEditing && stateGptText !== stateOriginalText) || (isEditing && stateGptText !== originalTweetText)) && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)}
+          {tweetType !=="retweet" && stateGptText !== stateOriginalText && <button className={`${BUTTON_STYLING} ${hideButton}`} onClick={handleCompare}>{isComparing?'Stop Comparing':'Compare'}</button>}      
         </div>
       </div>
     </div>

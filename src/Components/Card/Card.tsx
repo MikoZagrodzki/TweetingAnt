@@ -109,7 +109,7 @@ function Card(props: Props) {
         classNames="fade"
         timeout={500}
       >
-    <div id={twitterAccount} className="in-view flex flex-col w-full ">
+    <div id={twitterAccount} className="in-view flex flex-col w-full  ">
       <div className="flex flex-col items-start space-x-5 border-2 border-secondary p-3 w-72 max-w-full sm:w-52 md:w-60">
         <p className="text-sm sm:text-base font-semibold">{twitterAccount}</p>
         <p className="text-xs sm:text-sm sm:h-10">{twitterClassAccount?.personality}</p>
@@ -128,7 +128,7 @@ function Card(props: Props) {
         </div>
       </div>
       <Popup ref={ref}>
-        <div className="Card-popup-container fixed top-0 left-0 right-0 bottom-0 z-50 bg-background w-screen h-screen flex flex-col items-center overflow-y-scroll space-y-2 pb-5">
+        <div className="Card-popup-container fixed top-0 left-0 right-0 bottom-0 z-50 bg-background w-screen h-screen flex flex-col items-center overflow-y-scroll space-y-2 pb-5  text-white">
           <div className="text-sm sm:text-base md:text-lg Card-popup-container-header flex flex-row my-3 pt-3 sm:my-5 md:my-8 space-x-2">
             <h1 className="font-semibold">{twitterAccount}</h1>
             <p>{email}</p>
@@ -169,10 +169,10 @@ function Card(props: Props) {
               />
             </div>
           </div>
-          <div className="Card-forms-container w-11/12 flex flex-col space-y-2  sm:items-center ">
+          <div className="Card-forms-container w-11/12 flex flex-col space-y-2  sm:items-center  ">
             <Personality loginNameTwitter={twitterAccount} twitterAccounts={twitterAccounts} setTwitterAccounts={setTwitterAccounts} personalityList={personalityList}/>
             <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0 w-full ">
-              <div className="Form-and-list-container w-full flex flex-col space-y-2 sm:w-1/2 sm:items-end">
+              <div className="Form-and-list-container w-full flex flex-col space-y-2 sm:w-1/2 sm:items-end ">
                 <FormUserContent
                   purpose="rephrase tweets"
                   loginNameTwitter={twitterAccount}

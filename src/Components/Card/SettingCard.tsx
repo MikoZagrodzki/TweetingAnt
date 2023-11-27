@@ -91,7 +91,7 @@ function SettingCard(props: Props) {
 
   
   return (
-    <div className="text-xs sm:text-sm SettingCard-container w-6/12 border-2 border-primary max-w-md h-28 rounded-sm">
+    <div className="text-xs sm:text-sm SettingCard-container w-6/12 border-2 border-primary max-w-md h-28 rounded-sm ">
       <select
         className="w-full focus:outline-accent bg-secondary border-b border-b-accent"
         name="intensivity_setter"

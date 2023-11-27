@@ -110,7 +110,7 @@ function FormUserContent(props: Props) {
   };
 
   return (
-    <div className="text-xs sm:text-sm FormUserContent-container flex flex-col border-2 border-primary w-full sm:max-w-md">
+    <div className="text-xs sm:text-sm FormUserContent-container flex flex-col border-2 border-primary w-full sm:max-w-md ">
       <p className="m-1 sm:h-8">Add Username to {purpose} from</p>
       <form className="flex flex-row justify-between mx-1">
         <input

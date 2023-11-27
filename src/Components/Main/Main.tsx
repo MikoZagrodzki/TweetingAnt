@@ -184,7 +184,7 @@ function Main() {
           </div>
         }
       </div>
-      <ul className="pb-10 flex flex-col space-y-5 items-center w-11/12 max-w-6xl border border-primary pt-5 sm:flex-row sm:flex-wrap sm:space-x-0 sm:space-y-0 sm:justify-center">
+      <ul className="pb-10 flex flex-col space-y-5 items-center w-11/12 max-w-6xl border border-primary pt-5 sm:flex-row sm:flex-wrap sm:space-x-0 sm:space-y-0 sm:justify-center ">
         {filteredTwitterAccounts.length > 0 ? (
           filteredTwitterAccounts.map((x) => (
             <li key={x.id} className="shadow-md sm:p-1">

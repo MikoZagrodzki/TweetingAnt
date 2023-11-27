@@ -14,9 +14,9 @@ module.exports = {
       },
       colors: {
         primary: "#A3967C", // Used for primary elements and call-to-action
-        background: "#FFFCF5", // Used as a background color for sections or containers
-        secondary: "#F0E5CF", // Used as a secondary background or subtle text color
-        accent: "#6C82A3", // Used for headings, titles, or borders
+        background: "#15202b", // Used as a background color for sections or containers
+        secondary: "#1d9bf0", // Used as a secondary background or subtle text color
+        accent: "#8899ac", // Used for headings, titles, or borders
         highlight: "#DAE3F0", // Used as a background color for sections or cards
       },
     },
