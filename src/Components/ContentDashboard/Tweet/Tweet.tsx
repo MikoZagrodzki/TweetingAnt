@@ -258,7 +258,7 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
   const TWEET_TEXT = classnames('text-xs sm:text-sm');
   const BORDER_STYLING = classnames('border border-1 border-white border-opacity-30');
   const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
-  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
+  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-full font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-white hover:bg-secondary hover:shadow-2xl');
   
   return (
     <CSSTransition
@@ -312,8 +312,8 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
                     {/* TEXT ITSELF */}
                     {stateOriginalText === stateGptText ? stateOriginalText : stateGptText}
                     {/* DIV FOR REPHRASE BUTTON */}
-                    <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-75 whitespace-nowrap" style={{ zIndex: 2, pointerEvents: 'none' }}>
-                      <button onClick={handleRephrase} className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl`} style={{ pointerEvents: 'auto' }}>
+                    <div className="hidden group-hover:block absolute inset-0 mx-auto bg-white bg-opacity-20 whitespace-nowrap" style={{ zIndex: 2, pointerEvents: 'none' }}>
+                      <button onClick={handleRephrase} className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-highlight rounded-full font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-white hover:bg-secondary hover:shadow-2xl`} style={{ pointerEvents: 'auto' }}>
                         Re-Rephrase
                       </button>
                     </div>
