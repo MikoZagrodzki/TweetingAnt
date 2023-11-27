@@ -3,3 +3,19 @@
 @tailwind utilities;
 
 
+/* For WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 0;
+  }
+  
+  /* For Firefox */
+  ::-moz-scrollbar {
+    width: 0;
+  }
+  
+  /* For Internet Explorer and Edge */
+  scrollbar-3dlight-color: transparent;
+  scrollbar-face-color: transparent;
+  scrollbar-shadow-color: transparent;
+  scrollbar-highlight-color: transparent;
+  scrollbar-darkshadow-color: transparent;
