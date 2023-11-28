@@ -58,6 +58,10 @@ function ContentDashboard() {
     // Set the filtered tweets
     setFilteredTweets(tweets);
 
+    if(sortValue !== "" ) {
+      handleSortBy(sortValue);
+    }
+
     if (searchPersonality !== "") {
       handlePersonalitySearch(searchPersonality);
     }
@@ -113,9 +117,9 @@ function ContentDashboard() {
   
       setFilteredTweets(tweetTypeFiltered.length > 0 ? tweetTypeFiltered : []);
     }
-    if(sortValue!==""){
-      setSortValue("");
-    }
+    // if(sortValue!==""){
+    //   setSortValue("");
+    // }
   };
   
   const handleTweetTypeSearch = (tweetTypeToSearch: string) => {
@@ -137,12 +141,14 @@ function ContentDashboard() {
   
       setFilteredTweets(personalityFiltered.length > 0 ? personalityFiltered : []);
     }
-    if(sortValue!==""){
-      setSortValue("");
-    }
+    // if(sortValue!==""){
+    //   setSortValue("");
+    // }
   };
 
   const handleSortBy = (sortBy: string)=>{
+    console.log('Sorting by:', sortBy);
+
     setSortValue(sortBy);
     const sortedTweets = [...filteredTweets];
     switch (sortBy) {
@@ -176,10 +182,17 @@ function ContentDashboard() {
       case "Least Liked":
         sortedTweets.sort((a, b) => (a.likes || 0) - (b.likes || 0));
         break;
+      case "Most Recently Added":
+        sortedTweets.sort((a, b) => (b.time || '') > (a.time || '') ? 1 : -1);
+        break;
+      case "Least Recently Added":
+        sortedTweets.sort((a, b) => (a.time || '') > (b.time || '') ? 1 : -1);
+        break;
       default:
         // Default case: no sorting
         break;
     }
+    console.log('Sorted Tweets:', sortedTweets);
 
     setFilteredTweets(sortedTweets);
   };
@@ -273,6 +286,8 @@ function ContentDashboard() {
         <option key='Least Reposted' value='Least Reposted'>Least Reposted</option>      
         <option key='Most Liked' value='Most Liked'>Most Liked</option>
         <option key='Least Liked' value='Least Liked'>Least Liked</option>
+        <option key='Most Recently Added' value='Most Recently Added'>Most Recently Added</option>
+        <option key='Least Recently Added' value='Least Recently Added'>Least Recently Added</option>
       </select>
       {filteredTweets.some((tweet) => tweet.isapproved === 'approved') &&
         <a href="#approvedTweets" className={`md:hidden ${BUTTON_STYLING}`}>Approved Tweets</a> 
@@ -319,6 +334,7 @@ function ContentDashboard() {
                       views={tweet.views}
 
                       tweetType={tweet.tweettype}
+                      dateAdded={tweet.time}
                     />)
               })}
               </ul>
@@ -355,6 +371,7 @@ function ContentDashboard() {
                         views={tweet.views}
 
                         tweetType={tweet.tweettype}
+                        dateAdded={tweet.time}
                     />)
               })}
               </ul>

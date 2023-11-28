@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import updateIsApproved from "../../../Functionalities/updateIsApproved";
 import updateTweetText from "../../../Functionalities/updateTweetText";
 import classnames from 'classnames';
@@ -31,7 +31,7 @@ interface TweetSql {
   personality: string | null;
   tweettype: string | null;
 
-  time: string | null;
+  time: string|null;
   userminiimageurl: string | null;
   twitterusername: string | null;
   replies: number | null;
@@ -64,12 +64,12 @@ interface Props {
   likes: number | null;
   bookmarks: number | null;
   views: number | null;
-
   tweetType: string | null;
+  dateAdded: string|null;
 }
 
 function Tweet(props: Props) {
-  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets, userminiimageurl, twitterusername, replies, reposts, likes, bookmarks, views, tweetType } = props;
+  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets, userminiimageurl, twitterusername, replies, reposts, likes, bookmarks, views, tweetType, dateAdded } = props;
   const [stateOriginalText, setStateOriginalText] = useState<string>(originalTweetText);
   const [stateGptText, setStateGptText] = useState<string>(tweetText)
   const [buttonText, setButtonText] = useState<string>('Original Text');
@@ -253,6 +253,20 @@ function Tweet(props: Props) {
   }, []);
 //////// END OF ANIMATION ////////////////////////////////////////////////////////
 
+//////// DATE ////////////////////////////////////////////////////////
+if(dateAdded){
+  const date = new Date(dateAdded);
+  dateAdded = date.toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false, //24h
+  });
+}
+//////// END OF DATE ////////////////////////////////////////////////////////
+
+
 const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
 const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
   const TWEET_TEXT = classnames('text-xs sm:text-sm');
@@ -268,7 +282,7 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
     >
     {/* TWEET CONTAINER */}
     <div id={`${sqlId} Tweet`} className={`flex flex-row gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
-      {userminiimageurl && <img src={userminiimageurl} className="max-h-5 sm:max-h-6 md:max-h-9 rounded-full"/>}
+      {userminiimageurl && <img src={userminiimageurl} alt={`${twitterusername} picture`} className="max-h-5 sm:max-h-6 md:max-h-9 rounded-full"/>}
       {/* TWEET CONTENT CONTAINER */}
       <div
       key={sqlId}
@@ -280,6 +294,7 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
           <div className={`w-full flex flex-row ${INFO_TEXT} mt-1`}>
             {twitterusername && <a className={`w-full text-left ${INFO_TEXT}`} href={`https://twitter.com/${twitterusername}`} target="_blank" >{twitterusername}</a>}
             {tweetType && <p className={`scale-90 text-gray-600`}>{tweetType}</p>}
+            {dateAdded && <p className={`scale-75 text-gray-600`}>{dateAdded}</p>}
           </div>
           {/* {tweetType !=='retweet' && <a className={`${INFO_TEXT} font-bold scale-90`}>{isComparing ? 'Comparing' : (stateOriginalText===stateGptText? "Original Text" : buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>}          COMPARISON MODE ON */}
           {/* // PART WITH ORIGINAL TEXT */}
@@ -287,7 +302,7 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
             {(stateGptText !== originalTweetText || isEditing) &&
             <div className={`flex flex-col gap-1 min-w-1/3 ${isEditing?``:""}`}>
               <h2 className={`${INFO_TEXT} font-semibold scale-y-75 text-gray-600`}>Original Text</h2>
-              <p className={`${TWEET_TEXT}  ${isEditing?`h-full px-1 border border-1 border-secondary border-opacity-50 rounded-md opacity-80 whitespace-normal`:``}`}>
+              <p className={`${TWEET_TEXT} break-words  ${isEditing?`h-full px-1 border border-1 border-secondary border-opacity-50 rounded-md opacity-80 whitespace-normal`:``}`}>
                 {originalTweetText}
               </p>
             </div>
@@ -301,14 +316,14 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
                     value={(buttonText === 'ChatGPT Text' && stateOriginalText === originalTweetText) ? stateOriginalText : stateGptText}
                     onChange={handleTextAreaChange}
                     minRows={2}
-                    className={`${TWEET_TEXT} rounded-md w-full m-1 resize-none text-center border border-1 border-secondary  focus:outline-secondary  bg-white bg-opacity-80 text-black whitespace-normal`}
+                    className={`${TWEET_TEXT} rounded-md w-full m-1 resize-none text-center border border-1 border-secondary  focus:outline-secondary  bg-white bg-opacity-80 text-black whitespace-normal break-words`}
                   />
                 </div>
               ) : ( tweetType !=='retweet' &&
               // DISPLAY TEXT IN COMPARISON MODE - EDITION OFF
                 <div className="flex flex-col gap-1 min-w-1/3 ">
                   <h2 className={`${INFO_TEXT}  font-semibold scale-y-75 text-gray-600`}>{!isEditing&& stateGptText===originalTweetText?'Original Text':'ChatGpt Text'}</h2>
-                  <p className={`${TWEET_TEXT} group relative transition-opacity opacity-100 group-hover:opacity-70 whitespace-normal`} style={{ position: 'relative', zIndex: 1 }}>
+                  <p className={`${TWEET_TEXT} group relative transition-opacity opacity-100 group-hover:opacity-70 whitespace-normal break-words`} style={{ position: 'relative', zIndex: 1 }}>
                     {/* TEXT ITSELF */}
                     {stateOriginalText === stateGptText ? stateOriginalText : stateGptText}
                     {/* DIV FOR REPHRASE BUTTON */}
@@ -327,6 +342,7 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
             <img
               src={imageSourceState}
               className="w-full group-hover:opacity-75 rounded-lg"
+              alt={`Image from: ${sqlId}`}
             />
             <button 
               onClick={declineImage}
