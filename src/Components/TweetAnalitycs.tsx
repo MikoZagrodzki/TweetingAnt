@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classnames from 'classnames';
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
+import insertAnalyticsUrlOrUpdateDate from '../Functionalities/InsertAnalyticsUrlOrUpdateDate';
 
 
 
@@ -10,7 +11,41 @@ function TweetAnalitycs() {
   const { currentUser }: any = useAuth();
   const navigate = useNavigate();
 
+  const [tweetOrComment, setTweetOrComment] = useState<string>("")
+  const [url, setUrl] = useState<string>("");
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [displayedRespondse, setDisplayedResponse] = useState<string>("");
 
+  const handleTweetOrComment = (selectedValue:string) => {
+    setTweetOrComment(selectedValue);
+  }
+
+  const handleInputUrlValue = (typedValue:string) => {
+    setUrl(typedValue.trim());
+  }
+
+  const handleInsertUrl = async () => {
+    try {
+      setDisplayedResponse("");
+      const backendCall = await insertAnalyticsUrlOrUpdateDate(url, tweetOrComment);
+      const tweetOrCommentCapitalised=tweetOrComment.charAt(0).toUpperCase() + tweetOrComment.slice(1);
+      if(backendCall.whentoupdate && backendCall.whentoupdate===null){
+        setIsVisible(true)
+        setDisplayedResponse(`${tweetOrCommentCapitalised} succesfully added.`)
+      } else {
+        setIsVisible(true)
+        setDisplayedResponse(`${tweetOrCommentCapitalised} lifespan extended for 24h from now.`)
+      }
+      setTweetOrComment("");
+      setUrl("");
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 3000);
+    } catch (error) {
+      console.error(error)
+    }
+  };
+    
 
 
 
@@ -32,14 +67,17 @@ function TweetAnalitycs() {
         <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/', { replace: true })}}>Content</button>
       </div>
         <div className={`w-11/12 max-w-lg flex flex-row flex-wrap justify-center gap-2 py-2 px-1 ${BORDER_STYLING} ${SHADOW_STYLING}`}>
-          <input placeholder='Insert Your URL' className={`w-full pl-2 border border-accent whitespace-nowrap rounded-full focus:outline-secondary text-black ${TWEET_TEXT}  ${SHADOW_STYLING}`} />
-            <select className={`${BUTTON_STYLING}`}>
+          <input type='url' placeholder='Insert Your URL' value={url} onChange={(e)=>handleInputUrlValue(String(e.target.value))} className={`w-full pl-2 border border-accent whitespace-nowrap rounded-full focus:outline-secondary text-black ${TWEET_TEXT}  ${SHADOW_STYLING}`} />
+          <select onChange={(e)=> handleTweetOrComment(String(e.target.value))} value={tweetOrComment} className={`${BUTTON_STYLING}`}>
             <option value=''>Tweet or Comment?</option>
-            <option value=''>Tweet</option>
-            <option value=''>Comment</option>
+            <option key='tweet' value='tweet'>Tweet</option>
+            <option key='comment' value='comment'>Comment</option>
           </select>
-          <button className={` ${BUTTON_STYLING}`} >Insert</button>
+          <button className={`${BUTTON_STYLING}`} onClick={handleInsertUrl} >Insert</button>
         </div>
+        {isVisible&&
+            <p>{displayedRespondse}</p>
+        }
     </div>
   )
 }
