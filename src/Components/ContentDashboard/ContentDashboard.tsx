@@ -58,16 +58,16 @@ function ContentDashboard() {
     // Set the filtered tweets
     setFilteredTweets(tweets);
 
-    if(sortValue !== "" ) {
-      handleSortBy(sortValue);
-    }
-
+    
     if (searchPersonality !== "") {
       handlePersonalitySearch(searchPersonality);
     }
-
+    
     if (searchTweetType !== "") {
       handleTweetTypeSearch(searchTweetType);
+    }
+    if(sortValue !== "" ) {
+      handleSortBy(sortValue);
     }
   };
 
@@ -147,8 +147,6 @@ function ContentDashboard() {
   };
 
   const handleSortBy = (sortBy: string)=>{
-    console.log('Sorting by:', sortBy);
-
     setSortValue(sortBy);
     const sortedTweets = [...filteredTweets];
     switch (sortBy) {
@@ -192,8 +190,6 @@ function ContentDashboard() {
         // Default case: no sorting
         break;
     }
-    console.log('Sorted Tweets:', sortedTweets);
-
     setFilteredTweets(sortedTweets);
   };
   
@@ -212,7 +208,7 @@ function ContentDashboard() {
 
 
   const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
-  const UL_STYLING   = classnames("flex flex-col items-center ")
+  const UL_STYLING   = classnames("flex flex-col items-center md:min-w-0")
   const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap')
 
   return (
@@ -300,10 +296,11 @@ function ContentDashboard() {
       {currentUser.email!=="maciek@maciek.maciek"&&
         <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/main', { replace: true })}}>Main</button>
       }
+      <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/analytics', { replace: true })}}>Analytics</button>
       </div>
-          <div id="tweetLists" className="flex flex-col md:flex-row ">
+          <div id="tweetLists" className="flex flex-col md:flex-row w-screen md:justify-center ">
             {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
-              <ul id="pendingTweets" className={UL_STYLING}>
+              <ul id="pendingTweets" className={`${UL_STYLING}`}>
                 <h2 className={INFO_TEXT}>Pending Tweets</h2>
                 {filteredTweets.filter(tweet => tweet.isapproved === 'pending').map((tweet) => {
                   const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);

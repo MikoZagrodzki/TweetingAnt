@@ -281,7 +281,7 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
       timeout={500}
     >
     {/* TWEET CONTAINER */}
-    <div id={`${sqlId} Tweet`} className={`flex flex-row gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
+    <div id={`${sqlId} Tweet`} className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
       {userminiimageurl && <img src={userminiimageurl} alt={`${twitterusername} picture`} className="max-h-5 sm:max-h-6 md:max-h-9 rounded-full"/>}
       {/* TWEET CONTENT CONTAINER */}
       <div
