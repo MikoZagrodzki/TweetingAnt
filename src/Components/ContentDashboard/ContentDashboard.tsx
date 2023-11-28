@@ -213,7 +213,7 @@ function ContentDashboard() {
 
   return (
     <div id='top' className="min-h-screen w-screen mt-10 mb-10 flex flex-col items-center gap-y-10">
-      <a href="#top" className=" fixed z-20 bottom-10 right-10 font-extrabold text-2xl bg-highlight rounded-lg text-accent p-1 shadow-lg border border-accent hover:text-highlight hover:border-highlight hover:bg-accent">^</a>
+      <a href="#top" className=" fixed z-20 bottom-10 right-10 font-extrabold text-2xl bg-secondary rounded-lg text-white p-1 shadow-lg border border-white hover:text-highlight hover:border-highlight hover:bg-accent">^</a>
       <h1 className="">Content Dashboard</h1>
       {tweets.length > 0 && 
         <div className={`${INFO_TEXT} flex flex-col md:flex-row items-center gap-3 `}>
@@ -225,7 +225,7 @@ function ContentDashboard() {
           }
         </div>
       }
-      <div id="selection_bar" className="flex flex-row gap-1 justify-center flex-wrap">
+      <div id="selection_bar" className="flex flex-row gap-1 justify-center flex-wrap border-b-gray-700 border-b-2  pb-4 md:border-b-0 md:pb-0 ">
         <select
           value={searchPersonality}
           onChange={(e) => handlePersonalitySearch(String(e.target.value))}
@@ -300,8 +300,8 @@ function ContentDashboard() {
       </div>
           <div id="tweetLists" className="flex flex-col md:flex-row w-screen md:justify-center ">
             {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
-              <ul id="pendingTweets" className={`${UL_STYLING}`}>
-                <h2 className={INFO_TEXT}>Pending Tweets</h2>
+              <ul id="pendingTweets" className={`${UL_STYLING} `}>
+                <h2 className={`${INFO_TEXT} pb-2`}>Pending Tweets</h2>
                 {filteredTweets.filter(tweet => tweet.isapproved === 'pending').map((tweet) => {
                   const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(
@@ -337,8 +337,8 @@ function ContentDashboard() {
               </ul>
             )}
             {filteredTweets.some((tweet) => tweet.isapproved === 'approved') && (
-              <ul id="approvedTweets" className={`mt-8 md:mt-0 ${UL_STYLING}`}>
-              <h2 className={INFO_TEXT}>Approved Tweets</h2>
+              <ul id="approvedTweets" className={`pt-5 mt-10 border-t-2 md:border-t-0 md:mt-0 md:pt-0 ${UL_STYLING}`}>
+              <h2 className={`${INFO_TEXT} pb-2`}>Approved Tweets</h2>
               {filteredTweets.filter(tweet => tweet.isapproved === 'approved').map((tweet) => {
                   const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(

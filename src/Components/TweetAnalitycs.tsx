@@ -28,7 +28,7 @@ function TweetAnalitycs() {
     try {
       setDisplayedResponse("");
       const backendCall = await insertAnalyticsUrlOrUpdateDate(url, tweetOrComment);
-      const tweetOrCommentCapitalised=tweetOrComment.charAt(0).toUpperCase() + tweetOrComment.slice(1);
+      const tweetOrCommentCapitalised = tweetOrComment.charAt(0).toUpperCase() + tweetOrComment.slice(1);
       if(backendCall.whentoupdate && backendCall.whentoupdate===null){
         setIsVisible(true)
         setDisplayedResponse(`${tweetOrCommentCapitalised} succesfully added.`)
