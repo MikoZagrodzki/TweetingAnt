@@ -174,7 +174,7 @@ function Main() {
           :
           <div className={`flex flex-row gap-2 `}>
             <input
-              className="shadow-md rounded-sm text-center border border-primary focus:outline-accent px-1"
+              className="text-black shadow-md rounded-sm text-center border border-primary focus:outline-accent px-1"
               type="text"
               placeholder="Search by username 🔎"
               value={searchTerm}
