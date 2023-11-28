@@ -27,20 +27,25 @@ function TweetAnalitycs() {
   const handleInsertUrl = async () => {
     try {
       setDisplayedResponse("");
-      const backendCall = await insertAnalyticsUrlOrUpdateDate(url, tweetOrComment);
-      const tweetOrCommentCapitalised = tweetOrComment.charAt(0).toUpperCase() + tweetOrComment.slice(1);
-      if(backendCall.whentoupdate && backendCall.whentoupdate===null){
-        setIsVisible(true)
-        setDisplayedResponse(`${tweetOrCommentCapitalised} succesfully added.`)
+      if (url.indexOf("http") !== -1 && url.indexOf("/status/") !== -1) {
+        const backendCall = await insertAnalyticsUrlOrUpdateDate(url, tweetOrComment);
+        const tweetOrCommentCapitalised = tweetOrComment.charAt(0).toUpperCase() + tweetOrComment.slice(1);
+        if(backendCall.whentoupdate && backendCall.whentoupdate===null){
+          setIsVisible(true)
+          setDisplayedResponse(`${tweetOrCommentCapitalised} succesfully added.`)
+        } else {
+          setIsVisible(true)
+          setDisplayedResponse(`${tweetOrCommentCapitalised} lifespan extended for 24h from now.`)
+        }
+        setTweetOrComment("");
+        setUrl("");
+        setTimeout(() => {
+          setIsVisible(false);
+        }, 3000);
       } else {
-        setIsVisible(true)
-        setDisplayedResponse(`${tweetOrCommentCapitalised} lifespan extended for 24h from now.`)
+        alert("The link must be a correct Twitter link");
+        return;
       }
-      setTweetOrComment("");
-      setUrl("");
-      setTimeout(() => {
-        setIsVisible(false);
-      }, 3000);
     } catch (error) {
       console.error(error)
     }
