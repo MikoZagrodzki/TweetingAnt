@@ -175,11 +175,11 @@ function Tweet(props: Props) {
   }
 
   const handleRephrase = async  () => {
-    let gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT: ${stateOriginalText === stateGptText ? stateOriginalText : stateGptText}`);
+    let gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT: ${originalTweetText === stateGptText ? originalTweetText : stateGptText}`);
 
-    if (gptResponse === stateGptText || gptResponse === tweetText){
-      gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT ONCE MORE: ${gptResponse}`);
-    }
+    // if (gptResponse === stateGptText || gptResponse === tweetText){
+    //   gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT ONCE MORE: ${gptResponse}`);
+    // }
     
     if (gptResponse && gptResponse.startsWith('"')) {
       gptResponse = gptResponse.substring(1);
@@ -192,6 +192,7 @@ function Tweet(props: Props) {
       setButtonText('Original Text');
       await updateTweetText(tweetUrl, String(gptResponse), sqlId);
     }
+    console.log(gptResponse)
     setHideButton("")  
   }
 
@@ -292,7 +293,7 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
       >
         {/* HEADER OF EACH TWEET */}
           <div className={`w-full flex flex-row ${INFO_TEXT} mt-1`}>
-            {twitterusername && <a className={`w-full text-left ${INFO_TEXT}`} href={`https://twitter.com/${twitterusername}`} target="_blank" >{twitterusername}</a>}
+            {twitterusername && <div className={`w-full`}><a className={`text-left ${INFO_TEXT}`} href={`https://twitter.com/${twitterusername}`} target="_blank" >{twitterusername}</a></div>}
             {tweetType && <p className={`scale-90 text-gray-600`}>{tweetType}</p>}
             {dateAdded && <p className={`scale-75 text-gray-600`}>{dateAdded}</p>}
           </div>
