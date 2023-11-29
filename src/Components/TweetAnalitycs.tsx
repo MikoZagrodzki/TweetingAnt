@@ -28,6 +28,10 @@ function TweetAnalitycs() {
     try {
       setDisplayedResponse("");
       if (url.indexOf("http") !== -1 && url.indexOf("/status/") !== -1) {
+        if(tweetOrComment===""){
+          alert("You must select Tweet or Comment!");
+          return;
+        }
         const backendCall = await insertAnalyticsUrlOrUpdateDate(url, tweetOrComment);
         const tweetOrCommentCapitalised = tweetOrComment.charAt(0).toUpperCase() + tweetOrComment.slice(1);
         if(backendCall.whentoupdate && backendCall.whentoupdate===null){

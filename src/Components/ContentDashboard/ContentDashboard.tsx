@@ -68,16 +68,7 @@ function ContentDashboard() {
     // Set the filtered tweets
     setFilteredTweets(tweets);
 
-    if (searchPersonality !== "") {
-      // handlePersonalitySearch(searchPersonality);
-      handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(searchEmail)})
-    } 
-    if (searchTweetType !== "") {
-      // handleTweetTypeSearch(searchTweetType);
-      handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(searchEmail)})
-    }
-    if (searchEmail !== "") {
-      // handleTweetTypeSearch(searchTweetType);
+    if (searchPersonality !== "" || searchTweetType !== "" || searchEmail !== "") {
       handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(searchEmail)})
     }
     if(sortValue !== "" ) {
