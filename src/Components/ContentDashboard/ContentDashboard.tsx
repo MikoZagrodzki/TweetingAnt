@@ -117,9 +117,6 @@ function ContentDashboard() {
   
       setFilteredTweets(tweetTypeFiltered.length > 0 ? tweetTypeFiltered : []);
     }
-    // if(sortValue!==""){
-    //   setSortValue("");
-    // }
   };
   
   const handleTweetTypeSearch = (tweetTypeToSearch: string) => {
@@ -141,9 +138,6 @@ function ContentDashboard() {
   
       setFilteredTweets(personalityFiltered.length > 0 ? personalityFiltered : []);
     }
-    // if(sortValue!==""){
-    //   setSortValue("");
-    // }
   };
 
   const handleSortBy = (sortBy: string)=>{
@@ -204,7 +198,7 @@ function ContentDashboard() {
     setTweets([]);
     setFilteredTweets([]);
     getTweets();
-  }, [toggleUseEffectForTweets]);  
+  }, []);  
 
 
   const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
@@ -299,6 +293,7 @@ function ContentDashboard() {
       <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/analytics', { replace: true })}}>Analytics</button>
       </div>
           <div id="tweetLists" className="flex flex-col md:flex-row w-screen md:justify-center ">
+            {!filteredTweets.some((tweet)=>tweet) && <p className={``}>There is no scraped tweets.</p>}
             {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
               <ul id="pendingTweets" className={`${UL_STYLING} `}>
                 <h2 className={`${INFO_TEXT} pb-2`}>Pending Tweets</h2>

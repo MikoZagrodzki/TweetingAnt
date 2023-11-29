@@ -162,7 +162,7 @@ function Tweet(props: Props) {
     }
   };
   
-  const toggleTextOnButton = () => {
+  const toggleDisplayedText = () => {
     if(buttonText==='ChatGPT Text'){
       setButtonText('Original Text');
     }
@@ -431,8 +431,8 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
             <button className={BUTTON_STYLING} onClick={handleEdit}>Edit</button>
           )}
           <button className={BUTTON_STYLING} onClick={handleDecline}>Decline</button>
-          {/* {tweetType !=="retweet" && !isComparing && ((stateGptText !== stateOriginalText) || (isEditing && stateGptText !== stateOriginalText) || (isEditing && stateGptText !== originalTweetText)) && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleTextOnButton}>{buttonText}</button>)} */}
-          {isEditing && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleTextOnButton}>{buttonText}</button>)}
+          {/* {tweetType !=="retweet" && !isComparing && ((stateGptText !== stateOriginalText) || (isEditing && stateGptText !== stateOriginalText) || (isEditing && stateGptText !== originalTweetText)) && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)} */}
+          {isEditing && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)}
           {/* {tweetType !=="retweet" && stateGptText !== stateOriginalText && <button className={`${BUTTON_STYLING} ${hideButton}`} onClick={handleCompare}>{isComparing?'Stop Comparing':'Compare'}</button>}       */}
         </div>
       </div>
