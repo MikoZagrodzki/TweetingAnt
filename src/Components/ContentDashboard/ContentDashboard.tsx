@@ -303,7 +303,7 @@ function ContentDashboard() {
               <ul id="pendingTweets" className={`${UL_STYLING} `}>
                 <h2 className={`${INFO_TEXT} pb-2`}>Pending Tweets</h2>
                 {filteredTweets.filter(tweet => tweet.isapproved === 'pending').map((tweet) => {
-                  const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
+                  const index = filteredTweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(
                     <Tweet
                       key={tweet.id}
@@ -340,7 +340,7 @@ function ContentDashboard() {
               <ul id="approvedTweets" className={`pt-5 mt-10 border-t-2 md:border-t-0 md:mt-0 md:pt-0 ${UL_STYLING}`}>
               <h2 className={`${INFO_TEXT} pb-2`}>Approved Tweets</h2>
               {filteredTweets.filter(tweet => tweet.isapproved === 'approved').map((tweet) => {
-                  const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
+                  const index = filteredTweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(
                     <Tweet
                         key={tweet.id}

@@ -140,18 +140,29 @@ function Tweet(props: Props) {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "approved", sqlId);
       await updateTweetText(tweetUrl, stateGptText, sqlId);
-      setToggleUseEffectForTweets(!toggleUseEffectForTweets);
+      // setToggleUseEffectForTweets(!toggleUseEffectForTweets);
+
+      // Create a new array with the updated data
+      const updatedTweetsDataState = [...tweetsDataState];
+      updatedTweetsDataState[index].isapproved = "approved";
+      // Set the state with the new array
+      setTweetsDataState(updatedTweetsDataState);
     }
   };
 
   const handleDecline = async () => {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "declined", sqlId);
-      setToggleUseEffectForTweets(!toggleUseEffectForTweets);
+      // setToggleUseEffectForTweets(!toggleUseEffectForTweets);
+      // Create a new array with the updated data
+      const updatedTweetsDataState = [...tweetsDataState];
+      updatedTweetsDataState[index].isapproved = "declined";
+      // Set the state with the new array
+      setTweetsDataState(updatedTweetsDataState);
     }
   };
   
-  const toggleDisplayedText = () => {
+  const toggleTextOnButton = () => {
     if(buttonText==='ChatGPT Text'){
       setButtonText('Original Text');
     }
@@ -420,8 +431,8 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
             <button className={BUTTON_STYLING} onClick={handleEdit}>Edit</button>
           )}
           <button className={BUTTON_STYLING} onClick={handleDecline}>Decline</button>
-          {/* {tweetType !=="retweet" && !isComparing && ((stateGptText !== stateOriginalText) || (isEditing && stateGptText !== stateOriginalText) || (isEditing && stateGptText !== originalTweetText)) && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)} */}
-          {isEditing && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)}
+          {/* {tweetType !=="retweet" && !isComparing && ((stateGptText !== stateOriginalText) || (isEditing && stateGptText !== stateOriginalText) || (isEditing && stateGptText !== originalTweetText)) && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleTextOnButton}>{buttonText}</button>)} */}
+          {isEditing && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleTextOnButton}>{buttonText}</button>)}
           {/* {tweetType !=="retweet" && stateGptText !== stateOriginalText && <button className={`${BUTTON_STYLING} ${hideButton}`} onClick={handleCompare}>{isComparing?'Stop Comparing':'Compare'}</button>}       */}
         </div>
       </div>
