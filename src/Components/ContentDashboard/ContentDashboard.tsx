@@ -293,7 +293,7 @@ function ContentDashboard() {
           Show All
         </button>
       )}
-      {currentUser.email!=="maciek@maciek.maciek"&&
+      {currentUser.email==="admin@admin.admin"&&
         <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/main', { replace: true })}}>Main</button>
       }
       <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/analytics', { replace: true })}}>Analytics</button>

@@ -66,7 +66,7 @@ function TweetAnalitycs() {
     <div id='TweetAnalyticsComponent' className={`w-screen min-h-screen flex flex-col items-center gap-10 mt-10`}>
       <h1>Tweet Analitycs</h1>
       <div className={`flex flex- row flex-wrap gap-2`}>
-        {currentUser.email!=="maciek@maciek.maciek"&&
+        {currentUser.email==="admin@admin.admin"&&
           <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/main', { replace: true })}}>Main</button>
         }
         <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/', { replace: true })}}>Content</button>
