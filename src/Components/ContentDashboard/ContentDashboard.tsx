@@ -206,7 +206,7 @@ function ContentDashboard() {
 
 
   const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
-  const UL_STYLING   = classnames("flex flex-col items-center md:min-w-0")
+  const UL_STYLING   = classnames("flex flex-col items-center md:min-w-0 md:w-full md:max-w-lg")
   const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap')
 
   return (
@@ -223,7 +223,7 @@ function ContentDashboard() {
           }
         </div>
       }
-      <div id="selection_bar" className="flex flex-row gap-1 justify-center flex-wrap border-b-gray-700 border-b-2  pb-4 md:border-b-0 md:pb-0 ">
+      <div id="selection_bar" className="flex flex-row gap-1  justify-center flex-wrap border-b-gray-700 border-b-2  pb-4 md:border-b-0 md:pb-0 ">
         <select
           value={searchEmail}
           onChange={(e) => handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(e.target.value)})}
@@ -280,7 +280,7 @@ function ContentDashboard() {
       }
       <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/analytics', { replace: true })}}>Analytics</button>
       </div>
-          <div id="tweetLists" className="flex flex-col md:flex-row w-screen md:justify-center ">
+          <div id="tweetLists" className="flex flex-col md:flex-row w-screen md:justify-center md:gap-x-5">
             {!filteredTweets.some((tweet)=>tweet) && <p className={`w-full text-center`}>There is no scraped tweets.</p>}
             {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
               <ul id="pendingTweets" className={`${UL_STYLING} `}>
@@ -320,7 +320,7 @@ function ContentDashboard() {
               </ul>
             )}
             {filteredTweets.some((tweet) => tweet.isapproved === 'approved') && (
-              <ul id="approvedTweets" className={`pt-5 mt-10 border-t-2 md:border-t-0 md:mt-0 md:pt-0 ${UL_STYLING}`}>
+              <ul id="approvedTweets" className={`pt-5 mt-10 border-t-2 md:border-t-0 md:mt-0 md:pt-0 ${UL_STYLING} `}>
               <h2 className={`${INFO_TEXT} pb-2`}>Approved Tweets</h2>
               {filteredTweets.filter(tweet => tweet.isapproved === 'approved').map((tweet) => {
                   const index = filteredTweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
