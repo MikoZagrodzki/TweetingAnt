@@ -5,8 +5,13 @@ import classnames from 'classnames';
 import { useAuth } from "../../AuthContext";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import getEmailsAndPersonalitiesFromLoginData from "../../Functionalities/GetEmailsAndPersonalitiesFromLoginData";
 
 
+interface Emails {
+  email:string;
+  personality:string;
+}
 
 interface Tweet {
   id: number;
@@ -27,6 +32,8 @@ interface Tweet {
   likes: number | null;
   bookmarks: number | null;
   views: number | null;
+
+  email:string;
 }
 
 function ContentDashboard() {
@@ -36,35 +43,42 @@ function ContentDashboard() {
   const [filteredTweets, setFilteredTweets] = useState<Tweet[] | []>([]);
   const [searchPersonality, setSearchPersonality] = useState<string>("");
   const [searchTweetType, setSearchTweetType] = useState<string>("");
+  const [searchEmail, setSearchEmail] = useState<string>("");
   const [sortValue, setSortValue] = useState<string>("");
 
   const[toggleUseEffectForTweets, setToggleUseEffectForTweets] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
-  // const getTweets = async () => {
-  //   const tweetsData = await getAllScrapedTweets();
-  //   setTweets(tweetsData);
-  //   setFilteredTweets(tweetsData);
-  // };
-
   const getTweets = async () => {
     const tweetsData = await getAllScrapedTweets();
-    setTweets(tweetsData);
+    const emailsToExtract = await getEmailsAndPersonalitiesFromLoginData();
+  
+    const tweetsWithEmails = tweetsData.map((tweet:Tweet) => {
+      const matchingEmail = emailsToExtract.find((email:Tweet) => email.personality === tweet.personality);
+      return matchingEmail ? { ...tweet, email: matchingEmail.email } : tweet;
+    });
+    
+    setTweets(tweetsWithEmails);
     applyFilters(); // Apply filters after fetching new tweets
   };
+  
   
   const applyFilters = () => {
     // Set the filtered tweets
     setFilteredTweets(tweets);
 
-    
     if (searchPersonality !== "") {
-      handlePersonalitySearch(searchPersonality);
-    }
-    
+      // handlePersonalitySearch(searchPersonality);
+      handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(searchEmail)})
+    } 
     if (searchTweetType !== "") {
-      handleTweetTypeSearch(searchTweetType);
+      // handleTweetTypeSearch(searchTweetType);
+      handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(searchEmail)})
+    }
+    if (searchEmail !== "") {
+      // handleTweetTypeSearch(searchTweetType);
+      handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(searchEmail)})
     }
     if(sortValue !== "" ) {
       handleSortBy(sortValue);
@@ -74,71 +88,69 @@ function ContentDashboard() {
   // Add a useEffect to reapply filters when tweets or filter values change
   useEffect(() => {
     applyFilters();
-  }, [tweets, searchPersonality, searchTweetType, sortValue]);
+  }, [tweets, searchPersonality, searchTweetType, searchEmail, sortValue]);
 
 /////////////////THESE ARE FOR DROPDOWN FIELDS //////////////////////////////////
   let personalitiesNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.personality))).sort();
   let tweetTypesNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.tweettype))).sort();
+  let emailsNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.email))).sort();
 
-  let personalitiesWhenTweetTypeSelected = Array.from(new Set(
-    tweets
-      .filter((tweet) => tweet.tweettype === searchTweetType)
+  // Function to filter tweets based on selected criteria
+  function getFilterTypes(searchPersonality:string|null, searchTweetType:string|null, searchEmail:string|null) {
+    return tweets.filter((tweet) =>
+      (searchPersonality ? tweet.personality === searchPersonality : true) &&
+      (searchTweetType ? tweet.tweettype === searchTweetType : true) &&
+      (searchEmail ? tweet.email === searchEmail : true)
+    );
+  }
+  // Get personalities when tweet type or email is selected
+  let personalitiesWhenTweetTypeOrEmailSelected = Array.from(new Set(
+    getFilterTypes(null, searchTweetType, searchEmail)
       .map((tweet) => tweet.personality)
       .filter((personality) => personality !== null)
       .sort()
   ));
-
-  let tweetTypesWhenPersonalitySelected = Array.from(new Set(
-    tweets
-      .filter((tweet) => tweet.personality === searchPersonality)
+  // Get tweet types when personality or email is selected
+  let tweetTypesWhenPersonalityOrEmailSelected = Array.from(new Set(
+    getFilterTypes(searchPersonality, null, searchEmail)
       .map((tweet) => tweet.tweettype)
       .filter((tweetType) => tweetType !== null)
       .sort()
   ));
+  // Get emails when personality or tweet type is selected
+  let emailsWhenPersonalityOrTweetTypeSelected = Array.from(new Set(
+    getFilterTypes(searchPersonality, searchTweetType, null)
+      .map((tweet) => tweet.email)
+      .filter((email) => email !== null)
+      .sort()
+  ));
+  //Function that renders JSX elements
+  const renderDropdownOptions = (options:(string|null)[], selectedValue:string) => {
+    return options?.map((uniqueValue) => (
+      <option key={uuidv4()} value={uniqueValue || ''} selected={uniqueValue === selectedValue}>
+        {uniqueValue}
+      </option>
+    ));
+  };
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-  const handlePersonalitySearch = (personalityToSearch: string) => {
-    setSearchPersonality(personalityToSearch);
+  const handleDropdownSearch = (searchParams: {personality:string, tweetType:string, email:string} ) => {
+    const { personality, tweetType, email } = searchParams;
+    setSearchPersonality(personality);
+    setSearchTweetType(tweetType);
+    setSearchEmail(email);
   
-    if (personalityToSearch !== "") {
-      const filtered = tweets.filter((tweet) =>
-        tweet.personality &&
-        tweet.personality.toLowerCase()===personalityToSearch.toLowerCase() &&
-        (!searchTweetType || tweet.tweettype?.toLowerCase() === searchTweetType.toLowerCase())
-      );
+    const filtered = tweets.filter((tweet) =>
+      (!personality || tweet.personality?.toLowerCase() === personality.toLowerCase()) &&
+      (!tweetType || tweet.tweettype?.toLowerCase() === tweetType.toLowerCase()) &&
+      (!email || tweet.email?.toLowerCase() === email.toLowerCase())
+    );
   
-      setFilteredTweets(filtered.length > 0 ? filtered : []);
-    } else {
-      // If personalityToSearch is empty, apply only the tweetType filter
-      const tweetTypeFiltered = tweets.filter((tweet) =>
-        !searchTweetType || tweet.tweettype?.toLowerCase() === searchTweetType.toLowerCase()
-      );
-  
-      setFilteredTweets(tweetTypeFiltered.length > 0 ? tweetTypeFiltered : []);
-    }
+    setFilteredTweets(filtered.length > 0 ? filtered : []);
   };
   
-  const handleTweetTypeSearch = (tweetTypeToSearch: string) => {
-    setSearchTweetType(tweetTypeToSearch);
-  
-    if (tweetTypeToSearch !== "") {
-      const filtered = tweets.filter((tweet) =>
-        tweet.tweettype &&
-        tweet.tweettype.toLowerCase()===tweetTypeToSearch.toLowerCase() &&
-        (!searchPersonality || tweet.personality?.toLowerCase() === searchPersonality.toLowerCase())
-      );
-  
-      setFilteredTweets(filtered.length > 0 ? filtered : []);
-    } else {
-      // If tweetTypeToSearch is empty, apply only the personality filter
-      const personalityFiltered = tweets.filter((tweet) =>
-        !searchPersonality || tweet.personality?.toLowerCase() === searchPersonality.toLowerCase()
-      );
-  
-      setFilteredTweets(personalityFiltered.length > 0 ? personalityFiltered : []);
-    }
-  };
 
   const handleSortBy = (sortBy: string)=>{
     setSortValue(sortBy);
@@ -191,6 +203,7 @@ function ContentDashboard() {
     setFilteredTweets(tweets);
     setSearchPersonality("");
     setSearchTweetType("");
+    setSearchEmail("");
     setSortValue("");
   }  
 
@@ -198,7 +211,7 @@ function ContentDashboard() {
     setTweets([]);
     setFilteredTweets([]);
     getTweets();
-  }, []);  
+  }, []);
 
 
   const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
@@ -221,44 +234,28 @@ function ContentDashboard() {
       }
       <div id="selection_bar" className="flex flex-row gap-1 justify-center flex-wrap border-b-gray-700 border-b-2  pb-4 md:border-b-0 md:pb-0 ">
         <select
+          value={searchEmail}
+          onChange={(e) => handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(e.target.value)})}
+          className={BUTTON_STYLING}
+        >
+          <option value="">All Groups</option>
+          {renderDropdownOptions(searchEmail ==="" ? emailsNoDuplicates : emailsWhenPersonalityOrTweetTypeSelected, searchEmail)}
+      </select>
+        <select
           value={searchPersonality}
-          onChange={(e) => handlePersonalitySearch(String(e.target.value))}
+          onChange={(e) => handleDropdownSearch({personality:String(e.target.value), tweetType:String(searchTweetType), email:String(searchEmail)})}
           className={BUTTON_STYLING}
         >
           <option value="">All Personalities</option>
-          {searchTweetType ==="" ?
-            personalitiesNoDuplicates.map(uniquePersonality => (
-              <option key={uuidv4()} value={uniquePersonality || ''}>
-                {uniquePersonality}
-              </option>
-            ))
-            :
-            personalitiesWhenTweetTypeSelected.map(uniquePersonality => (
-              <option key={uuidv4()} value={uniquePersonality || ''}>
-                {uniquePersonality}
-              </option>
-            ))
-          }
+          {renderDropdownOptions(searchPersonality ==="" ? personalitiesNoDuplicates : personalitiesWhenTweetTypeOrEmailSelected, searchPersonality)}
       </select>
       <select
         value={searchTweetType}
-        onChange={(e) => handleTweetTypeSearch(String(e.target.value))}
+        onChange={(e) => handleDropdownSearch({personality:String(searchPersonality), tweetType:String(e.target.value), email:String(searchEmail)})}
         className={BUTTON_STYLING}
       >
         <option value="">All Tweet Types</option>
-        {searchPersonality === "" ?
-          tweetTypesNoDuplicates.map((uniqueTweetType) => (
-            <option key={uniqueTweetType} value={uniqueTweetType || ""}>
-              {uniqueTweetType}
-            </option>
-          ))
-        :
-          tweetTypesWhenPersonalitySelected.map((uniqueTweetType) => (
-            <option key={uniqueTweetType} value={uniqueTweetType || ""}>
-              {uniqueTweetType}
-            </option>
-          ))
-        }
+        {renderDropdownOptions(searchTweetType ==="" ? tweetTypesNoDuplicates : tweetTypesWhenPersonalityOrEmailSelected, searchTweetType)}
       </select>
       <select 
         className={`${BUTTON_STYLING}`}
@@ -282,7 +279,7 @@ function ContentDashboard() {
       {filteredTweets.some((tweet) => tweet.isapproved === 'approved') &&
         <a href="#approvedTweets" className={`md:hidden ${BUTTON_STYLING}`}>Approved Tweets</a> 
       }
-      {(searchPersonality !== "" || searchTweetType !== "") && (
+      {(searchPersonality !== "" || searchTweetType !== "" || searchEmail !== "" || sortValue !== "") && (
         <button className={BUTTON_STYLING} onClick={handleShowAll}>
           Show All
         </button>
@@ -293,7 +290,7 @@ function ContentDashboard() {
       <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/analytics', { replace: true })}}>Analytics</button>
       </div>
           <div id="tweetLists" className="flex flex-col md:flex-row w-screen md:justify-center ">
-            {!filteredTweets.some((tweet)=>tweet) && <p className={``}>There is no scraped tweets.</p>}
+            {!filteredTweets.some((tweet)=>tweet) && <p className={`w-full text-center`}>There is no scraped tweets.</p>}
             {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
               <ul id="pendingTweets" className={`${UL_STYLING} `}>
                 <h2 className={`${INFO_TEXT} pb-2`}>Pending Tweets</h2>

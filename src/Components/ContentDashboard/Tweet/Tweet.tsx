@@ -39,6 +39,8 @@ interface TweetSql {
   likes: number | null;
   bookmarks: number | null;
   views: number | null;
+
+  email:string
 }
 
 
