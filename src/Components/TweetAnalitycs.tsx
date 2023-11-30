@@ -67,7 +67,7 @@ function TweetAnalitycs() {
   
 
   return (
-    <div id='TweetAnalyticsComponent' className={`w-screen min-h-screen flex flex-col items-center gap-10 mt-10`}>
+    <div id='TweetAnalyticsComponent' className={`w-screen flex flex-col items-center gap-10 mt-10`}>
       <h1>Tweet Analitycs</h1>
       <div className={`flex flex- row flex-wrap gap-2`}>
         {currentUser.email==="admin@admin.admin"&&
