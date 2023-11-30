@@ -127,7 +127,7 @@ function Main() {
       <a href="#top" className=" fixed z-20 bottom-10 right-10 font-extrabold text-2xl bg-highlight rounded-lg text-accent p-1 shadow-lg border border-accent hover:text-highlight hover:border-highlight hover:bg-accent">^</a>
       <div className="my-10 flex flex-col space-y-5 items-center">
         <h1 className="font-semibold text-center text-md sm:text-lg md:text-xl">{currentUser.email} is logged in.</h1>
-        <div className="flex flex-row space-x-1 sm:space-x-2 md:space-x-3">
+        <div className="flex flex-row space-x-1 sm:space-x-2 md:space-x-3 flex-wrap justify-center gap-1">
           {(currentUser.email==="admin@admin.admin" || currentUser.email.includes("@batch")) && <PopupAddAccount dbTrigger={dbTrigger} setDbTrigger={setDbTrigger}/>}
           <PopupBurstAttack twitterAccounts={twitterAccounts} setTwitterAccounts={setTwitterAccounts}/>
           <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/', { replace: true })}}>Content</button>
