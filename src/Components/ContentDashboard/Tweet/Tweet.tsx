@@ -68,10 +68,12 @@ interface Props {
   dateAdded: string|null;
 
   setBaseTweets: React.Dispatch<React.SetStateAction<[] | TweetSql[]>>;
+  baseTweets:TweetSql[];
+
 }
 
 function Tweet(props: Props) {
-  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, filteredTweetsDataState, setFilteredTweetsDataState, index, userminiimageurl, twitterusername, replies, reposts, likes, bookmarks, views, tweetType, dateAdded, setBaseTweets} = props;
+  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, filteredTweetsDataState, setFilteredTweetsDataState, index, userminiimageurl, twitterusername, replies, reposts, likes, bookmarks, views, tweetType, dateAdded, setBaseTweets, baseTweets} = props;
   const [stateOriginalText, setStateOriginalText] = useState<string>(originalTweetText);
   const [stateGptText, setStateGptText] = useState<string>(tweetText)
   const [buttonText, setButtonText] = useState<string>('Original Text');
@@ -141,7 +143,7 @@ function Tweet(props: Props) {
       await updateIsApproved(tweetUrl, "approved", sqlId);
       await updateTweetText(tweetUrl, stateGptText, sqlId);
       // Create a new array with the updated data
-      const updatedTweetsDataState = [...filteredTweetsDataState];
+      const updatedTweetsDataState = [...baseTweets];
       updatedTweetsDataState[index].tweettextchatgpt = stateGptText;
       updatedTweetsDataState[index].isapproved = "approved";
       // Set the state with the new array
@@ -154,7 +156,7 @@ function Tweet(props: Props) {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "declined", sqlId);
       // Create a new array with the updated data
-      const updatedTweetsDataState = [...filteredTweetsDataState];
+      const updatedTweetsDataState = [...baseTweets];
       updatedTweetsDataState[index].isapproved = "declined";
       // Set the state with the new array
       setBaseTweets(updatedTweetsDataState);
@@ -174,7 +176,7 @@ function Tweet(props: Props) {
   const declineImage = async  () => {
     await declineTweetPicture(tweetUrl,sqlId);
     setImageSourceState(null)
-    const updatedTweetsDataState = [...filteredTweetsDataState];
+    const updatedTweetsDataState = [...baseTweets];
     updatedTweetsDataState[index].tweetpictureurl = null;
     // Set the state with the new array
     setBaseTweets(updatedTweetsDataState);
@@ -184,7 +186,7 @@ function Tweet(props: Props) {
   const declineVideo = async  () => {
     await declineTweetVideo(tweetUrl,sqlId);
     setVideoSourceState(null);
-    const updatedTweetsDataState = [...filteredTweetsDataState];
+    const updatedTweetsDataState = [...baseTweets];
     updatedTweetsDataState[index].tweetvideourl = null;
     // Set the state with the new array
     setBaseTweets(updatedTweetsDataState);

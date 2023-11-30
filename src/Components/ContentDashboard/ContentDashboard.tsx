@@ -133,11 +133,7 @@ function ContentDashboard() {
       </option>
     ));
   };
-
 /////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
   const handleDropdownSearch = (searchParams: {personality:string, tweetType:string, email:string} ) => {
     const { personality, tweetType, email } = searchParams;
@@ -146,14 +142,15 @@ function ContentDashboard() {
     setSearchEmail(email);
   
     const filtered = tweets.filter((tweet) =>
+      (!email || tweet.email?.toLowerCase() === email.toLowerCase()) &&
       (!personality || tweet.personality?.toLowerCase() === personality.toLowerCase()) &&
-      (!tweetType || tweet.tweettype?.toLowerCase() === tweetType.toLowerCase()) &&
-      (!email || tweet.email?.toLowerCase() === email.toLowerCase())
+      (!tweetType || tweet.tweettype?.toLowerCase() === tweetType.toLowerCase()) 
     );
 
     setFilteredTweets(filtered.length > 0 ? filtered : []);
   };
   
+
 
   const handleSortBy = (sortBy: string)=>{
     setSortValue(sortBy);
@@ -203,12 +200,12 @@ function ContentDashboard() {
   };
   
   const handleShowAll = () => {
-    setFilteredTweets(tweets);
     setSearchPersonality("");
     setSearchTweetType("");
     setSearchEmail("");
     setSortValue("");
-  }  
+    setFilteredTweets(tweets);
+  };
 
   useEffect(() => {
     setTweets([]);
@@ -298,7 +295,7 @@ function ContentDashboard() {
               <ul id="pendingTweets" className={`${UL_STYLING} `}>
                 <h2 className={`${INFO_TEXT} pb-2`}>Pending Tweets</h2>
                 {filteredTweets.filter(tweet => tweet.isapproved === 'pending').map((tweet) => {
-                  const index = filteredTweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
+                  const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(
                     <Tweet
                       key={tweet.id}
@@ -325,6 +322,7 @@ function ContentDashboard() {
                       dateAdded={tweet.time}
 
                       setBaseTweets={setTweets}
+                      baseTweets={tweets}
                     />)
               })}
               </ul>
@@ -333,7 +331,7 @@ function ContentDashboard() {
               <ul id="approvedTweets" className={`pt-5 mt-10 border-t-2 md:border-t-0 md:mt-0 md:pt-0 ${UL_STYLING} `}>
               <h2 className={`${INFO_TEXT} pb-2`}>Approved Tweets</h2>
               {filteredTweets.filter(tweet => tweet.isapproved === 'approved').map((tweet) => {
-                  const index = filteredTweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
+                  const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(
                     <Tweet
                         key={tweet.id}
@@ -360,6 +358,8 @@ function ContentDashboard() {
                         dateAdded={tweet.time}
 
                         setBaseTweets={setTweets}
+                        baseTweets={tweets}
+
                     />)
               })}
               </ul>
