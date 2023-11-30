@@ -145,7 +145,7 @@ function Tweet(props: Props) {
       updatedTweetsDataState[index].tweettextchatgpt = stateGptText;
       updatedTweetsDataState[index].isapproved = "approved";
       // Set the state with the new array
-      setBaseTweets(updatedTweetsDataState)
+      setBaseTweets(updatedTweetsDataState);
       setFilteredTweetsDataState(updatedTweetsDataState);
     }
   };
@@ -157,7 +157,7 @@ function Tweet(props: Props) {
       const updatedTweetsDataState = [...filteredTweetsDataState];
       updatedTweetsDataState[index].isapproved = "declined";
       // Set the state with the new array
-      setBaseTweets(updatedTweetsDataState)
+      setBaseTweets(updatedTweetsDataState);
       setFilteredTweetsDataState(updatedTweetsDataState);
     }
   };
@@ -174,11 +174,21 @@ function Tweet(props: Props) {
   const declineImage = async  () => {
     await declineTweetPicture(tweetUrl,sqlId);
     setImageSourceState(null)
+    const updatedTweetsDataState = [...filteredTweetsDataState];
+    updatedTweetsDataState[index].tweetpictureurl = null;
+    // Set the state with the new array
+    setBaseTweets(updatedTweetsDataState);
+    setFilteredTweetsDataState(updatedTweetsDataState);
   }
 
   const declineVideo = async  () => {
     await declineTweetVideo(tweetUrl,sqlId);
     setVideoSourceState(null);
+    const updatedTweetsDataState = [...filteredTweetsDataState];
+    updatedTweetsDataState[index].tweetvideourl = null;
+    // Set the state with the new array
+    setBaseTweets(updatedTweetsDataState);
+    setFilteredTweetsDataState(updatedTweetsDataState);
   }
 
   const handleRephrase = async  () => {
