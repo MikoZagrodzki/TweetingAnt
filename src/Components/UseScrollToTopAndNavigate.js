@@ -10,14 +10,14 @@ const useScrollToTopAndNavigate = () => {
   };
 
   useEffect(() => {
-    const unlisten = navigate(() => {
+    // In this case, there's no need for unlisten
+    const cleanup = () => {
       window.scrollTo(0, 0);
-    });
-
-    return () => {
-      unlisten();
     };
-  }, [navigate]);
+
+    // Run the cleanup on component unmount
+    return cleanup;
+  }, []);
 
   return action;
 };
