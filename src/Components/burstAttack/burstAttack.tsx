@@ -9,6 +9,8 @@ import {
 import { useAuth } from "../../AuthContext";
 import { insertCommentsAttack, insertLikesAttack, insertRephraseAttack, insertRetweetsAttack } from "../../SQL";
 import { v4 as uuidv4 } from "uuid";
+import classnames from 'classnames';
+
 
 interface Props {
   twitterAccounts: TwitterAccountType[];
@@ -166,24 +168,34 @@ function LikesAttack(props: Props) {
   });
   const personalitiesNoDuplicates = Array.from(new Set(personalities));
 
+  const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
+  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
+  const TWEET_TEXT = classnames('text-xs sm:text-sm');
+  const BORDER_OUTSIDE_STYLING = classnames('border border-2 border-secondary border-opacity-20');
+  const BORDER_STYLING = classnames('border border-2 border-white border-opacity-20');
+  const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
+  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
+  
+  
+
 
   return (
-    <div className="LikesAttack_Container text-xs sm:text-sm md:text-base flex  flex-col items-center bg-background border-2 border-primary w-10/12 space-y-2 max-w-md">
+    <div className={`LikesAttack_Container ${TWEET_TEXT} text-white flex  flex-col items-center bg-background bg-opacity-90 ${BORDER_OUTSIDE_STYLING} border-opacity-50 w-10/12 space-y-2 max-w-md`}>
       <p className="py-2">Paste link to tweet and perform a burst attack </p>
       <form className="flex flex-row w-11/12 justify-center">
         <input
-          className="w-3/4 shadow-md mr-1 rounded-sm focus:outline-accent"
+          className={`w-3/4 shadow-md mr-1 rounded-sm focus:outline-accent text-black`}
           type="url"
           placeholder="TWEET URL"
           value={url}
           onChange={(event) => setUrl(event.target.value)}
         />
-        <button className="w-1/4 bg-secondary font-semibold px-2 rounded-sm hover:bg-accent hover:text-white shadow-md" onClick={(event) => formSubmit(event)}>Attack!</button>
+        <button className={`w-1/4 bg-secondary font-semibold px-2 rounded-sm ${BORDER_STYLING} hover:bg-accent hover:text-white shadow-md`} onClick={(event) => formSubmit(event)}>Attack!</button>
       </form>
       <p>You are performing atatck with:</p>
       <div className="setters_container w-11/12 flex flex-row space-x-2">
         <select
-          className="w-4/12 shadow-md focus:outline-accent"
+          className={`w-4/12 shadow-md focus:outline-accent text-black`}
           name="amount_setter"
           id=""
           onChange={(e) => amountSetter(Number(e.target.value))}
@@ -196,7 +208,7 @@ function LikesAttack(props: Props) {
           ))}
         </select>
         <select
-          className="w-8/12 shadow-md focus:outline-accent"
+          className={`w-8/12 shadow-md focus:outline-accent text-black`}
           name="personality_setter"
           id=""
           onChange={(e) => personalitySetter(String(e.target.value))}
@@ -214,37 +226,38 @@ function LikesAttack(props: Props) {
           })}
         </select>
       </div>
-      <div className="select_container flex flex-row space-x-2">
+      <div className={`select_container flex flex-row space-x-2 pb-3`}>
         <div className="select_single_container">
           <p>Like</p>
-          <label className="switch">
-            <input className="shadow-sm " type="checkbox" onChange={handleLikeChange} checked={likeSwitch} />
-            <span className="slider border border-highlight shadow-lg rounded-sm"></span>
+          <label className={`switch`}>
+            <input className={`shadow-sm `} type="checkbox" onChange={handleLikeChange} checked={likeSwitch} />
+            <span className={`slider border border-highlight shadow-lg rounded-full`}></span>
           </label>
         </div>
-        {currentUser.email==="admin@admin.admin" || currentUser.email.includes("@batch")?(<div className="select_single_container">
-          <p>Rephrase</p>
-          <label className="switch">
-            <input className="shadow-sm " type="checkbox" onChange={handleRetweetChange} checked={retweetSwitch} />
-            <span className="slider border border-highlight shadow-lg rounded-sm"></span>
-          </label>
-        </div>):""}
-        <div className="select_single_container">
+        {(currentUser.email==="admin@admin.admin" || currentUser.email.includes("@batch")) && (
+          <div className={`select_single_container`}>
+            <p>Rephrase</p>
+            <label className={`switch`}>
+              <input className={`shadow-sm`} type="checkbox" onChange={handleRetweetChange} checked={retweetSwitch} />
+              <span className={`slider border border-highlight shadow-lg rounded-full`}></span>
+            </label>
+          </div>
+         )}
+        <div className={`select_single_container`}>
           <p>Comment</p>
-          <label className="switch">
-            <input className="shadow-sm " type="checkbox" onChange={handleCommentChange} checked={commentSwitch} />
-            <span className="slider border border-highlight shadow-lg rounded-sm"></span>
+          <label className={`switch`}>
+            <input className={`shadow-sm`} type="checkbox" onChange={handleCommentChange} checked={commentSwitch} />
+            <span className={`slider border border-highlight shadow-lg rounded-full`}></span>
           </label>
         </div>
-        <div className="select_single_container">
+        <div className={`select_single_container`}>
           <p>Retweet</p>
-          <label className="switch">
-            <input className="shadow-sm " type="checkbox" onChange={handleRetweetChange} checked={retweetSwitch} />
-            <span className="slider border border-highlight shadow-lg rounded-sm"></span>
+          <label className={`switch`}>
+            <input className={`shadow-sm`} type="checkbox" onChange={handleRetweetChange} checked={retweetSwitch} />
+            <span className={`slider border border-highlight shadow-lg rounded-full`}></span>
           </label>
         </div>
       </div>
-      <p></p>
     </div>
   );
 }

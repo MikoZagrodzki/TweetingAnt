@@ -118,7 +118,8 @@ function Main() {
   const BORDER_STYLING = classnames('border border-2 border-secondary');
   const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
   const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
-  
+  const BORDER_OUTSIDE_STYLING = classnames('border border-2 border-white border-opacity-20');
+
 
 
   return (
@@ -127,12 +128,10 @@ function Main() {
       <div className="my-10 flex flex-col space-y-5 items-center">
         <h1 className="font-semibold text-center text-md sm:text-lg md:text-xl">{currentUser.email} is logged in.</h1>
         <div className="flex flex-row space-x-1 sm:space-x-2 md:space-x-3">
-          <PopupAddAccount
-            dbTrigger={dbTrigger}
-            setDbTrigger={setDbTrigger}
-          />
+          {(currentUser.email==="admin@admin.admin" || currentUser.email.includes("@batch")) && <PopupAddAccount dbTrigger={dbTrigger} setDbTrigger={setDbTrigger}/>}
           <PopupBurstAttack twitterAccounts={twitterAccounts} setTwitterAccounts={setTwitterAccounts}/>
           <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/', { replace: true })}}>Content</button>
+          <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/analytics', { replace: true })}}>Analytics</button>
           <button className={`${BUTTON_STYLING}`} onClick={handleLogout}> Log out </button>
         </div>
         {filteredTwitterAccounts.length >0 && <p className={`${INFO_TEXT}`}>{filteredTwitterAccounts.length} Accounts</p>}
@@ -184,7 +183,7 @@ function Main() {
           </div>
         }
       </div>
-      <ul className="pb-10 flex flex-col space-y-5 items-center w-11/12 max-w-6xl border border-primary pt-5 sm:flex-row sm:flex-wrap sm:space-x-0 sm:space-y-0 sm:justify-center ">
+      <ul className={`pb-10 flex flex-col space-y-5 items-center w-11/12 max-w-6xl ${BORDER_OUTSIDE_STYLING} pt-5 sm:flex-row sm:flex-wrap sm:space-x-0 sm:space-y-0 sm:justify-center`}>
         {filteredTwitterAccounts.length > 0 ? (
           filteredTwitterAccounts.map((x) => (
             <li key={x.id} className="shadow-md sm:p-1">

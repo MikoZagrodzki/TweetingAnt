@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import SettingCardLiElement from "./SettingCardLiElement";
 import { TwitterAccountType } from "../../TypesApi";
+import classnames from 'classnames';
+
 
 interface Props {
   loginNameTwitter: string;
@@ -89,11 +91,21 @@ function SettingCard(props: Props) {
     }
   };
 
+
+  const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
+  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
+  const TWEET_TEXT = classnames('text-xs sm:text-sm');
+  const BORDER_STYLING = classnames('border border-2 border-secondary');
+  const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
+  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
+  const BORDER_OUTSIDE_STYLING = classnames('border border-2 border-white border-opacity-20');
+
+
   
   return (
-    <div className="text-xs sm:text-sm SettingCard-container w-6/12 border-2 border-primary max-w-md h-28 rounded-sm ">
+    <div className={`${INFO_TEXT} SettingCard-container w-6/12 ${BORDER_OUTSIDE_STYLING} max-w-md h-28 rounded-sm `}>
       <select
-        className="w-full focus:outline-accent bg-secondary border-b border-b-accent"
+        className={`w-full focus:outline-accent bg-secondary border-b border-b-white bg-opacity-90 rounded-sm`}
         name="intensivity_setter"
         id=""
         onChange={(e) => updateIntensivity(Number(e.target.value))}
@@ -106,7 +118,7 @@ function SettingCard(props: Props) {
         <option value={0}>{purpose} OFF</option>
       </select>
       <p className="ml-1">{props.purpose}s at:</p>
-      <ul className="text-sm sm:text-base overflow-y-scroll overflow-x-clip flex flex-row flex-wrap h-3/6 mx-1">
+      <ul className="overflow-y-scroll overflow-x-clip flex flex-row flex-wrap h-3/6 mx-1">
         {howMany.length > 0 &&
           howMany.map((x) => {
             return (

@@ -5,6 +5,8 @@ import { useState } from "react";
 // import "./FormTwitterCredentials.css";
 import insertIntensivity from "../../SQL/InsertIntensivity";
 import generateTwitterClassAndPush from "../../Functionalities/GenerateTwitterClassAndPush";
+import classnames from 'classnames';
+
 
 interface Props {
   dbTrigger: boolean;
@@ -47,6 +49,16 @@ function FormTwitterCredentials(props: Props) {
       console.error(error)
     }
   };
+
+  const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
+  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
+  const TWEET_TEXT = classnames('text-xs sm:text-sm');
+  const BORDER_OUTSIDE_STYLING = classnames('border border-2 border-secondary border-opacity-20');
+  const BORDER_STYLING = classnames('border border-2 border-white border-opacity-20');
+  const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
+  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
+  
+  
 
   return (
     <div className="FormTwitterCredentials_container flex flex-col space-y-2 text-center bg-background p-5 border-2 border-secondary w-11/12 max-w-md">

@@ -61,9 +61,11 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #F0E5CF;
+    background-color: #8899ac;
     -webkit-transition: .4s;
     transition: .4s;
+    
+    
   }
   
   .slider:before {
@@ -76,10 +78,13 @@
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
+    border-radius: 50%; /* Make it round */
+
   }
   
   input:checked + .slider {
-    background-color: #6C82A3;
+    background-color: #1d9bf0;
+    
   }
   
   input:focus + .slider {

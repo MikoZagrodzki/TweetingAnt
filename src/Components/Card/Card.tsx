@@ -10,6 +10,8 @@ import Personality from "./Personality";
 import { TwitterAccountType } from "../../TypesApi";
 import LikesAttack from "../burstAttack/burstAttack";
 import { CSSTransition } from 'react-transition-group';
+import classnames from 'classnames';
+
 
 
 interface Props {
@@ -65,7 +67,7 @@ function Card(props: Props) {
     }
   };
 
-///////ANIMATION
+///////////////////////ANIMATION////////////////////////////////
   const [inView, setInView] = useState(false);
   const offset = -100;
 
@@ -100,7 +102,17 @@ function Card(props: Props) {
     // Trigger initial check on component mount
     handleScroll();
   }, []);
-////////END OF ANIMATION
+////////////////////////END OF ANIMATION////////////////////////
+
+
+const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
+const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
+const TWEET_TEXT = classnames('text-xs sm:text-sm');
+const BORDER_OUTSIDE_STYLING = classnames('border border-2 border-secondary border-opacity-20');
+const BORDER_STYLING = classnames('border border-2 border-white border-opacity-20');
+const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
+const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
+
 
 
   return (
@@ -110,7 +122,7 @@ function Card(props: Props) {
         timeout={500}
       >
     <div id={twitterAccount} className="in-view flex flex-col w-full  ">
-      <div className="flex flex-col items-start space-x-5 border-2 border-secondary p-3 w-72 max-w-full sm:w-52 md:w-60">
+      <div className={`flex flex-col items-start space-x-5 ${BORDER_OUTSIDE_STYLING} p-3 w-72 max-w-full sm:w-52 md:w-60`}>
         <p className="text-sm sm:text-base font-semibold">{twitterAccount}</p>
         <p className="text-xs sm:text-sm sm:h-10">{twitterClassAccount?.personality}</p>
         <div className="Card-automation-container flex flex-row w-full space-x-5 py-1 items-center">
@@ -209,7 +221,7 @@ function Card(props: Props) {
           <a
             href={`#${twitterAccount}`}
             type="button"
-            className="Card closeButton bg-secondary font-semibold px-2 hover:bg-accent hover:text-white shadow-md"
+            className={`Card closeButton font-semibold px-2 ${BUTTON_STYLING}`}
             onClick={closeTooltip}
           >
             close
