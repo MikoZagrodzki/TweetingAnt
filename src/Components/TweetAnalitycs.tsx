@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import classnames from 'classnames';
 import { useAuth } from "../AuthContext";
 import insertAnalyticsUrlOrUpdateDate from '../Functionalities/InsertAnalyticsUrlOrUpdateDate';
-import scrollToTopAndNavigate from './scrollToTopAndNavigate';
+import useScrollToTopAndNavigate from './UseScrollToTopAndNavigate';
 
 
 
 
 function TweetAnalitycs() {
   const { currentUser }: any = useAuth();
-  const navigate = scrollToTopAndNavigate();
+  const navigate = useScrollToTopAndNavigate();
 
   const [tweetOrComment, setTweetOrComment] = useState<string>("")
   const [url, setUrl] = useState<string>("");

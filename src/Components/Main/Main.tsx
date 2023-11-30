@@ -9,7 +9,7 @@ import PopupBurstAttack from "./PopupBurstAttack/PopupBurstAttack";
 import { getPersonalityList } from "../../SQL";
 import classnames from 'classnames';
 import { v4 as uuidv4 } from "uuid";
-import scrollToTopAndNavigate from "../scrollToTopAndNavigate";
+import useScrollToTopAndNavigate from "../UseScrollToTopAndNavigate";
 
 
 interface Props {
@@ -29,7 +29,7 @@ function Main() {
 
   const [filteredTwitterAccounts, setFilteredTwitterAccounts]=useState<TwitterAccountType[] | []>(twitterAccounts)
   
-  const navigate = scrollToTopAndNavigate();
+  const navigate = useScrollToTopAndNavigate();
 
   
   async function handleLogout() {

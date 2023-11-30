@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { useAuth } from "../../AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import getEmailsAndPersonalitiesFromLoginData from "../../Functionalities/GetEmailsAndPersonalitiesFromLoginData";
-import scrollToTopAndNavigate from "../scrollToTopAndNavigate";
+import useScrollToTopAndNavigate from "../UseScrollToTopAndNavigate";
 
 
 interface Emails {
@@ -46,7 +46,7 @@ function ContentDashboard() {
   const [searchEmail, setSearchEmail] = useState<string>("");
   const [sortValue, setSortValue] = useState<string>("");
 
-  const navigate = scrollToTopAndNavigate();
+  const navigate = useScrollToTopAndNavigate();
 
   const getTweets = async () => {
     const tweetsData = await getAllScrapedTweets();

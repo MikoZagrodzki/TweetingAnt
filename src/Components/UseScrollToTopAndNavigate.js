@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
-const scrollToTopAndNavigate = () => {
+const useScrollToTopAndNavigate = () => {
   const navigate = useNavigate();
 
   const action = (path) => {
@@ -22,4 +22,4 @@ const scrollToTopAndNavigate = () => {
   return action;
 };
 
-export default scrollToTopAndNavigate;
+export default useScrollToTopAndNavigate;
