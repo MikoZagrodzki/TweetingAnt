@@ -4,12 +4,12 @@ import { generateTwitterAccounts } from "../../Functionalities";
 import Card from "../Card/Card";
 import PopupAddAccount from "./PopupAddAccount/PopupAddAccount";
 // import "./Main.css";
-import { useNavigate } from "react-router-dom";
 import { TwitterAccountType } from "../../TypesApi";
 import PopupBurstAttack from "./PopupBurstAttack/PopupBurstAttack";
 import { getPersonalityList } from "../../SQL";
 import classnames from 'classnames';
 import { v4 as uuidv4 } from "uuid";
+import scrollToTopAndNavigate from "../scrollToTopAndNavigate";
 
 
 interface Props {
@@ -29,13 +29,13 @@ function Main() {
 
   const [filteredTwitterAccounts, setFilteredTwitterAccounts]=useState<TwitterAccountType[] | []>(twitterAccounts)
   
-  const navigate = useNavigate();
+  const navigate = scrollToTopAndNavigate();
 
   
   async function handleLogout() {
     try {
       await logOut();
-      navigate('/login', { replace: true });
+      navigate('/login');
     } catch(error) {
       setError('Failed to log out');
     }
@@ -130,8 +130,8 @@ function Main() {
         <div className="flex flex-row space-x-1 sm:space-x-2 md:space-x-3 flex-wrap justify-center gap-1">
           {(currentUser.email==="admin@admin.admin" || currentUser.email.includes("@batch")) && <PopupAddAccount dbTrigger={dbTrigger} setDbTrigger={setDbTrigger}/>}
           <PopupBurstAttack twitterAccounts={twitterAccounts} setTwitterAccounts={setTwitterAccounts}/>
-          <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/', { replace: true })}}>Content</button>
-          <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/analytics', { replace: true })}}>Analytics</button>
+          <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/')}}>Content</button>
+          <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/analytics')}}>Analytics</button>
           <button className={`${BUTTON_STYLING}`} onClick={handleLogout}> Log out </button>
         </div>
         {filteredTwitterAccounts.length >0 && <p className={`${INFO_TEXT}`}>{filteredTwitterAccounts.length} Accounts</p>}

@@ -3,9 +3,9 @@ import Tweet from "./Tweet/Tweet";
 import getAllScrapedTweets from "../../Functionalities/GetAllScrapedTweets";
 import classnames from 'classnames';
 import { useAuth } from "../../AuthContext";
-import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import getEmailsAndPersonalitiesFromLoginData from "../../Functionalities/GetEmailsAndPersonalitiesFromLoginData";
+import scrollToTopAndNavigate from "../scrollToTopAndNavigate";
 
 
 interface Emails {
@@ -46,7 +46,7 @@ function ContentDashboard() {
   const [searchEmail, setSearchEmail] = useState<string>("");
   const [sortValue, setSortValue] = useState<string>("");
 
-  const navigate = useNavigate();
+  const navigate = scrollToTopAndNavigate();
 
   const getTweets = async () => {
     const tweetsData = await getAllScrapedTweets();
@@ -288,9 +288,9 @@ function ContentDashboard() {
         </button>
       )}
       {currentUser.email==="admin@admin.admin"&&
-        <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/main', { replace: true })}}>Main</button>
+        <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/main')}}>Main</button>
       }
-      <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/analytics', { replace: true })}}>Analytics</button>
+      <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/analytics')}}>Analytics</button>
       </div>
           <div id="tweetLists" className="flex flex-col md:flex-row w-screen md:justify-center md:gap-x-5">
             {!filteredTweets.some((tweet)=>tweet) && <p className={`w-full text-center`}>There is no scraped tweets.</p>}
