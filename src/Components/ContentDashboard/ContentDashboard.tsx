@@ -46,8 +46,6 @@ function ContentDashboard() {
   const [searchEmail, setSearchEmail] = useState<string>("");
   const [sortValue, setSortValue] = useState<string>("");
 
-  const[toggleUseEffectForTweets, setToggleUseEffectForTweets] = useState<boolean>(false);
-
   const navigate = useNavigate();
 
   const getTweets = async () => {
@@ -313,12 +311,8 @@ function ContentDashboard() {
                       videoSource={tweet.tweetvideourl}
                       isApproved={tweet.isapproved}
                       index={index}
-                      tweetsDataState={filteredTweets}
-                      setTweetsDataState={setFilteredTweets}
-
-                      toggleUseEffectForTweets={toggleUseEffectForTweets}
-                      setToggleUseEffectForTweets={setToggleUseEffectForTweets}
-
+                      filteredTweetsDataState={filteredTweets}
+                      setFilteredTweetsDataState={setFilteredTweets}
                       userminiimageurl={tweet.userminiimageurl}
                       twitterusername={tweet.twitterusername}
                       replies={tweet.replies}
@@ -329,6 +323,8 @@ function ContentDashboard() {
 
                       tweetType={tweet.tweettype}
                       dateAdded={tweet.time}
+
+                      setBaseTweets={setTweets}
                     />)
               })}
               </ul>
@@ -350,12 +346,8 @@ function ContentDashboard() {
                         videoSource={tweet.tweetvideourl}
                         isApproved={tweet.isapproved}
                         index={index}
-                        tweetsDataState={filteredTweets}
-                        setTweetsDataState={setFilteredTweets}
-
-                        toggleUseEffectForTweets={toggleUseEffectForTweets}
-                        setToggleUseEffectForTweets={setToggleUseEffectForTweets}
-
+                        filteredTweetsDataState={filteredTweets}
+                        setFilteredTweetsDataState={setFilteredTweets}
                         userminiimageurl={tweet.userminiimageurl}
                         twitterusername={tweet.twitterusername}
                         replies={tweet.replies}
@@ -366,6 +358,8 @@ function ContentDashboard() {
 
                         tweetType={tweet.tweettype}
                         dateAdded={tweet.time}
+
+                        setBaseTweets={setTweets}
                     />)
               })}
               </ul>

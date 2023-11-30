@@ -54,10 +54,8 @@ interface Props {
   originalTweetText: string;
   personality:string|null;
   index:number;
-  tweetsDataState:TweetSql[];
-  setTweetsDataState: React.Dispatch<React.SetStateAction<[] | TweetSql[]>>;
-  toggleUseEffectForTweets:boolean;
-  setToggleUseEffectForTweets:React.Dispatch<React.SetStateAction<|boolean>>;
+  filteredTweetsDataState:TweetSql[];
+  setFilteredTweetsDataState: React.Dispatch<React.SetStateAction<[] | TweetSql[]>>;
 
   userminiimageurl: string | null;
   twitterusername: string | null;
@@ -68,15 +66,16 @@ interface Props {
   views: number | null;
   tweetType: string | null;
   dateAdded: string|null;
+
+  setBaseTweets: React.Dispatch<React.SetStateAction<[] | TweetSql[]>>;
 }
 
 function Tweet(props: Props) {
-  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, tweetsDataState, setTweetsDataState, index, toggleUseEffectForTweets, setToggleUseEffectForTweets, userminiimageurl, twitterusername, replies, reposts, likes, bookmarks, views, tweetType, dateAdded } = props;
+  let {sqlId, imgSource, tweetUrl, tweetText, videoSource, isApproved, originalTweetText,personality, filteredTweetsDataState, setFilteredTweetsDataState, index, userminiimageurl, twitterusername, replies, reposts, likes, bookmarks, views, tweetType, dateAdded, setBaseTweets} = props;
   const [stateOriginalText, setStateOriginalText] = useState<string>(originalTweetText);
   const [stateGptText, setStateGptText] = useState<string>(tweetText)
   const [buttonText, setButtonText] = useState<string>('Original Text');
   const [isEditing, setIsEditing] = useState(false);
-  const [isComparing, setIsComparing] = useState(false);
   const [videoSourceState, setVideoSourceState] = useState<string|null|undefined>(videoSource);
   const [imageSourceState, setImageSourceState] = useState<string|null|undefined>(imgSource);
   const [hideButton, setHideButton] = useState("");
@@ -137,20 +136,17 @@ function Tweet(props: Props) {
   };
   
 
-  useEffect(() => {
-    // Handle any additional logic when tweetsDataState changes
-  }, [tweetsDataState]);
-
-  
   const handleApprove = async () => {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "approved", sqlId);
       await updateTweetText(tweetUrl, stateGptText, sqlId);
       // Create a new array with the updated data
-      const updatedTweetsDataState = [...tweetsDataState];
+      const updatedTweetsDataState = [...filteredTweetsDataState];
+      updatedTweetsDataState[index].tweettextchatgpt = stateGptText;
       updatedTweetsDataState[index].isapproved = "approved";
       // Set the state with the new array
-      setTweetsDataState(updatedTweetsDataState);
+      setBaseTweets(updatedTweetsDataState)
+      setFilteredTweetsDataState(updatedTweetsDataState);
     }
   };
 
@@ -158,10 +154,11 @@ function Tweet(props: Props) {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "declined", sqlId);
       // Create a new array with the updated data
-      const updatedTweetsDataState = [...tweetsDataState];
+      const updatedTweetsDataState = [...filteredTweetsDataState];
       updatedTweetsDataState[index].isapproved = "declined";
       // Set the state with the new array
-      setTweetsDataState(updatedTweetsDataState);
+      setBaseTweets(updatedTweetsDataState)
+      setFilteredTweetsDataState(updatedTweetsDataState);
     }
   };
   
@@ -174,10 +171,6 @@ function Tweet(props: Props) {
     }
   }; 
   
-  const handleCompare = () => {
-    setIsComparing(!isComparing);
-  };
-
   const declineImage = async  () => {
     await declineTweetPicture(tweetUrl,sqlId);
     setImageSourceState(null)
@@ -225,12 +218,10 @@ function Tweet(props: Props) {
     if (shortValue % 1 !== 0) {
       shortValue = parseFloat(shortValue.toFixed(1)); // Convert to number
     }
-  
+
     return String(shortValue) + suffixes[suffixNum];
   }
 /////// END OF FORMATING NUMBERS ///////////////////////////////////////////////////////////////
-
-
 
 /////// ANIMATION ///////////////////////////////////////////////////////////////
   const [inView, setInView] = useState(false);
@@ -296,11 +287,10 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
       timeout={500}
     >
     {/* TWEET CONTAINER */}
-    <div id={`${sqlId} Tweet`} className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
+    <div key={sqlId} id={`${sqlId} Tweet`} className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
       {userminiimageurl && <img src={userminiimageurl} alt={`${twitterusername} picture`} className="max-h-5 sm:max-h-6 md:max-h-9 rounded-full"/>}
       {/* TWEET CONTENT CONTAINER */}
       <div
-      key={sqlId}
         id={`${isApproved==="pending"? "Pending": "Approved"} Tweet ${index + 1}`}
         className={`flex flex-col items-center gap-1 w-11/12 pb-5 max-w-md`}
       >
