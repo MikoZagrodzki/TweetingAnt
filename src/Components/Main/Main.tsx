@@ -130,8 +130,8 @@ function Main() {
         <div className="flex flex-row space-x-1 sm:space-x-2 md:space-x-3 flex-wrap justify-center gap-1">
           {(currentUser.email==="admin@admin.admin" || currentUser.email.includes("@batch")) && <PopupAddAccount dbTrigger={dbTrigger} setDbTrigger={setDbTrigger}/>}
           <PopupBurstAttack twitterAccounts={twitterAccounts} setTwitterAccounts={setTwitterAccounts}/>
-          <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/', { replace: true })}}>Content</button>
-          <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/analytics', { replace: true })}}>Analytics</button>
+          <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/', { replace: true })}}>Content</button>
+          <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/analytics', { replace: true })}}>Analytics</button>
           <button className={`${BUTTON_STYLING}`} onClick={handleLogout}> Log out </button>
         </div>
         {filteredTwitterAccounts.length >0 && <p className={`${INFO_TEXT}`}>{filteredTwitterAccounts.length} Accounts</p>}

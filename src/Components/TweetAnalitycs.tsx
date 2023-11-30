@@ -71,9 +71,9 @@ function TweetAnalitycs() {
       <h1>Tweet Analitycs</h1>
       <div className={`flex flex- row flex-wrap gap-2`}>
         {currentUser.email==="admin@admin.admin"&&
-          <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/main', { replace: true })}}>Main</button>
+          <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/main', { replace: true })}}>Main</button>
         }
-        <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/', { replace: true })}}>Content</button>
+        <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/', { replace: true })}}>Content</button>
       </div>
         <div className={`w-11/12 max-w-lg flex flex-row flex-wrap justify-center gap-2 py-2 px-1 ${BORDER_STYLING} ${SHADOW_STYLING}`}>
           <input type='url' placeholder='Insert Your URL' value={url} onChange={(e)=>handleInputUrlValue(String(e.target.value))} className={`w-full pl-2 border border-accent whitespace-nowrap rounded-full focus:outline-secondary text-black ${TWEET_TEXT}  ${SHADOW_STYLING}`} />

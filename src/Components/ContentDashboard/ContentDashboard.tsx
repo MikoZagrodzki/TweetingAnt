@@ -288,9 +288,9 @@ function ContentDashboard() {
         </button>
       )}
       {currentUser.email==="admin@admin.admin"&&
-        <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/main', { replace: true })}}>Main</button>
+        <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/main', { replace: true })}}>Main</button>
       }
-      <button className={`${BUTTON_STYLING}`} onClick={()=>{navigate('/analytics', { replace: true })}}>Analytics</button>
+      <button className={`${BUTTON_STYLING}`} onClick={()=>{window.scrollTo(0, 0); navigate('/analytics', { replace: true })}}>Analytics</button>
       </div>
           <div id="tweetLists" className="flex flex-col md:flex-row w-screen md:justify-center md:gap-x-5">
             {!filteredTweets.some((tweet)=>tweet) && <p className={`w-full text-center`}>There is no scraped tweets.</p>}
