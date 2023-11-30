@@ -137,13 +137,15 @@ function Tweet(props: Props) {
   };
   
 
+  useEffect(() => {
+    // Handle any additional logic when tweetsDataState changes
+  }, [tweetsDataState]);
+
   
   const handleApprove = async () => {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "approved", sqlId);
       await updateTweetText(tweetUrl, stateGptText, sqlId);
-      // setToggleUseEffectForTweets(!toggleUseEffectForTweets);
-
       // Create a new array with the updated data
       const updatedTweetsDataState = [...tweetsDataState];
       updatedTweetsDataState[index].isapproved = "approved";
@@ -155,7 +157,6 @@ function Tweet(props: Props) {
   const handleDecline = async () => {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "declined", sqlId);
-      // setToggleUseEffectForTweets(!toggleUseEffectForTweets);
       // Create a new array with the updated data
       const updatedTweetsDataState = [...tweetsDataState];
       updatedTweetsDataState[index].isapproved = "declined";
@@ -301,7 +302,6 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
       <div
       key={sqlId}
         id={`${isApproved==="pending"? "Pending": "Approved"} Tweet ${index + 1}`}
-        // className={`flex flex-col items-center gap-1 w-11/12 pb-5 max-w-md p-2 sm:p-3 ${BORDER_STYLING} ${SHADOW_STYLING}`}
         className={`flex flex-col items-center gap-1 w-11/12 pb-5 max-w-md`}
       >
         {/* HEADER OF EACH TWEET */}
@@ -310,7 +310,6 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
             {tweetType && <p className={`scale-90 text-gray-600`}>{tweetType}</p>}
             {dateAdded && <p className={`scale-75 text-gray-600`}>{dateAdded}</p>}
           </div>
-          {/* {tweetType !=='retweet' && <a className={`${INFO_TEXT} font-bold scale-90`}>{isComparing ? 'Comparing' : (stateOriginalText===stateGptText? "Original Text" : buttonText === 'Original Text' ? 'Rephrased text by ChatGPT' : 'Original Text')}</a>}          COMPARISON MODE ON */}
           {/* // PART WITH ORIGINAL TEXT */}
           <div className={`flex flex-col gap-3 w-full justify-between `}>
             {(stateGptText !== originalTweetText || isEditing) &&
@@ -433,9 +432,7 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
             <button className={BUTTON_STYLING} onClick={handleEdit}>Edit</button>
           )}
           <button className={BUTTON_STYLING} onClick={handleDecline}>Decline</button>
-          {/* {tweetType !=="retweet" && !isComparing && ((stateGptText !== stateOriginalText) || (isEditing && stateGptText !== stateOriginalText) || (isEditing && stateGptText !== originalTweetText)) && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)} */}
           {isEditing && (<button className={`${BUTTON_STYLING} ${hideButton}`} onClick={toggleDisplayedText}>{buttonText}</button>)}
-          {/* {tweetType !=="retweet" && stateGptText !== stateOriginalText && <button className={`${BUTTON_STYLING} ${hideButton}`} onClick={handleCompare}>{isComparing?'Stop Comparing':'Compare'}</button>}       */}
         </div>
       </div>
     </div>

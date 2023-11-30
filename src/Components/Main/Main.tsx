@@ -112,7 +112,7 @@ function Main() {
     setSearchEmail("");
   }  
   
-  const BUTTON_STYLING =classnames('text-xs sm:text-sm  whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md');
+  const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
   const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
   const TWEET_TEXT = classnames('text-xs sm:text-sm');
   const BORDER_STYLING = classnames('border border-2 border-secondary');

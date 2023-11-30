@@ -4,6 +4,8 @@ import FormTwitterCredentials from "../../FormTwitterCredentials/FormTwitterCred
 // import "../PopupMain.css";
 import { TwitterAccountType } from "../../../TypesApi";
 import BurstAttack from "../../burstAttack/burstAttack";
+import classnames from 'classnames';
+
 
 interface Props {
     twitterAccounts: TwitterAccountType[];
@@ -17,11 +19,19 @@ function PopupLikesAttack(props: Props) {
   const openTooltip = () => ref.current.open();
   const closeTooltip = () => ref.current.close();
 
+  const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
+  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
+  const TWEET_TEXT = classnames('text-xs sm:text-sm');
+  const BORDER_STYLING = classnames('border border-1 border-white border-opacity-30');
+  const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
+  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-full font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-white hover:bg-secondary hover:shadow-2xl');
+  
+
   return (
     <>
       <button
         type="button"
-        className="AddAccount openButton text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-sm border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md"
+        className={`${BUTTON_STYLING}`}
         onClick={openTooltip}
       >
         Burst Attack

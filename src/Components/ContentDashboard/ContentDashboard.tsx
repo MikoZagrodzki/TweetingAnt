@@ -60,25 +60,37 @@ function ContentDashboard() {
     });
     
     setTweets(tweetsWithEmails);
-    applyFilters(); // Apply filters after fetching new tweets
+
+    handleDropdownSearch({
+      personality: String(searchPersonality),
+      tweetType: String(searchTweetType),
+      email: String(searchEmail)
+    });
   };
   
   
-  const applyFilters = () => {
-    // Set the filtered tweets
-    setFilteredTweets(tweets);
+  // const applyFilters = () => {
+  //   // Set the filtered tweets
+  //   setFilteredTweets(tweets);
 
-    if (searchPersonality !== "" || searchTweetType !== "" || searchEmail !== "") {
-      handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(searchEmail)})
-    }
+  //   if (searchPersonality !== "" || searchTweetType !== "" || searchEmail !== "") {
+  //     handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(searchEmail)})
+  //   }
+  //   if(sortValue !== "" ) {
+  //     handleSortBy(sortValue);
+  //   }
+  // };
+
+  useEffect(() => {
+    handleDropdownSearch({
+      personality: String(searchPersonality),
+      tweetType: String(searchTweetType),
+      email: String(searchEmail)
+    });
+
     if(sortValue !== "" ) {
       handleSortBy(sortValue);
     }
-  };
-
-  // Add a useEffect to reapply filters when tweets or filter values change
-  useEffect(() => {
-    applyFilters();
   }, [tweets, searchPersonality, searchTweetType, searchEmail, sortValue]);
 
 /////////////////THESE ARE FOR DROPDOWN FIELDS //////////////////////////////////
@@ -127,6 +139,8 @@ function ContentDashboard() {
 /////////////////////////////////////////////////////////////////////////////////////
 
 
+
+
   const handleDropdownSearch = (searchParams: {personality:string, tweetType:string, email:string} ) => {
     const { personality, tweetType, email } = searchParams;
     setSearchPersonality(personality);
@@ -138,7 +152,7 @@ function ContentDashboard() {
       (!tweetType || tweet.tweettype?.toLowerCase() === tweetType.toLowerCase()) &&
       (!email || tweet.email?.toLowerCase() === email.toLowerCase())
     );
-  
+
     setFilteredTweets(filtered.length > 0 ? filtered : []);
   };
   
@@ -299,8 +313,8 @@ function ContentDashboard() {
                       videoSource={tweet.tweetvideourl}
                       isApproved={tweet.isapproved}
                       index={index}
-                      tweetsDataState={tweets}
-                      setTweetsDataState={setTweets}
+                      tweetsDataState={filteredTweets}
+                      setTweetsDataState={setFilteredTweets}
 
                       toggleUseEffectForTweets={toggleUseEffectForTweets}
                       setToggleUseEffectForTweets={setToggleUseEffectForTweets}
@@ -336,8 +350,8 @@ function ContentDashboard() {
                         videoSource={tweet.tweetvideourl}
                         isApproved={tweet.isapproved}
                         index={index}
-                        tweetsDataState={tweets}
-                        setTweetsDataState={setTweets}
+                        tweetsDataState={filteredTweets}
+                        setTweetsDataState={setFilteredTweets}
 
                         toggleUseEffectForTweets={toggleUseEffectForTweets}
                         setToggleUseEffectForTweets={setToggleUseEffectForTweets}
