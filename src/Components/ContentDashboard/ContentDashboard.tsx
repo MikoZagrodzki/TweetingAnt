@@ -49,36 +49,28 @@ function ContentDashboard() {
   const navigate = useScrollToTopAndNavigate();
 
   const getTweets = async () => {
-    const tweetsData = await getAllScrapedTweets();
-    const emailsToExtract = await getEmailsAndPersonalitiesFromLoginData();
-  
-    const tweetsWithEmails = tweetsData.map((tweet:Tweet) => {
-      const matchingEmail = emailsToExtract.find((email:Tweet) => email.personality === tweet.personality);
-      return matchingEmail ? { ...tweet, email: matchingEmail.email } : tweet;
-    });
+    try {
+      const tweetsData = await getAllScrapedTweets();
+      const emailsToExtract = await getEmailsAndPersonalitiesFromLoginData();
     
-    setTweets(tweetsWithEmails);
-
-    handleDropdownSearch({
-      personality: String(searchPersonality),
-      tweetType: String(searchTweetType),
-      email: String(searchEmail)
-    });
+      const tweetsWithEmails = tweetsData.map((tweet:Tweet) => {
+        const matchingEmail = emailsToExtract.find((email:Tweet) => email.personality === tweet.personality);
+        return matchingEmail ? { ...tweet, email: matchingEmail.email } : tweet;
+      });
+      
+      setTweets(tweetsWithEmails);
+  
+      handleDropdownSearch({
+        personality: String(searchPersonality),
+        tweetType: String(searchTweetType),
+        email: String(searchEmail)
+      });
+    } catch (error) {
+      console.error("Error fetching tweets:", error);
+    }
   };
   
   
-  // const applyFilters = () => {
-  //   // Set the filtered tweets
-  //   setFilteredTweets(tweets);
-
-  //   if (searchPersonality !== "" || searchTweetType !== "" || searchEmail !== "") {
-  //     handleDropdownSearch({personality:String(searchPersonality), tweetType:String(searchTweetType), email:String(searchEmail)})
-  //   }
-  //   if(sortValue !== "" ) {
-  //     handleSortBy(sortValue);
-  //   }
-  // };
-
   useEffect(() => {
     handleDropdownSearch({
       personality: String(searchPersonality),
@@ -147,7 +139,9 @@ function ContentDashboard() {
       (!tweetType || tweet.tweettype?.toLowerCase() === tweetType.toLowerCase()) 
     );
 
-    setFilteredTweets(filtered.length > 0 ? filtered : []);
+    setFilteredTweets((prevFilteredTweets) =>
+      filtered.length > 0 ? filtered : []
+    );
   };
   
 
@@ -196,7 +190,16 @@ function ContentDashboard() {
         // Default case: no sorting
         break;
     }
-    setFilteredTweets(sortedTweets);
+    // setFilteredTweets(sortedTweets);
+    const filtered = sortedTweets.filter((tweet) =>
+      (!searchEmail || tweet.email?.toLowerCase() === searchEmail.toLowerCase()) &&
+      (!searchPersonality || tweet.personality?.toLowerCase() === searchPersonality.toLowerCase()) &&
+      (!searchTweetType || tweet.tweettype?.toLowerCase() === searchTweetType.toLowerCase())
+    );
+
+    setFilteredTweets((prevFilteredTweets) =>
+    filtered.length > 0 ? filtered : sortedTweets
+    );
   };
   
   const handleShowAll = () => {
@@ -205,6 +208,7 @@ function ContentDashboard() {
     setSearchEmail("");
     setSortValue("");
     setFilteredTweets(tweets);
+    handleDropdownSearch({ personality: "", tweetType: "", email: "" })
   };
 
   useEffect(() => {
@@ -295,7 +299,7 @@ function ContentDashboard() {
               <ul id="pendingTweets" className={`${UL_STYLING} `}>
                 <h2 className={`${INFO_TEXT} pb-2`}>Pending Tweets</h2>
                 {filteredTweets.filter(tweet => tweet.isapproved === 'pending').map((tweet) => {
-                  const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
+                  const index = filteredTweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(
                     <Tweet
                       key={tweet.id}
@@ -331,7 +335,7 @@ function ContentDashboard() {
               <ul id="approvedTweets" className={`pt-5 mt-10 border-t-2 md:border-t-0 md:mt-0 md:pt-0 ${UL_STYLING} `}>
               <h2 className={`${INFO_TEXT} pb-2`}>Approved Tweets</h2>
               {filteredTweets.filter(tweet => tweet.isapproved === 'approved').map((tweet) => {
-                  const index = tweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
+                  const index = filteredTweets.findIndex((t) => t.tweeturl === tweet.tweeturl && t.id === tweet.id);
                   return(
                     <Tweet
                         key={tweet.id}

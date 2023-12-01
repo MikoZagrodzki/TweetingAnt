@@ -143,7 +143,7 @@ function Tweet(props: Props) {
       await updateIsApproved(tweetUrl, "approved", sqlId);
       await updateTweetText(tweetUrl, stateGptText, sqlId);
       // Create a new array with the updated data
-      const updatedTweetsDataState = [...baseTweets];
+      const updatedTweetsDataState = [...filteredTweetsDataState];
       updatedTweetsDataState[index].tweettextchatgpt = stateGptText;
       updatedTweetsDataState[index].isapproved = "approved";
       // Set the state with the new array
@@ -156,7 +156,7 @@ function Tweet(props: Props) {
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, "declined", sqlId);
       // Create a new array with the updated data
-      const updatedTweetsDataState = [...baseTweets];
+      const updatedTweetsDataState = [...filteredTweetsDataState];
       updatedTweetsDataState[index].isapproved = "declined";
       // Set the state with the new array
       setBaseTweets(updatedTweetsDataState);
@@ -176,7 +176,7 @@ function Tweet(props: Props) {
   const declineImage = async  () => {
     await declineTweetPicture(tweetUrl,sqlId);
     setImageSourceState(null)
-    const updatedTweetsDataState = [...baseTweets];
+    const updatedTweetsDataState = [...filteredTweetsDataState];
     updatedTweetsDataState[index].tweetpictureurl = null;
     // Set the state with the new array
     setBaseTweets(updatedTweetsDataState);
@@ -186,7 +186,7 @@ function Tweet(props: Props) {
   const declineVideo = async  () => {
     await declineTweetVideo(tweetUrl,sqlId);
     setVideoSourceState(null);
-    const updatedTweetsDataState = [...baseTweets];
+    const updatedTweetsDataState = [...filteredTweetsDataState];
     updatedTweetsDataState[index].tweetvideourl = null;
     // Set the state with the new array
     setBaseTweets(updatedTweetsDataState);
