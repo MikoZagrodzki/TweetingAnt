@@ -358,6 +358,7 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
               src={imageSourceState}
               className="w-full group-hover:opacity-75 rounded-lg"
               alt={`Image from: ${sqlId}`}
+              loading="lazy"
             />
             <button 
               onClick={declineImage}
