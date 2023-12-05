@@ -51,14 +51,14 @@ function ContentDashboard() {
   const getTweets = async () => {
     try {
       const tweetsData = await getAllScrapedTweets();
-      const emailsToExtract = await getEmailsAndPersonalitiesFromLoginData();
+      // const emailsToExtract = await getEmailsAndPersonalitiesFromLoginData();
     
-      const tweetsWithEmails = tweetsData.map((tweet:Tweet) => {
-        const matchingEmail = emailsToExtract.find((email:Tweet) => email.personality === tweet.personality);
-        return matchingEmail ? { ...tweet, email: matchingEmail.email } : tweet;
-      });
+      // const tweetsWithEmails = tweetsData.map((tweet:Tweet) => {
+      //   const matchingEmail = emailsToExtract.find((email:Tweet) => email.personality === tweet.personality);
+      //   return matchingEmail ? { ...tweet, email: matchingEmail.email } : tweet;
+      // });
       
-      setTweets(tweetsWithEmails);
+      setTweets(tweetsData);
   
       handleDropdownSearch({
         personality: String(searchPersonality),
@@ -84,9 +84,9 @@ function ContentDashboard() {
   }, [tweets, searchPersonality, searchTweetType, searchEmail, sortValue]);
 
 /////////////////THESE ARE FOR DROPDOWN FIELDS //////////////////////////////////
-  let personalitiesNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.personality))).sort();
-  let tweetTypesNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.tweettype))).sort();
-  let emailsNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.email))).sort();
+  let emailsNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.email))).filter((email) => email !== null).sort();
+  let personalitiesNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.personality))).filter((personality) => personality !== null).sort();
+  let tweetTypesNoDuplicates = Array.from(new Set(tweets.map((tweet) => tweet.tweettype))).filter((tweetType) => tweetType !== null).sort();
 
   // Function to filter tweets based on selected criteria
   function getFilterTypes(searchPersonality:string|null, searchTweetType:string|null, searchEmail:string|null) {
@@ -96,6 +96,13 @@ function ContentDashboard() {
       (searchEmail ? tweet.email === searchEmail : true)
     );
   }
+  // Get emails when personality or tweet type is selected
+  let emailsWhenPersonalityOrTweetTypeSelected = Array.from(new Set(
+    getFilterTypes(searchPersonality, searchTweetType, null)
+      .map((tweet) => tweet.email)
+      .filter((email) => email !== null)
+      .sort()
+  ));
   // Get personalities when tweet type or email is selected
   let personalitiesWhenTweetTypeOrEmailSelected = Array.from(new Set(
     getFilterTypes(null, searchTweetType, searchEmail)
@@ -108,13 +115,6 @@ function ContentDashboard() {
     getFilterTypes(searchPersonality, null, searchEmail)
       .map((tweet) => tweet.tweettype)
       .filter((tweetType) => tweetType !== null)
-      .sort()
-  ));
-  // Get emails when personality or tweet type is selected
-  let emailsWhenPersonalityOrTweetTypeSelected = Array.from(new Set(
-    getFilterTypes(searchPersonality, searchTweetType, null)
-      .map((tweet) => tweet.email)
-      .filter((email) => email !== null)
       .sort()
   ));
   //Function that renders JSX elements
@@ -139,9 +139,10 @@ function ContentDashboard() {
       (!tweetType || tweet.tweettype?.toLowerCase() === tweetType.toLowerCase()) 
     );
 
-    setFilteredTweets((prevFilteredTweets) =>
-      filtered.length > 0 ? filtered : []
-    );
+    // setFilteredTweets((prevFilteredTweets) =>
+    //   filtered.length > 0 ? filtered : []
+    // );
+    setFilteredTweets(filtered.length > 0 ? filtered : [])
   };
   
 

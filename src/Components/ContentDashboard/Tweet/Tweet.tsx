@@ -147,7 +147,7 @@ function Tweet(props: Props) {
       updatedTweetsDataState[index].tweettextchatgpt = stateGptText;
       updatedTweetsDataState[index].isapproved = "approved";
       // Set the state with the new array
-      setBaseTweets(updatedTweetsDataState);
+      // setBaseTweets(updatedTweetsDataState);
       setFilteredTweetsDataState(updatedTweetsDataState);
     }
   };
@@ -159,7 +159,7 @@ function Tweet(props: Props) {
       const updatedTweetsDataState = [...filteredTweetsDataState];
       updatedTweetsDataState[index].isapproved = "declined";
       // Set the state with the new array
-      setBaseTweets(updatedTweetsDataState);
+      // setBaseTweets(updatedTweetsDataState);
       setFilteredTweetsDataState(updatedTweetsDataState);
     }
   };
@@ -179,7 +179,7 @@ function Tweet(props: Props) {
     const updatedTweetsDataState = [...filteredTweetsDataState];
     updatedTweetsDataState[index].tweetpictureurl = null;
     // Set the state with the new array
-    setBaseTweets(updatedTweetsDataState);
+    // setBaseTweets(updatedTweetsDataState);
     setFilteredTweetsDataState(updatedTweetsDataState);
   }
 
@@ -189,7 +189,7 @@ function Tweet(props: Props) {
     const updatedTweetsDataState = [...filteredTweetsDataState];
     updatedTweetsDataState[index].tweetvideourl = null;
     // Set the state with the new array
-    setBaseTweets(updatedTweetsDataState);
+    // setBaseTweets(updatedTweetsDataState);
     setFilteredTweetsDataState(updatedTweetsDataState);
   }
 
