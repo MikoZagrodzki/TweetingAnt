@@ -6,7 +6,11 @@ import TextareaAutosize from 'react-textarea-autosize';
 import getChatGpt from "../../../Functionalities/GetChatGpt";
 import declineTweetPicture from "../../../Functionalities/DeclineTweetPicture";
 import declineTweetVideo from "../../../Functionalities/DeclineTweetVideo";
-import { CSSTransition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group'
+
+//@ts-ignore
+import {Waypoint} from 'react-waypoint';
+
 
 //@ts-ignore
 import { ReactComponent as RepliesIcon } from '../Tweet/repliesIcon.svg';
@@ -82,6 +86,11 @@ function Tweet(props: Props) {
   const [imageSourceState, setImageSourceState] = useState<string|null|undefined>(imgSource);
   const [hideButton, setHideButton] = useState("");
   const [stateGptValueBeforeEdit, setStateGptValueBeforeEdit] = useState<string>("");
+  const [visible, setVisible] = useState<boolean>(false);
+
+  const handleEnterViewport = () => {
+    setVisible(true);
+  };
 
 
   const handleCancelButton = () => {
@@ -293,11 +302,12 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
   const BUTTON_SPECIAL = classnames(' bg-highlight rounded-full font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-white hover:bg-secondary hover:shadow-2xl');
   
   return (
-    <CSSTransition
+    <Waypoint onEnter={handleEnterViewport} >
+    {/* <CSSTransition
       in={inView}
       classNames="fade"
       timeout={500}
-    >
+    > */}
     {/* TWEET CONTAINER */}
     <div key={sqlId} id={`${sqlId} Tweet`} className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
       {userminiimageurl && <img src={userminiimageurl} alt={`${twitterusername} picture`} className="max-h-5 sm:max-h-6 md:max-h-9 rounded-full"/>}
@@ -439,7 +449,9 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
         </div>
       </div>
     </div>
-    </CSSTransition>
+    {/* </CSSTransition> */}
+    </Waypoint>
+
   );
 }
 

@@ -21,6 +21,7 @@
     "react-svg": "^16.1.31",
     "react-textarea-autosize": "^8.5.3",
     "react-transition-group": "^4.4.5",
+    "react-waypoint": "^10.3.0",
     "react-window": "^1.8.10",
     "reactjs-popup": "^2.0.5",
     "typeface-poppins": "^1.1.13",
