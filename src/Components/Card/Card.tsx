@@ -9,8 +9,8 @@ import UserNamesList from "./UserNamesList";
 import Personality from "./Personality";
 import { TwitterAccountType } from "../../TypesApi";
 import LikesAttack from "../burstAttack/burstAttack";
-import { CSSTransition } from 'react-transition-group';
 import classnames from 'classnames';
+import FadeComponentAnimation from "../FadeComponentAnimation";
 
 
 
@@ -67,42 +67,6 @@ function Card(props: Props) {
     }
   };
 
-///////////////////////ANIMATION////////////////////////////////
-  const [inView, setInView] = useState(false);
-  const offset = -100;
-
-
-  const handleScroll = () => {
-    const windowHeight = window.innerHeight;
-    const windowTop = window.scrollY;
-    const windowBottom = windowTop + windowHeight;
-
-    const element = document.getElementById(twitterAccount);
-    if (element) {
-      const elementHeight = element.offsetHeight;
-      const elementTop = element.offsetTop;
-      const elementBottom = elementTop + elementHeight;
-
-      if (elementBottom >= windowTop + offset && elementTop <= windowBottom - offset) {
-        setInView(true);
-      } else {
-        setInView(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Trigger initial check on component mount
-    handleScroll();
-  }, []);
-////////////////////////END OF ANIMATION////////////////////////
 
 
 const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
@@ -116,11 +80,7 @@ const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accen
 
 
   return (
-    <CSSTransition
-        in={inView}
-        classNames="fade"
-        timeout={500}
-      >
+    <FadeComponentAnimation idToTriggerAnimation={twitterAccount}>
     <div id={twitterAccount} className="in-view flex flex-col w-full  ">
       <div className={`flex flex-col items-start space-x-5 ${BORDER_OUTSIDE_STYLING} p-3 w-72 max-w-full sm:w-52 md:w-60`}>
         <p className="text-sm sm:text-base font-semibold">{twitterAccount}</p>
@@ -229,7 +189,7 @@ const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accen
         </div>
       </Popup>
     </div>
-    </CSSTransition>
+    </FadeComponentAnimation>
   );
 }
 
