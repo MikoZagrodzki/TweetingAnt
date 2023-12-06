@@ -279,10 +279,11 @@ function Tweet(props: Props) {
       <div
         key={sqlId}
         id={`${sqlId} Tweet`}
-        className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_OUTSIDE_STYLING} ${SHADOW_STYLING}`}
+        // className={`${isContentVisible ? `flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_OUTSIDE_STYLING} ${SHADOW_STYLING}`:'hidden'}`}
+        className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${isContentVisible && `${BORDER_OUTSIDE_STYLING} ${SHADOW_STYLING}`}`}
       >
-        {userminiimageurl && <img src={userminiimageurl} alt={`${twitterusername} picture`} className='max-h-5 sm:max-h-6 md:max-h-9 rounded-full' />}
-        {!isContentVisible && <Waypoint onEnter={handleEnterViewport} />}
+        {isContentVisible && userminiimageurl && <img src={userminiimageurl} alt={`${twitterusername} picture`} className='max-h-5 sm:max-h-6 md:max-h-9 rounded-full' />}
+        {!isContentVisible && <Waypoint onEnter={handleEnterViewport} topOffset="50px" bottomOffset="50px"/>}
         {/* TWEET CONTENT CONTAINER */}
         {isContentVisible && (
           <div
