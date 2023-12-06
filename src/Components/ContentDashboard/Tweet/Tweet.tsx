@@ -93,6 +93,12 @@ function Tweet(props: Props) {
   };
 
 
+  const [isMediaLoaded, setIsMediaLoaded] = useState(false);
+  const handleMediaEnter = () => {
+    setIsMediaLoaded(true);
+  };
+
+
   const handleCancelButton = () => {
     setIsEditing(false);
     setStateGptText(stateGptValueBeforeEdit);
@@ -302,13 +308,13 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
   const BUTTON_SPECIAL = classnames(' bg-highlight rounded-full font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-white hover:bg-secondary hover:shadow-2xl');
   
   return (
-    <Waypoint onEnter={handleEnterViewport} >
-    {/* <CSSTransition
-      in={inView}
-      classNames="fade"
-      timeout={500}
-    > */}
-    {/* TWEET CONTAINER */}
+    // <Waypoint onEnter={handleEnterViewport} bottomOffset={"20%"} topOffset={"20%"} >
+    // <CSSTransition
+    //   in={inView}
+    //   classNames="fade"
+    //   timeout={500}
+    // >
+    // TWEET CONTAINER
     <div key={sqlId} id={`${sqlId} Tweet`} className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}>
       {userminiimageurl && <img src={userminiimageurl} alt={`${twitterusername} picture`} className="max-h-5 sm:max-h-6 md:max-h-9 rounded-full"/>}
       {/* TWEET CONTENT CONTAINER */}
@@ -364,12 +370,15 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
         {/* IMAGE SECTION */}
         {imageSourceState && (
           <div className="w-full group relative flex flex-col items-center">
-            <img
-              src={imageSourceState}
-              className="w-full group-hover:opacity-75 rounded-lg"
-              alt={`Image from: ${sqlId}`}
-              loading="lazy"
-            />
+            {!isMediaLoaded && <Waypoint onEnter={handleMediaEnter} />}
+            { isMediaLoaded && ( 
+              <img
+                src={imageSourceState}
+                className="w-full group-hover:opacity-75 rounded-lg"
+                alt={`Image from: ${sqlId}`}
+                loading="lazy"
+              />
+            )}
             <button 
               onClick={declineImage}
               className={`${BUTTON_SPECIAL} whitespace-nowrap pointer-events-auto hidden group-hover:block absolute top-1/2`}
@@ -381,14 +390,17 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
         {/* VIDEO SECTION */}
         {videoSourceState && (
         <div className="group relative w-full">
-          <video 
-            className="w-full transition-opacity duration-300 group-hover:opacity-75 rounded-lg"
-            controls
-            style={{ zIndex: 1 }}
-          >
-            <source src={videoSourceState} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          {!isMediaLoaded && <Waypoint onEnter={handleMediaEnter} />}
+          { isMediaLoaded && ( 
+            <video 
+              className="w-full transition-opacity duration-300 group-hover:opacity-75 rounded-lg"
+              controls
+              style={{ zIndex: 1 }}
+            >
+              <source src={videoSourceState} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <button 
               onClick={declineVideo}
@@ -449,8 +461,8 @@ const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
         </div>
       </div>
     </div>
-    {/* </CSSTransition> */}
-    </Waypoint>
+    // </CSSTransition>
+    // </Waypoint>
 
   );
 }
