@@ -295,9 +295,11 @@ function Tweet(props: Props) {
         }`}
       >
         {isContentVisible && (userminiimageurl || email || personality) && (
-          <div className={`flex flex-col w-1/12 ${userminiimageurl ? 'justify-between' : 'justify-center'}`}>
+          <div className={`flex flex-col w-1/12 ${userminiimageurl ? 'justify-between' : 'justify-center'} items-center`}>
             {isContentVisible && userminiimageurl && (
-              <img src={userminiimageurl} alt={`${twitterusername} picture`} className='max-h-5 sm:max-h-6 md:max-h-9 rounded-full' />
+              <a className='max-h-6 sm:max-h-7 md:max-h-9 '  href={`${tweetUrl}`} target='_blank'>
+              <img src={userminiimageurl} alt={`${twitterusername} picture`} className='max-h-6 sm:max-h-7 md:max-h-9 rounded-full' />
+              </a>
             )}
             {(email || personality) && (
               <div className={`flex flex-col gap-20 ${userminiimageurl ? 'h-4/6' : ''}`}>
@@ -320,7 +322,7 @@ function Tweet(props: Props) {
             <div className={`w-full flex flex-row ${INFO_TEXT} mt-1`}>
               {twitterusername && (
                 <div className={`w-full`}>
-                  <a className={`text-left ${INFO_TEXT}`} href={`https://twitter.com/${twitterusername}`} target='_blank'>
+                  <a className={`text-left ${INFO_TEXT}`} href={`${tweetUrl}`} target='_blank'>
                     {twitterusername}
                   </a>
                 </div>
