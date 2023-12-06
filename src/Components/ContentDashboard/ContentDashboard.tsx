@@ -6,6 +6,8 @@ import { useAuth } from "../../AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import getEmailsAndPersonalitiesFromLoginData from "../../Functionalities/GetEmailsAndPersonalitiesFromLoginData";
 import useScrollToTopAndNavigate from "../UseScrollToTopAndNavigate";
+import { Waypoint } from 'react-waypoint';
+
 
 
 interface Emails {
