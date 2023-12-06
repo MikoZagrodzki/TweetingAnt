@@ -295,17 +295,17 @@ function Tweet(props: Props) {
         }`}
       >
         {isContentVisible && (userminiimageurl || email || personality) && (
-          <div className={`flex flex-col w-1/12 ${userminiimageurl ? 'justify-between' : 'justify-center'} items-center`}>
+          <div className={`flex flex-col w-1/12  ${userminiimageurl ? 'justify-between' : 'justify-center'} items-center`}>
             {isContentVisible && userminiimageurl && (
               <a className='max-h-6 sm:max-h-7 md:max-h-9 '  href={`${tweetUrl}`} target='_blank'>
               <img src={userminiimageurl} alt={`${twitterusername} picture`} className='max-h-6 sm:max-h-7 md:max-h-9 rounded-full' />
               </a>
             )}
             {(email || personality) && (
-              <div className={`flex flex-col gap-20 ${userminiimageurl ? 'h-4/6' : ''}`}>
-                {email && <p className={`transform -rotate-90 writing-mode-vertical-rl ${INFO_TEXT} scale-75 text-gray-600 `}>{`${email}`}</p>}
+              <div className={`flex flex-col gap-20  ${userminiimageurl ? 'h-4/6' : ''}`}>
+                {email && <p className={`transform -rotate-90 writing-mode-vertical-rl ${INFO_TEXT}  scale-x-75 scale-y-50 text-gray-600 `}>{`${email}`}</p>}
                 {personality && (
-                  <p className={`transform -rotate-90 writing-mode-vertical-rl ${INFO_TEXT} scale-y-50 text-gray-600`}>{`${personality}`}</p>
+                  <p className={`transform -rotate-90 writing-mode-vertical-rl ${INFO_TEXT}  scale-x-75 scale-y-50 text-gray-600`}>{`${personality}`}</p>
                 )}
               </div>
             )}
@@ -455,7 +455,7 @@ function Tweet(props: Props) {
               </div>
             )}
             {/* BUTTONS SECTION */}
-            <div id='tweetButtonContainer' className='flex flex-row gap-1 flex-wrap justify-center mt-2 -mb-5'>
+            <div id='tweetButtonContainer' className='flex flex-row gap-1 flex-wrap justify-center mt-2 '>
               {isApproved === 'pending' && !isEditing && (
                 <button className={BUTTON_STYLING} onClick={handleApprove}>
                   Approve
