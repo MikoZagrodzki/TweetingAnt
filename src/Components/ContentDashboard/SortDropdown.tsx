@@ -37,7 +37,7 @@ function SortDropdown(props: Props) {
 
   return (
     <select
-      className={`${BUTTON_STYLING}`}
+      className={`${BUTTON_STYLING} w-1/4 max-w-fit`}
       value={sortValue}
       onChange={(e) =>
         handleSortBy(String(e.target.value), { setSortValue, filteredTweets, searchEmail, searchPersonality, searchTweetType, setFilteredTweets })

@@ -8,6 +8,6 @@ export const BORDER_STYLING = classnames('border border-2 border-secondary');
 export const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
 export const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
 export const BORDER_OUTSIDE_STYLING = classnames('border border-2 border-white border-opacity-20');
-export   const UL_STYLING = classnames('flex flex-col items-center md:min-w-0 md:w-full md:max-w-lg');
+export const UL_STYLING = classnames('flex flex-col items-center md:min-w-0 md:w-full md:max-w-lg');
 
 

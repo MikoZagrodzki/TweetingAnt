@@ -116,7 +116,7 @@ function DropdownFilters(props: Props) {
             email: String(e.target.value),
         }, {tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType })
     }
-        className={BUTTON_STYLING}
+        className={`${BUTTON_STYLING} w-xs max-w-sm`}
       >
         <option value=''>All Groups</option>
         {filteredEmails.map((email) => (
@@ -134,8 +134,8 @@ function DropdownFilters(props: Props) {
             email: String(searchEmail),
         }, {tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType })
     }
-        className={BUTTON_STYLING}
-      >
+    className={`${BUTTON_STYLING} w-xs max-w-sm`}
+    >
         <option value=''>All Personalities</option>
         {filteredPersonalities.map((personality) => (
           <option key={personality} value={personality}>
@@ -152,7 +152,7 @@ function DropdownFilters(props: Props) {
             email: String(searchEmail),
           }, {tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType })
         }
-        className={BUTTON_STYLING}
+        className={`${BUTTON_STYLING} w-xs max-w-sm`}
       >
         <option value=''>All Tweet Types</option>
         {filteredTweetTypes.map((tweetType) => (

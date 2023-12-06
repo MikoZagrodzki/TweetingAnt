@@ -36,7 +36,7 @@ function FadeComponentAnimation({ children, idToTriggerAnimation }:FadeComponent
   }, [idToTriggerAnimation]);
 
   return (
-    <div ref={elementRef} className='w-full'>
+    <div ref={elementRef} className='w-full flex justify-center '>
       <CSSTransition in={inView} classNames='fade' timeout={500}>
         {children}
       </CSSTransition>

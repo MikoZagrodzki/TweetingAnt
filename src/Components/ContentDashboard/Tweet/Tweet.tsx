@@ -20,7 +20,15 @@ import { ReactComponent as ViewsIcon } from '../Tweet/viewsIcon.svg';
 //@ts-ignore
 import { ReactComponent as BookmarsIcon } from '../Tweet/bookmarkIcon.svg';
 import FadeComponentAnimation from '../../FadeComponentAnimation';
-import { BORDER_OUTSIDE_STYLING, BORDER_STYLING, BUTTON_SPECIAL, BUTTON_STYLING, INFO_TEXT, SHADOW_STYLING, TWEET_TEXT } from '../../../tailwindCustomStyles';
+import {
+  BORDER_OUTSIDE_STYLING,
+  BORDER_STYLING,
+  BUTTON_SPECIAL,
+  BUTTON_STYLING,
+  INFO_TEXT,
+  SHADOW_STYLING,
+  TWEET_TEXT,
+} from '../../../tailwindCustomStyles';
 
 interface TweetSql {
   id: number;
@@ -66,6 +74,7 @@ interface Props {
   dateAdded: string | null;
   setBaseTweets: React.Dispatch<React.SetStateAction<[] | TweetSql[]>>;
   baseTweets: TweetSql[];
+  email: string;
 }
 
 function Tweet(props: Props) {
@@ -92,6 +101,7 @@ function Tweet(props: Props) {
     dateAdded,
     setBaseTweets,
     baseTweets,
+    email,
   } = props;
   const [stateOriginalText, setStateOriginalText] = useState<string>(originalTweetText);
   const [stateGptText, setStateGptText] = useState<string>(tweetText);
@@ -280,10 +290,26 @@ function Tweet(props: Props) {
         key={sqlId}
         id={`${sqlId} Tweet`}
         // className={`${isContentVisible ? `flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_OUTSIDE_STYLING} ${SHADOW_STYLING}`:'hidden'}`}
-        className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${isContentVisible && `${BORDER_OUTSIDE_STYLING} ${SHADOW_STYLING}`}`}
+        className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3  justify-center ${
+          isContentVisible && `${BORDER_OUTSIDE_STYLING} ${SHADOW_STYLING}`
+        }`}
       >
-        {isContentVisible && userminiimageurl && <img src={userminiimageurl} alt={`${twitterusername} picture`} className='max-h-5 sm:max-h-6 md:max-h-9 rounded-full' />}
-        {!isContentVisible && <Waypoint onEnter={handleEnterViewport} topOffset="50px" bottomOffset="50px"/>}
+        {isContentVisible && (userminiimageurl || email || personality) && (
+          <div className={`flex flex-col w-1/12 ${userminiimageurl ? 'justify-between' : 'justify-center'}`}>
+            {isContentVisible && userminiimageurl && (
+              <img src={userminiimageurl} alt={`${twitterusername} picture`} className='max-h-5 sm:max-h-6 md:max-h-9 rounded-full' />
+            )}
+            {(email || personality) && (
+              <div className={`flex flex-col gap-20 ${userminiimageurl ? 'h-4/6' : ''}`}>
+                {email && <p className={`transform -rotate-90 writing-mode-vertical-rl ${INFO_TEXT} scale-75 text-gray-600 `}>{`${email}`}</p>}
+                {personality && (
+                  <p className={`transform -rotate-90 writing-mode-vertical-rl ${INFO_TEXT} scale-y-50 text-gray-600`}>{`${personality}`}</p>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+        {!isContentVisible && <Waypoint onEnter={handleEnterViewport} topOffset='50px' bottomOffset='50px' />}
         {/* TWEET CONTENT CONTAINER */}
         {isContentVisible && (
           <div

@@ -174,7 +174,7 @@ function ContentDashboard() {
           Analytics
         </button>
       </div>
-      <div id='tweetLists' className='flex flex-col md:flex-row w-screen md:justify-center md:gap-x-5'>
+      <div id='tweetLists' className='flex flex-col  md:flex-row w-screen md:justify-center  md:gap-x-5'>
         {!filteredTweets.some((tweet) => tweet) && <p className={`w-full text-center`}>There is no scraped tweets.</p>}
         {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
           <ul id='pendingTweets' className={`${UL_STYLING} `}>
@@ -208,6 +208,7 @@ function ContentDashboard() {
                     dateAdded={tweet.time}
                     setBaseTweets={setTweets}
                     baseTweets={tweets}
+                    email={tweet.email}
                   />
                 );
               })}
@@ -245,6 +246,7 @@ function ContentDashboard() {
                     dateAdded={tweet.time}
                     setBaseTweets={setTweets}
                     baseTweets={tweets}
+                    email={tweet.email}
                   />
                 );
               })}
