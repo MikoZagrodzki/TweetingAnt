@@ -322,7 +322,7 @@ function Tweet(props: Props) {
             <div className={`w-full flex flex-row ${INFO_TEXT} mt-1`}>
               {twitterusername && (
                 <div className={`w-full`}>
-                  <a className={`text-left ${INFO_TEXT}`} href={`${tweetUrl}`} target='_blank'>
+                  <a className={`text-left ${INFO_TEXT} font-semibold`} href={`${tweetUrl}`} target='_blank'>
                     {twitterusername}
                   </a>
                 </div>
