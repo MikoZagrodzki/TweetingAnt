@@ -7,10 +7,9 @@ import PopupAddAccount from "./PopupAddAccount/PopupAddAccount";
 import { TwitterAccountType } from "../../TypesApi";
 import PopupBurstAttack from "./PopupBurstAttack/PopupBurstAttack";
 import { getPersonalityList } from "../../SQL";
-import classnames from 'classnames';
 import { v4 as uuidv4 } from "uuid";
 import useScrollToTopAndNavigate from "../UseScrollToTopAndNavigate";
-
+import { BORDER_OUTSIDE_STYLING, BUTTON_STYLING, INFO_TEXT } from "../../tailwindCustomStyles";
 
 interface Props {
 }
@@ -112,16 +111,6 @@ function Main() {
     setSearchEmail("");
   }  
   
-  const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
-  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
-  const TWEET_TEXT = classnames('text-xs sm:text-sm');
-  const BORDER_STYLING = classnames('border border-2 border-secondary');
-  const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
-  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
-  const BORDER_OUTSIDE_STYLING = classnames('border border-2 border-white border-opacity-20');
-
-
-
   return (
     <div id="top" className="  min-h-screen w-screen flex flex-col items-center">
       <a href="#top" className=" fixed z-20 bottom-10 right-10 font-extrabold text-2xl bg-highlight rounded-lg text-accent p-1 shadow-lg border border-accent hover:text-highlight hover:border-highlight hover:bg-accent">^</a>

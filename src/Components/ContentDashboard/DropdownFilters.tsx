@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import classnames from 'classnames';
+import { BUTTON_STYLING } from '../../tailwindCustomStyles';
 
 interface Tweet {
   id: number;
@@ -103,13 +103,7 @@ function DropdownFilters(props: Props) {
       )
     );
   }
-
-
   /////////////////////////////////////////////////////////////////////////////////////
-
-  const BUTTON_STYLING = classnames(
-    'text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md'
-  );
 
   return (
     <div id='DropdownFiltersComponent' className='flex flex-row gap-1  justify-center flex-wrap'>

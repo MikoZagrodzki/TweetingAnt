@@ -20,6 +20,7 @@ import { ReactComponent as ViewsIcon } from '../Tweet/viewsIcon.svg';
 //@ts-ignore
 import { ReactComponent as BookmarsIcon } from '../Tweet/bookmarkIcon.svg';
 import FadeComponentAnimation from '../../FadeComponentAnimation';
+import { BORDER_OUTSIDE_STYLING, BORDER_STYLING, BUTTON_SPECIAL, BUTTON_STYLING, INFO_TEXT, SHADOW_STYLING, TWEET_TEXT } from '../../../tailwindCustomStyles';
 
 interface TweetSql {
   id: number;
@@ -272,20 +273,13 @@ function Tweet(props: Props) {
   }
   //////// END OF DATE ////////////////////////////////////////////////////////
 
-  const BUTTON_STYLING = classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md');
-  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
-  const TWEET_TEXT = classnames('text-xs sm:text-sm');
-  const BORDER_STYLING = classnames('border border-1 border-white border-opacity-30');
-  const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
-  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-full font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-white hover:bg-secondary hover:shadow-2xl');
-
   return (
     // {/* // TWEET CONTAINER */}
     <FadeComponentAnimation idToTriggerAnimation={`${sqlId} Tweet`}>
       <div
         key={sqlId}
         id={`${sqlId} Tweet`}
-        className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_STYLING} ${SHADOW_STYLING}`}
+        className={`flex flex-row  gap-1 w-11/12 pb-5 max-w-lg  p-2 sm:p-3 justify-center ${BORDER_OUTSIDE_STYLING} ${SHADOW_STYLING}`}
       >
         {userminiimageurl && <img src={userminiimageurl} alt={`${twitterusername} picture`} className='max-h-5 sm:max-h-6 md:max-h-9 rounded-full' />}
         {!isContentVisible && <Waypoint onEnter={handleEnterViewport} />}

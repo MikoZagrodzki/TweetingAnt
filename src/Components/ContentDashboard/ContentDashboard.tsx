@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Tweet from './Tweet/Tweet';
 import getAllScrapedTweets from '../../Functionalities/GetAllScrapedTweets';
-import classnames from 'classnames';
 import { useAuth } from '../../AuthContext';
 import { v4 as uuidv4 } from 'uuid';
 import getEmailsAndPersonalitiesFromLoginData from '../../Functionalities/GetEmailsAndPersonalitiesFromLoginData';
@@ -9,6 +8,7 @@ import useScrollToTopAndNavigate from '../UseScrollToTopAndNavigate';
 import { Waypoint } from 'react-waypoint';
 import DropdownFilters, { handleDropdownSearch } from './DropdownFilters';
 import SortDropdown, { handleSortBy } from './SortDropdown';
+import { BUTTON_STYLING, INFO_TEXT, UL_STYLING } from '../../tailwindCustomStyles';
 
 interface Emails {
   email: string;
@@ -105,12 +105,6 @@ function ContentDashboard() {
     setFilteredTweets([]);
     getTweets();
   }, []);
-
-  const BUTTON_STYLING = classnames(
-    'text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md'
-  );
-  const UL_STYLING = classnames('flex flex-col items-center md:min-w-0 md:w-full md:max-w-lg');
-  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
 
   return (
     <div id='top' className='min-h-screen w-screen mt-10 mb-10 flex flex-col items-center gap-y-10'>

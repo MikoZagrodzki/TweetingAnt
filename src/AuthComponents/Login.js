@@ -2,9 +2,8 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { BUTTON_STYLING, SHADOW_STYLING } from "../tailwindCustomStyles";
 // import "../styles.css";
-import classnames from 'classnames';
-
 
 export default function Login() {
   const emailRef = useRef();
@@ -27,16 +26,6 @@ export default function Login() {
     }
     setLoading(false);
   }
-
-  const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
-  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
-  const TWEET_TEXT = classnames('text-xs sm:text-sm');
-  const BORDER_STYLING = classnames('border border-2 border-secondary');
-  const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
-  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
-  const BORDER_OUTSIDE_STYLING = classnames('border border-2 border-white border-opacity-20');
-
-
 
   return (
     <div className="flex flex-col md:flex-row md:space-y-0 md:space-x-16 md:justify-center items-center min-h-screen space-y-5 w-11/12 bg-background sm:space-y-10">

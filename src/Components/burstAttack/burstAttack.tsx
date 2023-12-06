@@ -9,7 +9,7 @@ import {
 import { useAuth } from "../../AuthContext";
 import { insertCommentsAttack, insertLikesAttack, insertRephraseAttack, insertRetweetsAttack } from "../../SQL";
 import { v4 as uuidv4 } from "uuid";
-import classnames from 'classnames';
+import { BORDER_OUTSIDE_STYLING, BORDER_STYLING, TWEET_TEXT } from "../../tailwindCustomStyles";
 
 
 interface Props {
@@ -167,17 +167,6 @@ function LikesAttack(props: Props) {
     return account.personality;
   });
   const personalitiesNoDuplicates = Array.from(new Set(personalities));
-
-  const BUTTON_STYLING =classnames('text-xs sm:text-sm whitespace-nowrap bg-secondary font-semibold px-1 rounded-full border border-accent hover:bg-accent hover:text-white hover:border-primary shadow-md')
-  const INFO_TEXT = classnames('text-xs md:text-sm whitespace-nowrap');
-  const TWEET_TEXT = classnames('text-xs sm:text-sm');
-  const BORDER_OUTSIDE_STYLING = classnames('border border-2 border-secondary border-opacity-20');
-  const BORDER_STYLING = classnames('border border-2 border-white border-opacity-20');
-  const SHADOW_STYLING = classnames('shadow-md hover:shadow-xl');
-  const BUTTON_SPECIAL = classnames(' bg-highlight rounded-md font-bold text-accent p-1 shadow-lg border-2 border-accent hover:text-white hover:border-highlight hover:bg-accent hover:shadow-2xl');
-  
-  
-
 
   return (
     <div className={`LikesAttack_Container ${TWEET_TEXT} text-white flex  flex-col items-center bg-background bg-opacity-90 ${BORDER_OUTSIDE_STYLING} border-opacity-50 w-10/12 space-y-2 max-w-md`}>
