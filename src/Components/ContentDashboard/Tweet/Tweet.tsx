@@ -455,7 +455,7 @@ function Tweet(props: Props) {
               </div>
             )}
             {/* BUTTONS SECTION */}
-            <div id='tweetButtonContainer' className='flex flex-row gap-1 flex-wrap justify-center mt-2'>
+            <div id='tweetButtonContainer' className='flex flex-row gap-1 flex-wrap justify-center mt-2 -mb-5'>
               {isApproved === 'pending' && !isEditing && (
                 <button className={BUTTON_STYLING} onClick={handleApprove}>
                   Approve
