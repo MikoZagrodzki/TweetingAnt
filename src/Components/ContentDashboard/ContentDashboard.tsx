@@ -9,6 +9,7 @@ import { Waypoint } from 'react-waypoint';
 import DropdownFilters, { handleDropdownSearch } from './DropdownFilters';
 import SortDropdown, { handleSortBy } from './SortDropdown';
 import { BUTTON_STYLING, INFO_TEXT, UL_STYLING } from '../../tailwindCustomStyles';
+import { Link as ScrollLink } from 'react-scroll';
 
 interface Emails {
   email: string;
@@ -106,6 +107,22 @@ function ContentDashboard() {
     getTweets();
   }, []);
 
+  const scrollToElement = () => {
+    // Get the target element's offsetTop
+    const targetElement = document.getElementById('approvedTweets');
+    const offsetTop = targetElement ? targetElement.offsetTop -0 : 0;
+
+    // Instant jump to the specified offset
+    window.scrollTo(0, offsetTop);
+
+    // Smooth scroll from the adjusted position
+    window.scrollTo({
+      top: targetElement ? targetElement.offsetTop : 0,
+      behavior: 'smooth',
+    });
+  };
+
+  const [listDisplayFlexOrder, setListDisplayFlexOrder] = useState<boolean>(false)
   return (
     <div id='top' className='min-h-screen w-screen mt-10 mb-10 flex flex-col items-center gap-y-10'>
       <a
@@ -146,9 +163,10 @@ function ContentDashboard() {
           setFilteredTweets={setFilteredTweets}
         />
         {filteredTweets.some((tweet) => tweet.isapproved === 'approved') && (
-          <a href='#approvedTweets' className={`md:hidden ${BUTTON_STYLING}`}>
-            Approved Tweets
-          </a>
+        // <button onClick={scrollToElement} className={`md:hidden ${BUTTON_STYLING}`}>
+        <button onClick={()=>setListDisplayFlexOrder(!listDisplayFlexOrder)} className={`md:hidden ${BUTTON_STYLING}`}>
+        {listDisplayFlexOrder?'Pending Tweets':'Approved Tweets'}
+        </button>
         )}
         {(searchPersonality !== '' || searchTweetType !== '' || searchEmail !== '' || sortValue !== '') && (
           <button className={BUTTON_STYLING} onClick={handleShowAll}>
@@ -174,10 +192,10 @@ function ContentDashboard() {
           Analytics
         </button>
       </div>
-      <div id='tweetLists' className='flex flex-col  md:flex-row w-screen md:justify-center  md:gap-x-5'>
+      <div id='tweetLists' className={`flex ${listDisplayFlexOrder?'flex-col-reverse':'flex-col'}  md:flex-row w-screen md:justify-center  md:gap-x-5`}>
         {!filteredTweets.some((tweet) => tweet) && <p className={`w-full text-center`}>There is no scraped tweets.</p>}
         {filteredTweets.some((tweet) => tweet.isapproved === 'pending') && (
-          <ul id='pendingTweets' className={`${UL_STYLING} `}>
+          <ul id='pendingTweets' className={`${UL_STYLING} ${listDisplayFlexOrder ? 'pt-5 mt-10 border-t-2 md:border-t-0 md:mt-0 md:pt-0' : ''}`}>
             <h2 className={`${INFO_TEXT} pb-2`}>Pending Tweets</h2>
             {filteredTweets
               .filter((tweet) => tweet.isapproved === 'pending')
@@ -215,7 +233,7 @@ function ContentDashboard() {
           </ul>
         )}
         {filteredTweets.some((tweet) => tweet.isapproved === 'approved') && (
-          <ul id='approvedTweets' className={`pt-5 mt-10 border-t-2 md:border-t-0 md:mt-0 md:pt-0 ${UL_STYLING} `}>
+          <ul id='approvedTweets' className={`${UL_STYLING} ${listDisplayFlexOrder ? '' : 'pt-5 mt-10 border-t-2 md:border-t-0 md:mt-0 md:pt-0'}`}>
             <h2 className={`${INFO_TEXT} pb-2`}>Approved Tweets</h2>
             {filteredTweets
               .filter((tweet) => tweet.isapproved === 'approved')
