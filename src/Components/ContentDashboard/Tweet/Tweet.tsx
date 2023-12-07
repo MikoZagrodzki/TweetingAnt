@@ -29,6 +29,7 @@ import {
   SHADOW_STYLING,
   TWEET_TEXT,
 } from '../../../tailwindCustomStyles';
+import CommentWithPersonalityGpt from '../../../Functionalities/CommentWithPersonalityGpt';
 
 interface TweetSql {
   id: number;
@@ -231,7 +232,12 @@ function Tweet(props: Props) {
   };
 
   const handleRephrase = async () => {
-    let gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT: ${originalTweetText === stateGptText ? originalTweetText : stateGptText}`);
+    let gptResponse;
+    if(tweetType==='comment'){
+      gptResponse = await CommentWithPersonalityGpt(personality, `${originalTweetText === stateGptText ? originalTweetText : stateGptText}`);
+    }else{
+      gptResponse = await getChatGpt(personality, `${originalTweetText === stateGptText ? originalTweetText : stateGptText}`);
+    }
 
     // if (gptResponse === stateGptText || gptResponse === tweetText){
     //   gptResponse = await getChatGpt(personality, `RE-REPHRASE THAT ONCE MORE: ${gptResponse}`);
