@@ -282,6 +282,7 @@ function Tweet(props: Props) {
     dateAdded = date.toLocaleString('en-GB', {
       day: '2-digit',
       month: '2-digit',
+      year: '2-digit',
       hour: 'numeric',
       minute: 'numeric',
       hour12: false, //24h
