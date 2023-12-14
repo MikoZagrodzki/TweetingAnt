@@ -23,19 +23,19 @@ interface Tweet {
 }
 
 interface Props {
-    tweets: Tweet[] | [];
-    setFilteredTweets: React.Dispatch<React.SetStateAction<[] | Tweet[]>>;
-    searchEmail?: string;
-    setSearchEmail: React.Dispatch<React.SetStateAction<string>>;
-    searchPersonality?: string;
-    setSearchPersonality: React.Dispatch<React.SetStateAction<string>>;
-    searchTweetType?: string;
-    setSearchTweetType: React.Dispatch<React.SetStateAction<string>>;
-
+  tweets: Tweet[] | [];
+  setFilteredTweets: React.Dispatch<React.SetStateAction<[] | Tweet[]>>;
+  searchEmail?: string;
+  setSearchEmail: React.Dispatch<React.SetStateAction<string>>;
+  searchPersonality?: string;
+  setSearchPersonality: React.Dispatch<React.SetStateAction<string>>;
+  searchTweetType?: string;
+  setSearchTweetType: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function DropdownFilters(props: Props) {
-  let {tweets, setFilteredTweets, searchEmail, setSearchEmail, searchPersonality, setSearchPersonality, searchTweetType, setSearchTweetType } = props;
+  let { tweets, setFilteredTweets, searchEmail, setSearchEmail, searchPersonality, setSearchPersonality, searchTweetType, setSearchTweetType } =
+    props;
 
   const [filteredEmails, setFilteredEmails] = useState<string[]>([]);
   const [filteredPersonalities, setFilteredPersonalities] = useState<string[]>([]);
@@ -105,61 +105,77 @@ function DropdownFilters(props: Props) {
   }
   /////////////////////////////////////////////////////////////////////////////////////
 
+  console.log(filteredEmails);
   return (
     <div id='DropdownFiltersComponent' className='flex flex-row gap-1  justify-center flex-wrap'>
       <select
         value={searchEmail}
         onChange={(e) =>
-          handleDropdownSearch({
-            personality: String(searchPersonality),
-            tweetType: String(searchTweetType),
-            email: String(e.target.value),
-        }, {tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType })
-    }
+          handleDropdownSearch(
+            {
+              personality: String(searchPersonality),
+              tweetType: String(searchTweetType),
+              email: String(e.target.value),
+            },
+            { tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType }
+          )
+        }
         className={`${BUTTON_STYLING} w-xs max-w-sm`}
       >
         <option value=''>All Groups</option>
-        {filteredEmails.map((email) => (
-          <option key={email} value={email}>
-            {email}
-          </option>
-        ))}
+        {filteredEmails
+          .filter((email) => email !== '' && email !== null)
+          .map((email) => (
+            <option key={email} value={email}>
+              {email}
+            </option>
+          ))}
       </select>
       <select
         value={searchPersonality}
         onChange={(e) =>
-          handleDropdownSearch({
-            personality: String(e.target.value),
-            tweetType: String(searchTweetType),
-            email: String(searchEmail),
-        }, {tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType })
-    }
-    className={`${BUTTON_STYLING} w-xs max-w-sm`}
-    >
+          handleDropdownSearch(
+            {
+              personality: String(e.target.value),
+              tweetType: String(searchTweetType),
+              email: String(searchEmail),
+            },
+            { tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType }
+          )
+        }
+        className={`${BUTTON_STYLING} w-xs max-w-sm`}
+      >
         <option value=''>All Personalities</option>
-        {filteredPersonalities.map((personality) => (
-          <option key={personality} value={personality}>
-            {personality}
-          </option>
-        ))}
+        {filteredPersonalities
+          .filter((personality) => personality !== '' && personality !== null)
+          .map((personality) => (
+            <option key={personality} value={personality}>
+              {personality}
+            </option>
+          ))}
       </select>
       <select
         value={searchTweetType}
         onChange={(e) =>
-          handleDropdownSearch({
-            personality: String(searchPersonality),
-            tweetType: String(e.target.value),
-            email: String(searchEmail),
-          }, {tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType })
+          handleDropdownSearch(
+            {
+              personality: String(searchPersonality),
+              tweetType: String(e.target.value),
+              email: String(searchEmail),
+            },
+            { tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType }
+          )
         }
         className={`${BUTTON_STYLING} w-xs max-w-sm`}
       >
         <option value=''>All Tweet Types</option>
-        {filteredTweetTypes.map((tweetType) => (
-          <option key={tweetType} value={tweetType}>
-            {tweetType}
-          </option>
-        ))}
+        {filteredTweetTypes
+          .filter((tweetType) => tweetType !== '' && tweetType !== null)
+          .map((tweetType) => (
+            <option key={tweetType} value={tweetType}>
+              {tweetType}
+            </option>
+          ))}
       </select>
     </div>
   );
@@ -167,19 +183,19 @@ function DropdownFilters(props: Props) {
 
 export default DropdownFilters;
 
+export const handleDropdownSearch = (searchParams: { personality: string; tweetType: string; email: string }, props: Props) => {
+  const { personality, tweetType, email } = searchParams;
+  let { tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType } = props;
+  setSearchPersonality(personality);
+  setSearchTweetType(tweetType);
+  setSearchEmail(email);
 
-export const handleDropdownSearch = (searchParams: {personality:string, tweetType:string, email:string}, props:Props ) => {
-    const { personality, tweetType, email } = searchParams;
-    let {tweets, setFilteredTweets, setSearchEmail, setSearchPersonality, setSearchTweetType } = props;
-    setSearchPersonality(personality);
-    setSearchTweetType(tweetType);
-    setSearchEmail(email);
-  
-    const filtered = tweets.filter((tweet) =>
+  const filtered = tweets.filter(
+    (tweet) =>
       (!email || tweet.email?.toLowerCase() === email.toLowerCase()) &&
       (!personality || tweet.personality?.toLowerCase() === personality.toLowerCase()) &&
-      (!tweetType || tweet.tweettype?.toLowerCase() === tweetType.toLowerCase()) 
-    );
+      (!tweetType || tweet.tweettype?.toLowerCase() === tweetType.toLowerCase())
+  );
 
-    setFilteredTweets(filtered.length > 0 ? filtered : [])
-  };
+  setFilteredTweets(filtered.length > 0 ? filtered : []);
+};
