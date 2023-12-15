@@ -177,6 +177,14 @@ function Tweet(props: Props) {
   };
 
   const handleApprove = async () => {
+    if(tweetType==="comment"){
+      if(imageSourceState){
+        declineImage()
+      }
+      if(videoSourceState){
+        declineVideo()
+      }
+    }
     if (tweetUrl) {
       await updateIsApproved(tweetUrl, 'approved', sqlId);
       await updateTweetText(tweetUrl, stateGptText, sqlId);
