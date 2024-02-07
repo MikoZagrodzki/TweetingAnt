@@ -8,7 +8,7 @@ export const insertRephraseAttack = async (formData: {}[]) => {
        
     // }
     try {
-    await requestApi('https://tweetingantdb.onrender.com/twitterClass/insert_Rephrase_Attack', {
+    await requestApi('https://tweetingantdb-9ezx.onrender.com/twitterClass/insert_Rephrase_Attack', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

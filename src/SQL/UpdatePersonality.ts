@@ -6,7 +6,7 @@ export const updatePersonality = async (loginNameTwitter:string, personality:str
         personality: personality,
     }
     try {
-    await requestApi('https://tweetingantdb.onrender.com/twitterClass/updatePersonality', {
+    await requestApi('https://tweetingantdb-9ezx.onrender.com/twitterClass/updatePersonality', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

@@ -10,7 +10,7 @@ export const declineTweetPicture = async (tweetUrl: string|null, sqlId:number
     
       try {
         const response = await requestApi(
-          "https://tweetingantdb.onrender.com/database/update_Scraped_Tweet_Picture",
+          "https://tweetingantdb-9ezx.onrender.com/database/update_Scraped_Tweet_Picture",
           {
             method: "POST",
             headers: {

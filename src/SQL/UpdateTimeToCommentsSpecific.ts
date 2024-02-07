@@ -9,7 +9,7 @@ export const updateTimeToCommentsSpecific = async (loginNameTwitter: string, hou
         updatedMinutes: updatedMinutes,
     }
     try {
-    const response = await requestApi('https://tweetingantdb.onrender.com/twitterClass/updateTimeToCommentsSpecific', {
+    const response = await requestApi('https://tweetingantdb-9ezx.onrender.com/twitterClass/updateTimeToCommentsSpecific', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

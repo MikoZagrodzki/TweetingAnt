@@ -8,7 +8,7 @@ export const insertUserNameUsedForTweets = async (formData: {}[]) => {
        
     // }
     try {
-    await requestApi('https://tweetingantdb.onrender.com/database/insert_User_Name_Used_For_Tweets', {
+    await requestApi('https://tweetingantdb-9ezx.onrender.com/database/insert_User_Name_Used_For_Tweets', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

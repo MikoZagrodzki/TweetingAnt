@@ -7,7 +7,7 @@ export const checkUserNameUsedForTweets = async (loginNameTwitter: string, usern
        
     }
     try {
-    const response = await requestApi('https://tweetingantdb.onrender.com/database/check_User_Name_Used_For_Tweets', {
+    const response = await requestApi('https://tweetingantdb-9ezx.onrender.com/database/check_User_Name_Used_For_Tweets', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

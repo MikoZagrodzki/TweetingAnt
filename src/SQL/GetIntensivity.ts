@@ -3,7 +3,7 @@ import { requestApi } from "../Functionalities"
 const getIntensivity = async () => {
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/twitterClass/getIntensivity",
+      "https://tweetingantdb-9ezx.onrender.com/twitterClass/getIntensivity",
       {
         method: "GET",
         headers: {

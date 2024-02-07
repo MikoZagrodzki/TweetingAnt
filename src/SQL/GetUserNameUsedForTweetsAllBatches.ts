@@ -3,7 +3,7 @@ import { requestApi } from "../Functionalities"
 export const getUserNameUsedForTweetsAllBatches = async () => {
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/database/user_Name_Used_For_Tweets_All_Batches",
+      "https://tweetingantdb-9ezx.onrender.com/database/user_Name_Used_For_Tweets_All_Batches",
       {
         method: "GET",
         headers: {

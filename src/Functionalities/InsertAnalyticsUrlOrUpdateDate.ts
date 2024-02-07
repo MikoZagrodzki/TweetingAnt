@@ -10,7 +10,7 @@ export const insertAnalyticsUrlOrUpdateDate = async (url: string, tweetOrComment
     
       try {
         const response = await requestApi(
-          "https://tweetingantdb.onrender.com/database/insert_Analytics_Url_Or_Update_Date",
+          "https://tweetingantdb-9ezx.onrender.com/database/insert_Analytics_Url_Or_Update_Date",
           {
             method: "POST",
             headers: {

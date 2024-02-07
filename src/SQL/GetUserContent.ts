@@ -3,7 +3,7 @@ import { requestApi } from "../Functionalities"
 export const getUserContent = async () => {
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/database/user_Content_All",
+      "https://tweetingantdb-9ezx.onrender.com/database/user_Content_All",
       {
         method: "GET",
         headers: {

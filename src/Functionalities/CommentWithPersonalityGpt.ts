@@ -10,7 +10,7 @@ export const CommentWithPersonalityGpt = async (personality:string|null, tweet:s
     
       try {
         const response = await requestApi(
-          "https://tweetingantdb.onrender.com/database/comment_with_personality",
+          "https://tweetingantdb-9ezx.onrender.com/database/comment_with_personality",
           {
             method: "POST",
             headers: {

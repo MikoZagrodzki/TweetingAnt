@@ -7,7 +7,7 @@ export const checkLoginData = async (loginNameTwitter: string, passwordTwitter: 
        
     }
     try {
-    const response = await requestApi('https://tweetingantdb.onrender.com/database/check_Login_Data', {
+    const response = await requestApi('https://tweetingantdb-9ezx.onrender.com/database/check_Login_Data', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

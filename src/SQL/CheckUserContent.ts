@@ -7,7 +7,7 @@ export const checkUserContent = async (loginNameTwitter: string, username: strin
        
     }
     try {
-    const response = await requestApi('https://tweetingantdb.onrender.com/database/check_User_Content', {
+    const response = await requestApi('https://tweetingantdb-9ezx.onrender.com/database/check_User_Content', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

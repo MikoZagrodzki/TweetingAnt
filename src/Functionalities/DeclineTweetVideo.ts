@@ -10,7 +10,7 @@ export const declineTweetVideo = async (tweetUrl: string|null, sqlId:number
 
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/database/update_Scraped_Tweet_Video",
+      "https://tweetingantdb-9ezx.onrender.com/database/update_Scraped_Tweet_Video",
       {
         method: "POST",
         headers: {

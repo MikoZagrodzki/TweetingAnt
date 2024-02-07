@@ -5,7 +5,7 @@ export const getAllScrapedTweets = async (
 ) => {
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/database/get_All_Scraped_tweets",
+      "https://tweetingantdb-9ezx.onrender.com/database/get_All_Scraped_tweets",
       {
         method: "GET",
         headers: {

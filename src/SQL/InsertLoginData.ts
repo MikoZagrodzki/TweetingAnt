@@ -7,7 +7,7 @@ export const insertLoginData = async (email:string, loginNameTwitter: string, pa
         passwordTwitter : passwordTwitter
     }
     try {
-    await requestApi('https://tweetingantdb.onrender.com/database/insert_login_Data', {
+    await requestApi('https://tweetingantdb-9ezx.onrender.com/database/insert_login_Data', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

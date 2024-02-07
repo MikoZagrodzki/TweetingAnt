@@ -4,7 +4,7 @@ export const getTimeToTweetsAllBatches = async () => {
 
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/twitterClass/getTimeToTweetsAllBatches",
+      "https://tweetingantdb-9ezx.onrender.com/twitterClass/getTimeToTweetsAllBatches",
       {
         method: "GET",
         headers: {

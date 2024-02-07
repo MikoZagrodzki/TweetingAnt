@@ -3,7 +3,7 @@ import { requestApi } from "../Functionalities"
 const getTimeToLikesAllBatches = async () => {
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/twitterClass/getTimeToLikesAllBatches",
+      "https://tweetingantdb-9ezx.onrender.com/twitterClass/getTimeToLikesAllBatches",
       {
         method: "GET",
         headers: {

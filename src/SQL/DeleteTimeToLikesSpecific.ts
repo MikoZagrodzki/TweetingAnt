@@ -7,7 +7,7 @@ export const deleteTimeToLikesSpecific = async (loginNameTwitter: string, hours:
         minutes: minutes,
     }
     try {
-    const response = await requestApi('https://tweetingantdb.onrender.com/twitterClass/deleteTimeToLikesSpecific', {
+    const response = await requestApi('https://tweetingantdb-9ezx.onrender.com/twitterClass/deleteTimeToLikesSpecific', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

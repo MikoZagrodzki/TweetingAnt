@@ -12,7 +12,7 @@ export const updateIsApproved = async (tweetUrl: string, isApproved: string , sq
 
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/database/update_Scraped_Tweet_IsAprroved",
+      "https://tweetingantdb-9ezx.onrender.com/database/update_Scraped_Tweet_IsAprroved",
       {
         method: "POST",
         headers: {

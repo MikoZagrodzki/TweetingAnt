@@ -6,7 +6,7 @@ export const getUserNameUsedForTweetsByEmail = async (email: string) => {
   };
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/database/user_Name_Used_For_Tweets_By_Email",
+      "https://tweetingantdb-9ezx.onrender.com/database/user_Name_Used_For_Tweets_By_Email",
       {
         method: "POST",
         headers: {

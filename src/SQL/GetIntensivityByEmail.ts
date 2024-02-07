@@ -6,7 +6,7 @@ const getIntensivityByEmail = async (email: string) => {
   };
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/twitterClass/getIntensivityByEmail",
+      "https://tweetingantdb-9ezx.onrender.com/twitterClass/getIntensivityByEmail",
       {
         method: "POST",
         headers: {

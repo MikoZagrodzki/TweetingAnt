@@ -6,7 +6,7 @@ export const getUserContentByEmail = async (email: string) => {
   };
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/database/user_Content_By_Email",
+      "https://tweetingantdb-9ezx.onrender.com/database/user_Content_By_Email",
       {
         method: "POST",
         headers: {

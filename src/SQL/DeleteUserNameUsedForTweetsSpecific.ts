@@ -6,7 +6,7 @@ export const deleteUserNameUsedForTweetsSpecific = async (loginNameTwitter: stri
         userNameUsedForTweets: userNameUsedForTweets,
     }
     try {
-    const response = await requestApi('https://tweetingantdb.onrender.com/database/delete_User_Name_Used_For_Tweets_Specific', {
+    const response = await requestApi('https://tweetingantdb-9ezx.onrender.com/database/delete_User_Name_Used_For_Tweets_Specific', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

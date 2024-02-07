@@ -12,7 +12,7 @@ export const updateTweetText = async (tweetUrl: string, updatedText : string , s
 
   try {
     const response = await requestApi(
-      "https://tweetingantdb.onrender.com/database/update_Scraped_Tweet_Text",
+      "https://tweetingantdb-9ezx.onrender.com/database/update_Scraped_Tweet_Text",
       {
         method: "POST",
         headers: {

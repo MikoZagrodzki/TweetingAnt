@@ -6,7 +6,7 @@ export const deleteUserContentSpecific = async (loginNameTwitter: string, userCo
         userContent: userContent,
     }
     try {
-    const response = await requestApi('https://tweetingantdb.onrender.com/database/delete_User_Content_Specific', {
+    const response = await requestApi('https://tweetingantdb-9ezx.onrender.com/database/delete_User_Content_Specific', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

@@ -2,7 +2,7 @@ import { requestApi } from "../Functionalities"
 
 export const getPersonalityList = async () => {
   try {
-    const response = await requestApi("https://tweetingantdb.onrender.com/twitterClass/personality_List", {
+    const response = await requestApi("https://tweetingantdb-9ezx.onrender.com/twitterClass/personality_List", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -10,7 +10,7 @@ export const getChatGpt = async (personality:string|null, tweet:string
     
       try {
         const response = await requestApi(
-          "https://tweetingantdb.onrender.com/database/tweet_with_personality",
+          "https://tweetingantdb-9ezx.onrender.com/database/tweet_with_personality",
           {
             method: "POST",
             headers: {

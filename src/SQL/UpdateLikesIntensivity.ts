@@ -6,7 +6,7 @@ export const updateLikesIntensivity = async (loginNameTwitter:string, intensivit
         intensivity: intensivity,
     }
     try {
-    await requestApi('https://tweetingantdb.onrender.com/twitterClass/updateLikesIntensivity', {
+    await requestApi('https://tweetingantdb-9ezx.onrender.com/twitterClass/updateLikesIntensivity', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

@@ -5,7 +5,7 @@ export const getLoginDataFromEmail = async (email:string) => {
         email: email,
     }
     try {
-        const response = await requestApi('https://tweetingantdb.onrender.com/database/login_Data_From_Email', {
+        const response = await requestApi('https://tweetingantdb-9ezx.onrender.com/database/login_Data_From_Email', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
